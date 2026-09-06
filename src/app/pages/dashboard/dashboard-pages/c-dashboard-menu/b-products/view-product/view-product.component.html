@@ -11,6 +11,58 @@
       <p class="product-subtitle">{{ ProductData.size }}</p>
     </div>
 
+    <!-- Website Product Links -->
+    <div class="product-website-links" *ngIf="ProductData.en_slug || ProductData.ar_slug">
+      <div class="links-header">
+        <i class="pi pi-globe"></i>
+        <span>Website Product URLs</span>
+      </div>
+
+      <div class="links-grid">
+        <!-- English URL -->
+        <div class="link-item" *ngIf="ProductData.en_slug">
+          <div class="link-item-top">
+            <span class="lang-badge en">EN</span>
+            <span class="link-label">English URL</span>
+          </div>
+          <div class="link-box">
+            <span class="link-text" [title]="getProductUrl('en')">{{ getProductUrl('en') }}</span>
+            <div class="link-actions">
+              <a [href]="getProductUrl('en')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn" title="Open in website">
+                <i class="pi pi-external-link"></i>
+                <span>Open</span>
+              </a>
+              <button type="button" (click)="copyToClipboard(getProductUrl('en'), 'en')" class="btn-action copy-btn" title="Copy to clipboard">
+                <i [class]="copiedLang === 'en' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
+                <span>{{ copiedLang === 'en' ? 'Copied!' : 'Copy' }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arabic URL -->
+        <div class="link-item" *ngIf="ProductData.ar_slug">
+          <div class="link-item-top">
+            <span class="lang-badge ar">AR</span>
+            <span class="link-label">Arabic URL</span>
+          </div>
+          <div class="link-box">
+            <span class="link-text" [title]="getProductUrl('ar')">{{ getProductUrl('ar') }}</span>
+            <div class="link-actions">
+              <a [href]="getProductUrl('ar')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn" title="Open in website">
+                <i class="pi pi-external-link"></i>
+                <span>Open</span>
+              </a>
+              <button type="button" (click)="copyToClipboard(getProductUrl('ar'), 'ar')" class="btn-action copy-btn" title="Copy to clipboard">
+                <i [class]="copiedLang === 'ar' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
+                <span>{{ copiedLang === 'ar' ? 'Copied!' : 'Copy' }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Main Image -->
     <div class="main-image-container">
       <img [src]="'https://mesoshop.digitalbondmena.com/' + ProductData.main_image" alt="{{ ProductData.en_name }}"
