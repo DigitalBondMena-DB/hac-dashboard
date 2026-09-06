@@ -1,0 +1,46 @@
+// .layout-topbar .layout-menu-button,
+// .layout-topbar .layout-topbar-button {
+//   margin-left: 0 !important;
+// }
+
+/* Notification Icon */
+
+.notification-dropdown {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  width: 250px;
+  background: white;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.notification-dropdown ul {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.notification-dropdown li {
+  list-style: none;
+}
+
+::ng-deep .p-badge.p-component {
+  margin-top: 2px;
+  margin-right: 2px;
+}
+
+@keyframes flash {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: yellow;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.flash-badge {
+  animation: flash 1s infinite alternate;
+}

@@ -1,0 +1,72 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  justify-content: center;
+  align-items: start;
+}
+
+.switch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  grid-column: 1 / -1; /* Span both columns */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.switch-field {
+  // flex: 1 1 calc(50% - 0.75rem); /* Two columns with gap */
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-container {
+  margin-top: 0.5rem;
+  
+  input, p-multiSelect {
+    width: 100%;
+  }
+}
+
+.error-container {
+  min-height: 1.5rem;
+  margin-top: 0.25rem;
+}
+
+.error-message {
+  color: var(--red-500);
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  
+  .status-label {
+    margin-left: 0.5rem;
+  }
+}
+
+.action-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep {
+  .p-button.btn-main {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+    background-color: var(--primary-color);
+  }
+}

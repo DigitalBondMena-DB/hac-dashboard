@@ -1,0 +1,105 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+@if (isLoading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else {
+  <div class="card">
+    <h2 class="text-2xl font-semibold mb-4">Edit Location</h2>
+    <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- English Name -->
+        <div class="form-field">
+          <label for="en_name" class="font-medium">English Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_name"
+              formControlName="en_name"
+              placeholder="Enter English Name"
+              [ngClass]="{'p-invalid': locationForm.get('en_name')?.touched && locationForm.get('en_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (locationForm.get('en_name')?.touched && locationForm.get('en_name')?.hasError('required')) {
+              <small class="error-message">English Name is required</small>
+            }
+          </div>
+        </div>
+        
+        <!-- Arabic Name -->
+        <div class="form-field">
+          <label for="ar_name" class="font-medium">Arabic Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_name"
+              formControlName="ar_name"
+              placeholder="Enter Arabic Name"
+              [ngClass]="{'p-invalid': locationForm.get('ar_name')?.touched && locationForm.get('ar_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (locationForm.get('ar_name')?.touched && locationForm.get('ar_name')?.hasError('required')) {
+              <small class="error-message">Arabic Name is required</small>
+            }
+          </div>
+        </div>
+        
+        <!-- Delivery Amount -->
+        <div class="form-field">
+          <label for="delivery_amount" class="font-medium">Delivery Amount</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="delivery_amount"
+              formControlName="delivery_amount"
+              placeholder="Enter Delivery Amount"
+            />
+          </div>
+          <div class="error-container">
+            @if (locationForm.get('delivery_amount')?.touched && locationForm.get('delivery_amount')?.hasError('required')) {
+              <small class="error-message">Delivery Amount Name is required</small>
+            }
+          </div>        </div>
+        
+        <!-- Active Status -->
+        <div class="form-field">
+          <label for="active_status" class="font-medium">Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="active_status"
+              formControlName="active_status"
+            ></p-inputSwitch>
+            <span class="status-label">{{ locationForm.get('active_status')?.value ? 'Active' : 'Inactive' }}</span>
+          </div>
+          <div class="error-container"></div>
+        </div>
+      </div>
+      
+      <div class="action-btns">
+        <p-button
+          type="button"
+          label="Cancel"
+          styleClass="p-button-text p-button-secondary mr-2"
+          [routerLink]="['/dashboard/locations']"
+        ></p-button>
+        <p-button
+          type="submit"
+          label="Save Changes"
+          styleClass="btn-main"
+          [disabled]="!locationForm.dirty || locationForm.invalid || isSubmitting"
+          [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+}

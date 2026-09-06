@@ -1,0 +1,185 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="card-title">{{ isEditMode ? 'Edit Category' : 'Add New Category' }} {{ isSpecial ? '(Special Orders)' : '' }}</h2>
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="category-form">
+    <div class="form-section">
+      <h3 class="section-title">Category Names</h3>
+      <div class="form-row">
+        <!-- English Name -->
+        <div class="form-field">
+          <label for="en_name" class="field-label">English Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_name"
+              formControlName="en_name"
+              placeholder="Enter English Name"
+              [ngClass]="{'p-invalid': categoryForm.get('en_name')?.touched && categoryForm.get('en_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (categoryForm.get('en_name')?.touched && categoryForm.get('en_name')?.hasError('required')) {
+              <small class="error-message">English Name is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Name -->
+        <div class="form-field">
+          <label for="ar_name" class="field-label">Arabic Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_name"
+              formControlName="ar_name"
+              placeholder="Enter Arabic Name"
+              [ngClass]="{'p-invalid': categoryForm.get('ar_name')?.touched && categoryForm.get('ar_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (categoryForm.get('ar_name')?.touched && categoryForm.get('ar_name')?.hasError('required')) {
+              <small class="error-message">Arabic Name is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="form-section">
+      <h3 class="section-title">Category Slugs</h3>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="en_slug" class="field-label">English Slug</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_slug"
+              formControlName="en_slug"
+              placeholder="Enter English Slug (e.g., category-name)"
+              [ngClass]="{'p-invalid': categoryForm.get('en_slug')?.touched && categoryForm.get('en_slug')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (categoryForm.get('en_slug')?.touched && categoryForm.get('en_slug')?.hasError('required')) {
+              <small class="error-message">English Slug is required</small>
+            }
+            @if (categoryForm.get('en_slug')?.touched && categoryForm.get('en_slug')?.hasError('pattern')) {
+              <small class="error-message">English Slug must be lowercase, alphanumeric, with hyphens only</small>
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="ar_slug" class="field-label">Arabic Slug</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_slug"
+              formControlName="ar_slug"
+              placeholder="Enter Arabic Slug (e.g., category-name)"
+              [ngClass]="{'p-invalid': categoryForm.get('ar_slug')?.touched && categoryForm.get('ar_slug')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (categoryForm.get('ar_slug')?.touched && categoryForm.get('ar_slug')?.hasError('required')) {
+              <small class="error-message">Arabic Slug is required</small>
+            }
+            @if (categoryForm.get('ar_slug')?.touched && categoryForm.get('ar_slug')?.hasError('pattern')) {
+              <small class="error-message">Arabic Slug must be lowercase, alphanumeric, with hyphens only</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="form-section">
+      <h3 class="section-title">Additional Details</h3>
+      <div class="form-row">
+        <!-- Active Status -->
+        <div class="form-field">
+          <label for="active_status" class="field-label">Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="active_status"
+              formControlName="active_status"
+              [trueValue]="1"
+              [falseValue]="0"
+              (onChange)="onActiveStatusChange($event)"
+            ></p-inputSwitch>
+            <span class="status-label">{{ categoryForm.get('active_status')?.value === 1 ? 'Active' : 'Inactive' }}</span>
+          </div>
+          <div class="error-container">
+            @if (categoryForm.get('active_status')?.touched && categoryForm.get('active_status')?.hasError('required')) {
+              <small class="error-message">Status is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- <div class="form-field">
+          <label for="order_view" class="field-label">Order View</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="order_view"
+              formControlName="order_view"
+              type="number"
+              placeholder="Enter Order View"
+              [ngClass]="{'p-invalid': categoryForm.get('order_view')?.touched && categoryForm.get('order_view')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (categoryForm.get('order_view')?.touched && categoryForm.get('order_view')?.hasError('required')) {
+              <small class="error-message">Order View is required</small>
+            }
+            @if (categoryForm.get('order_view')?.touched && categoryForm.get('order_view')?.hasError('min')) {
+              <small class="error-message">Order View must be 0 or greater</small>
+            }
+          </div>
+        </div> -->
+      </div>
+
+      <!-- Main Image -->
+      <div class="form-field">
+        <label class="field-label">Main Image</label>
+        <app-image-upload
+          [initialImages]="initialImages"
+          [singleImageMode]="true"
+          [id]="'main'"
+          (imagesChanged)="onImagesChanged($event)"
+        ></app-image-upload>
+        <div class="error-container">
+          @if (categoryForm.get('main_image')?.touched && categoryForm.get('main_image')?.hasError('required')) {
+            <small class="error-message">Main Image is required</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex gap-2 items-center">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/new-categories']"
+        [queryParams]="isSpecial ? { special: 'true' } : null"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update Category' : 'Create Category'"
+        styleClass="btn-main"
+        [disabled]="categoryForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

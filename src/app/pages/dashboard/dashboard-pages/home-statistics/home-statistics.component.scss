@@ -1,0 +1,71 @@
+.statistics-container {
+    padding: 1rem;
+  }
+  
+  .card {
+    background: #ffffff;
+    border-radius: 6px;
+    // box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.15s;
+  }
+  
+  .card:hover {
+    // box-shadow: 0 4px 5px -2px rgba(0,0,0,.2), 0 7px 10px 1px rgba(0,0,0,.14), 0 2px 16px 1px rgba(0,0,0,.12);
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .card-title {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 0;
+  }
+  
+  .chart-container {
+    position: relative;
+    height: 300px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mb-0 { margin-bottom: 0; }
+  .mb-1 { margin-bottom: 0.25rem; }
+  .mb-2 { margin-bottom: 0.5rem; }
+  .mb-3 { margin-bottom: 1rem; }
+  
+  .text-2xl { font-size: 1.5rem; }
+  .text-4xl { font-size: 2.25rem; }
+  
+  .font-bold { font-weight: 700; }
+  .font-medium { font-weight: 500; }
+  
+  /* Color utilities */
+  .text-blue-500 { color: #2196F3; }
+  .text-green-500 { color: #4CAF50; }
+  .text-orange-500 { color: #FF9800; }
+  .text-red-500 { color: #F44336; }
+  .text-600 { color: #6c757d; }
+  .text-900 { color: #212529; }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .statistics-container {
+      padding: 0.5rem;
+    }
+    
+    .card {
+      padding: 1rem;
+    }
+    
+    .chart-container {
+      height: 250px;
+    }
+  }
+  

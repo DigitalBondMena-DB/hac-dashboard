@@ -1,0 +1,149 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+@if (isLoading) {
+<app-loading-data-banner></app-loading-data-banner>
+} @else if (slider) {
+<div class="card" [class.loading]="isLoading">
+  <div class="card-header">
+    <h2 class="card-title">Slider Details</h2>
+  </div>
+
+  <div class="detail-section">
+    <div class="detail-row">
+      <div class="detail-label">Arabic Main Image</div>
+      <div class="detail-value">
+        @if (sliderArImageUrl) {
+        <div class="image-container">
+          <img
+            [src]="sliderArImageUrl"
+            alt="Slider Arabic Main Image"
+            class="slider-image"
+            [class.loaded]="imageLoaded"
+            (load)="onImageLoad()"
+          />
+          @if (!imageLoaded) {
+          <div class="image-placeholder"></div>
+          }
+        </div>
+        } @else {
+        <span class="no-image-text">No Arabic image available</span>
+        }
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">English Main Image</div>
+      <div class="detail-value">
+        @if (sliderEnImageUrl) {
+        <div class="image-container">
+          <img
+            [src]="sliderEnImageUrl"
+            alt="Slider English Main Image"
+            class="slider-image"
+            [class.loaded]="imageLoaded"
+            (load)="onImageLoad()"
+          />
+          @if (!imageLoaded) {
+          <div class="image-placeholder"></div>
+          }
+        </div>
+        } @else {
+        <span class="no-image-text">No English image available</span>
+        }
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Arabic Image Filename</div>
+      <div class="detail-value">{{ slider.main_image_ar || "N/A" }}</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">English Image Filename</div>
+      <div class="detail-value">{{ slider.main_image || "N/A" }}</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Arabic Slider Link</div>
+      <div class="detail-value">
+        @if (slider.ar_slider_link) {
+        <a [href]="slider.ar_slider_link" target="_blank" class="slider-link">
+          {{ slider.ar_slider_link }}
+        </a>
+        } @else {
+        <span class="no-link-text">No Arabic link available</span>
+        }
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">English Slider Link</div>
+      <div class="detail-value">
+        @if (slider.en_slider_link) {
+        <a [href]="slider.en_slider_link" target="_blank" class="slider-link">
+          {{ slider.en_slider_link }}
+        </a>
+        } @else {
+        <span class="no-link-text">No English link available</span>
+        }
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Status</div>
+      <div class="detail-value">
+        <span class="status-badge" [class.active]="slider.active_status">
+          {{ slider.active_status ? "Active" : "Inactive" }}
+        </span>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Created At</div>
+      <div class="detail-value">{{ slider.created_at | date : "medium" }}</div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Updated At</div>
+      <div class="detail-value">{{ slider.updated_at | date : "medium" }}</div>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <p-button
+      label="Back"
+      styleClass="p-button-text"
+      (onClick)="navigateBack()"
+    ></p-button>
+    <p-button
+      label="Edit"
+      styleClass="p-button-outlined"
+      (onClick)="navigateToEdit()"
+    ></p-button>
+  </div>
+</div>
+} @else {
+<div class="no-data-card">
+  <div class="no-data-message">
+    <i class="pi pi-exclamation-circle"></i>
+    <p>No slider data found</p>
+  </div>
+  <div class="action-buttons">
+    <p-button
+      label="Back to Sliders"
+      styleClass="p-button-text"
+      (onClick)="navigateBack()"
+    ></p-button>
+  </div>
+</div>
+}

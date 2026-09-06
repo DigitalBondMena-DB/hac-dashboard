@@ -1,0 +1,240 @@
+@if (aboutUs) {
+<p-card class="p-4">
+  <div class="flex justify-between items-center mb-20">
+    <h2 class="text-2xl font-semibold mb-0">About Control</h2>
+
+    @if (isEditing) {
+    <p-button (click)="saveChanges()" label="Save Changes" icon="pi pi-plus" class="btn-main"></p-button>
+    } @else {
+    <p-button (click)="toggleEditing()" label="Edit About" icon="pi pi-plus" class="btn-main"></p-button>
+    }
+  </div>
+
+  <div class="container mx-auto">
+    <!-- Image Upload -->
+    <p-card>
+      <div>
+        <h2 class="text-2xl font-semibold">Upload Image:</h2>
+        @if (isEditing) {
+        <input type="file" (change)="onFileSelected($event)" class="w-full p-2" />
+        } @else {
+        <div>
+          @if (aboutUs.rows.main_image) {
+          <img [src]="'https://mesoshop.digitalbondmena.com/' + aboutUs.rows.main_image"
+            class="mt-3 w-40 rounded shadow" />
+          }
+        </div>
+        }
+      </div>
+    </p-card>
+
+    <!-- English Content -->
+    <h2 class="text-2xl font-semibold">English Content</h2>
+    <div class="rounded p-0">
+      <p-card>
+        <div class="grid gap-6">
+          <!-- English Main Title -->
+          <div>
+            <label class="font-bold mb-4 block">English Main Title:</label>
+            @if (isEditing) {
+            <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_main_title" />
+            } @else {
+            <p>{{ aboutUs.rows.en_main_title }}</p>
+            }
+          </div>
+
+          <!-- English Main Description -->
+          <div>
+            <label class="font-bold mb-4 block">English Main Description:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_main_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.en_main_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- English Meta Title -->
+          <div>
+            <label class="font-bold mb-4 block">English Meta Title:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_meta_title" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.en_meta_title | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- English Meta Description -->
+          <div>
+            <label class="font-bold mb-4 block">English Meta Description:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_meta_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.en_meta_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- English Mission Text -->
+          <div>
+            <label class="font-bold mb-4 block">English Mission Text:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_mission_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.en_mission_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- English Vision Text -->
+          <div>
+            <label class="font-bold mb-4 block">English Vision Text:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_vision_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.en_vision_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- English Footer Text -->
+          <div>
+            <label class="font-bold mb-4 block">English Footer Text:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.en_footer_for_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.en_footer_for_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <!-- Arabic Content -->
+    <h2 class="text-2xl font-semibold">Arabic Content</h2>
+    <div class="rounded">
+      <p-card>
+        <div class="grid gap-6 !text-end">
+          <!-- Arabic Main Title -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Main Title:</label>
+            @if (isEditing) {
+            <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_main_title" />
+            } @else {
+            <p>{{ aboutUs.rows.ar_main_title }}</p>
+            }
+          </div>
+
+          <!-- Arabic Main Description -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Main Description:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_main_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.ar_main_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- Arabic Meta Title -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Meta Title:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_meta_title" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.ar_meta_title | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- Arabic Meta Description -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Meta Description:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_meta_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.ar_meta_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- Arabic Mission Text -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Mission Text:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_mission_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.ar_mission_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- Arabic Vision Text -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Vision Text:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_vision_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.ar_vision_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+
+          <!-- Arabic Footer Text -->
+          <div>
+            <label class="font-bold mb-4 block">Arabic Footer Text:</label>
+            @if (isEditing) {
+            <div class="!text-black">
+              <input class="w-full p-2 text-black" [(ngModel)]="aboutUs.rows.ar_footer_for_text" />
+            </div>
+            } @else {
+            <div>
+              <p class="!text-sm text-gray-500 text-wrap" [innerHTML]="aboutUs.rows.ar_footer_for_text | safeHtml"></p>
+            </div>
+            }
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</p-card>
+} @else {
+<app-loading-data-banner />
+}
+
+<p-toast />

@@ -1,0 +1,144 @@
+@if (allOrders) {
+    <div class="p-6 bg-white rounded-lg shadow-md">
+      <div class="flex justify-between items-center mb-3">
+        <h2 class="text-2xl font-semibold">Orders History</h2>
+      </div>
+  
+      <div class="flex justify-between items-center my-4 gap-4">
+        <div class="flex justify-content-start">
+          <p-button
+            [outlined]="true"
+            icon="pi pi-filter-slash"
+            label="Clear"
+            (onClick)="clear(dt, search, statusFilter)"
+            class="text-gray-600 border-gray-300 hover:bg-gray-100"
+          />
+        </div>
+        <div class="flex justify-content-end items-center gap-3">
+          <p-dropdown
+            #statusFilter
+            [(ngModel)]="selectedStatus"
+            [options]="filterOptions"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value)"
+            placeholder="Status"
+            [showClear]="false"
+            [autoZIndex]="true"
+            [appendTo]="'body'"
+            styleClass="w-48 border border-gray-300"
+          />
+          <span class="p-input-icon-right">
+            <i class="pi pi-search"></i>
+            <input
+              #search
+              type="text"
+              pInputText
+              placeholder="Search orders..."
+              class="w-64 p-2 border rounded-md"
+              (input)="dt.filterGlobal(search.value, 'contains')"
+            />
+          </span>
+        </div>
+      </div>
+  
+      <p-table
+        #dt
+        [paginator]="true"
+        [rows]="10"
+        [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="getPagination()"
+        [globalFilterFields]="['order_number', 'address.first_name', 'address.last_name', 'order_date', 'total', 'address.city']"
+        [showCurrentPageReport]="true"
+        [value]="orders"
+        responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id">
+              ID <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th>Commercial Status</th>
+            <th>Name</th>
+            <th pSortableColumn="order_date">Date <p-sortIcon field="order_date"></p-sortIcon> </th>
+            <th pSortableColumn="order_time">Time <p-sortIcon field="order_time"></p-sortIcon></th>
+            <th>City</th>
+            <th pSortableColumn="total">
+              Price <p-sortIcon field="total"></p-sortIcon>
+            </th>
+            <th class="text-center">View</th>
+            <th class="text-center">Status</th>
+          </tr>
+        </ng-template>
+  
+        <ng-template pTemplate="body" let-order>
+          @if (order.order_status === 'cancelled' || order.order_status === 'delivered') {
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>
+                {{order.user?.role=="user" ? "Customer" : "Business"}}
+               </td>  
+              <td>{{ order.address?.first_name || '' }} {{ order.address?.last_name || '' }}</td>
+              <td>{{ order.order_date }}</td>
+              <td>{{ order.order_time }}</td>
+              <td>{{ order.address?.city || '' }}</td>
+              <td>{{ order.total }}</td>
+              <td class="text-center">
+                <button
+                  [routerLink]="['/dashboard/orders/view-order', order.id]"
+                  pButton
+                  label="View"
+                  icon="pi pi-search"
+                  class="p-button-text  hover:bg-blue-50"
+                ></button>
+              </td>
+              <td [ngClass]="getStatusClass(order.order_status)" class="flex items-center">
+                <div class="">
+                  <p-dropdown
+                    [options]="getAvailableStatusOptions(order.order_status)"
+                    [(ngModel)]="order.order_status"
+                    placeholder="Status"
+                    optionLabel="label"
+                    optionValue="value"
+                    [disabled]="true"
+                    styleClass="status-dropdown"
+                    [autoZIndex]="true"
+                    [appendTo]="'body'"
+  
+                    [style]="{'width': '100%'}"
+                  >
+                    <ng-template pTemplate="selectedItem" let-selected>
+                      <div class="flex items-center justify-center">
+                        <i [class]="selected.icon + ' ' + selected.color" class="mr-2"></i>
+                        <span [class]="selected.color">{{ selected.label }}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="item" let-option>
+                      <div class="flex items-center justify-center">
+                        <i [class]="option.icon + ' ' + option.color" class="mr-2"></i>
+                        <span [class]="option.color">{{ option.label }}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </td>
+            </tr>
+          }
+        </ng-template>
+  
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">
+              <div class="h-48 flex justify-center items-center flex-col">
+                <app-no-data-found-banner></app-no-data-found-banner>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  } @else {
+    <app-loading-data-banner></app-loading-data-banner>
+  }
+  
+  <p-toast [key]="'orderStatusMessage'"></p-toast>

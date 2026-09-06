@@ -1,0 +1,22 @@
+button {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+button:hover {
+  background-color: #f3f3f3;
+}
+.absolute {
+  width: auto !important;
+  // min-width: 350px;
+}
+@media screen and (min-width: 992px) {
+  .absolute {
+    width: 670px !important;
+    // min-width: 350px;
+  }
+}
+
+::ng-deep .md-drppicker {
+  display: inline-block !important;
+}

@@ -1,0 +1,55 @@
+<div class="image-upload-container">
+  <!-- Loading state -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Loading images...</p>
+  </div>
+  
+  <!-- Image previews as small cards -->
+  <div class="image-preview-container">
+    <div *ngFor="let image of getVisibleImages(); let i = index" class="image-card" [class.deleting]="isDeleting[image.id]">
+      <div class="card-content">
+        <div *ngIf="isDeleting[image.id]" class="deleting-overlay">
+          <div class="spinner"></div>
+        </div>
+        <img [src]="image.thumb"  class="preview-image">
+        <div class="image-info">
+          <!-- <span class="image-name" [title]="image.image">{{ image.image }}</span> -->
+          <span class="image-size">{{ image.is_main ? 'Main Image' : 'Secondary' }}</span>
+        </div>
+        <button *ngIf="!singleImageMode" type="button" class="remove-btn" (click)="removeImage(i)" title="Remove image" [disabled]="isDeleting[image.id]">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Empty state -->
+    <div *ngIf="getVisibleImages().length === 0" class="empty-state">
+      <p>No images added yet</p>
+    </div>
+  </div>
+  
+  <!-- Drag and drop area -->
+  <div class="dropzone"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)"
+       [class.dragover]="isDragging">
+    <div class="dropzone-content">
+      <i class="pi pi-cloud-upload"></i>
+      <p>Drag & Drop your images here</p>
+      <span class="or-text">or</span>
+      <label [for]="InputId" class="file-upload-label">
+        <span>Browse Files</span>
+        <input 
+          [id]="InputId"
+          type="file"
+          accept="image/*"
+          [multiple]="!singleImageMode"
+          (change)="onFileSelected($event)"
+          class="file-input"
+        >
+      </label>
+    </div>
+  </div>
+</div>

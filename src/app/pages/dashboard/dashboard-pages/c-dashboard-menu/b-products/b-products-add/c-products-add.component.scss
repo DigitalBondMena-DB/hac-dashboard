@@ -1,0 +1,749 @@
+// .upload-area {
+//   min-height: 150px;
+//   transition: all 0.3s ease;
+
+//   &:hover {
+//     border-color: var(--primary-color);
+//     background-color: rgba(0, 0, 0, 0.02);
+//   }
+// }
+
+// .section-container {
+//   background-color: white;
+//   border-radius: 0.5rem;
+//   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+//   padding: 1.5rem;
+//   margin-bottom: 1.5rem;
+// }
+
+// .section-title {
+//   font-size: 1.125rem;
+//   font-weight: 600;
+//   color: #1f2937;
+//   margin-bottom: 1rem;
+//   padding-bottom: 0.5rem;
+//   border-bottom: 1px solid #e5e7eb;
+// }
+
+// .choice-item {
+//   border: 1px solid #e5e7eb;
+//   border-radius: 0.375rem;
+//   transition: all 0.2s ease;
+
+//   &:hover {
+//     border-color: var(--primary-color);
+//   }
+// }
+
+// .p-error small {
+//   color: #ef4444;
+//   font-size: 0.875rem;
+//   margin-top: 0.25rem;
+//   display: block;
+// }
+
+// .text-main-500 {
+//   color: var(--primary-color);
+// }
+
+// .border-main-500 {
+//   border-color: var(--primary-color);
+// }
+
+
+
+// ::ng-deep .p-fileupload-buttonbar {
+//   display: none;
+// }
+// ::ng-deep .jodit-status-bar-link,
+// ::ng-deep .jodit-toolbar-button_about {
+//   display: none;
+// }
+
+// ::ng-deep .p-element {
+//   padding-inline: 0px;
+//   li {
+//     padding-inline: 10px;
+//   }
+// }
+
+/* Hide arrows for WebKit-based browsers */
+// input[type="number"]::-webkit-inner-spin-button,
+// input[type="number"]::-webkit-outer-spin-button {
+//   -webkit-appearance: none;
+//   margin: 0;
+// }
+
+
+
+// <p-card class="p-4">
+//   <ng-template pTemplate="title">
+//     <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Product" : "Add Product" }}</h2>
+//   </ng-template>
+
+//   <ng-template pTemplate="content">
+//     <form [formGroup]="productForm" (ngSubmit)="onFormSubmit()" class="grid md:grid-cols-1 gap-6">
+//       <!-- Basic Information -->
+//       <div class="section-container">
+//         <h3 class="section-title">Basic Information</h3>
+        
+//         <div class="grid md:grid-cols-2 gap-4">
+//           <div>
+//             <label class="font-medium mb-1 block">English Name *</label>
+//             <input type="text" pInputText formControlName="en_name" class="w-full" />
+//             @if (productForm.get('en_name')?.invalid && productForm.get('en_name')?.touched) {
+//               <small class="p-error">English Name is required.</small>
+//             }
+//           </div>
+
+//           <div>
+//             <label class="font-medium mb-1 block">Arabic Name *</label>
+//             <input type="text" pInputText formControlName="ar_name" class="w-full" dir="rtl" />
+//             @if (productForm.get('ar_name')?.invalid && productForm.get('ar_name')?.touched) {
+//               <small class="p-error">Arabic Name is required.</small>
+//             }
+//           </div>
+//         </div>
+
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">English Small Description *</label>
+//           <ngx-jodit [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_small_description"></ngx-jodit>
+//           @if (productForm.get('en_small_description')?.invalid && productForm.get('en_small_description')?.touched) {
+//             <small class="p-error">English Small Description is required.</small>
+//           }
+//         </div>
+
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">Arabic Small Description *</label>
+//           <ngx-jodit [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_small_description"></ngx-jodit>
+//           @if (productForm.get('ar_small_description')?.invalid && productForm.get('ar_small_description')?.touched) {
+//             <small class="p-error">Arabic Small Description is required.</small>
+//           }
+//         </div>
+
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">English Description *</label>
+//           <ngx-jodit [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_description"></ngx-jodit>
+//           @if (productForm.get('en_description')?.invalid && productForm.get('en_description')?.touched) {
+//             <small class="p-error">English Description is required.</small>
+//           }
+//         </div>
+
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">Arabic Description *</label>
+//           <ngx-jodit dir="rtl" [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_description"></ngx-jodit>
+//           @if (productForm.get('ar_description')?.invalid && productForm.get('ar_description')?.touched) {
+//             <small class="p-error">Arabic Description is required.</small>
+//           }
+//         </div>
+
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">English Specifications</label>
+//           <ngx-jodit dir="ltr" [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_specifications"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">Arabic Specifications</label>
+//           <ngx-jodit dir="rtl" [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_specifications"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">English Ingredients</label>
+//           <ngx-jodit dir="ltr" [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_ingredient"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">Arabic Ingredients</label>
+//           <ngx-jodit dir="rtl" [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_ingredient"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">English How to Use</label>
+//           <ngx-jodit dir="ltr" [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_how_to_use"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">Arabic How to Use</label>
+//           <ngx-jodit dir="rtl" [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_how_to_use"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">English More Information</label>
+//           <ngx-jodit dir="ltr" [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_more_information"></ngx-jodit>
+//         </div>
+        
+//         <div class="mt-4">
+//           <label class="font-medium mb-1 block">Arabic More Information</label>
+//           <ngx-jodit dir="rtl" [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_more_information"></ngx-jodit>
+//         </div>
+//       </div>
+
+//       <!-- Category & Subcategory -->
+//       <div class="section-container">
+//         <h3 class="section-title">Category</h3>
+        
+//         <div class="grid md:grid-cols-2 gap-4">
+//           <div>
+//             <label class="font-medium mb-1 block">Category *</label>
+//             <p-dropdown 
+//               [options]="categories" 
+//               formControlName="category_id" 
+//               optionLabel="en_name" 
+//               optionValue="id"
+//               placeholder="Select Category" 
+//               [style]="{'width': '100%'}"
+//               class="w-full">
+//             </p-dropdown>
+//             @if (productForm.get('category_id')?.invalid && productForm.get('category_id')?.touched) {
+//               <small class="p-error">Category is required.</small>
+//             }
+//           </div>
+
+//           <div>
+//             <label class="font-medium mb-1 block">Subcategory</label>
+//             <p-dropdown 
+//               [options]="subcategories" 
+//               formControlName="subcategory_id" 
+//               optionLabel="en_name" 
+//               optionValue="id"
+//               placeholder="Select Subcategory" 
+//               [style]="{'width': '100%'}"
+//               [disabled]="isSubcategoryDisabled">
+//             </p-dropdown>
+//             @if (!isSubcategoryDisabled && productForm.get('subcategory_id')?.invalid && productForm.get('subcategory_id')?.touched) {
+//               <small class="p-error">Subcategory is required.</small>
+//             }
+//           </div>
+//         </div>
+//       </div>
+
+//       <!-- Main Product Image -->
+//       <div class="section-container">
+//         <h3 class="section-title">Main Product Image</h3>
+//         <p class="text-sm text-gray-500 mb-2">This will be the primary image displayed for the product</p>
+        
+//         <div class="p-field">
+//           <label class="font-medium mb-1 block">Main Image *</label>
+//           <p-fileUpload
+//             #mainImageUpload
+//             name="main_image"
+//             accept="image/*"
+//             [auto]="true"
+//             [chooseLabel]="'Choose Image'"
+//             [uploadLabel]="'Upload'"
+//             [styleClass]="'w-full'"
+//             [cancelLabel]="'Cancel'"
+//             (onRemove)="clearMainImage()"
+//             [showUploadButton]="false"
+//             [showCancelButton]="false"
+//             [customUpload]="true"
+//             (onSelect)="onMainImageSelect($event)"
+//             [maxFileSize]="1000000"
+//             [draggable]="true">
+//             <ng-template pTemplate="content">
+//               <div class="upload-area flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-main-500 transition cursor-pointer"
+//                    [class.border-main-500]="mainImagePreview">
+//                 @if (mainImagePreview) {
+//                   <img [src]="mainImagePreview" alt="Main product preview" class="max-h-48 rounded-lg mb-2">
+//                 } @else {
+//                   <i class="pi pi-cloud-upload text-4xl text-gray-400"></i>
+//                   <p class="text-gray-500 mt-2">
+//                     Drag & drop an image or
+//                     <span class="text-blue-500 cursor-pointer" (click)="mainImageUpload.choose()">click to select</span>
+//                   </p>
+//                 }
+//               </div>
+//             </ng-template>
+//           </p-fileUpload>
+//           @if (productForm.get('main_image')?.invalid && productForm.get('main_image')?.touched) {
+//             <div class="p-error">
+//               <small>Main product image is required.</small>
+//             </div>
+//           }
+//         </div>
+//       </div>
+
+//       <!-- Additional Product Images -->
+//       <div class="section-container">
+//         <h3 class="section-title">Additional Product Images</h3>
+//         <p class="text-sm text-gray-500 mb-2">Upload more images to showcase the product from different angles</p>
+        
+//         <div class="p-field">
+//           <label class="font-medium mb-1 block">Additional Images</label>
+//           <p-fileUpload
+//             #additionalImagesUpload
+//             name="additional_images"
+//             accept="image/*"
+//             [multiple]="true"
+//             [auto]="true"
+//             [chooseLabel]="'Choose Images'"
+//             [uploadLabel]="'Upload'"
+//             [styleClass]="'w-full'"
+//             [cancelLabel]="'Cancel'"
+//             (onRemove)="onAdditionalImageRemove($event)"
+//             [showUploadButton]="false"
+//             [showCancelButton]="false"
+//             [customUpload]="true"
+//             (onSelect)="onAdditionalImagesSelect($event)"
+//             [maxFileSize]="1000000"
+//             [draggable]="true">
+//             <ng-template pTemplate="content">
+//               <div class="upload-area flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-main-500 transition cursor-pointer"
+//                    [class.border-main-500]="additionalImagePreviews.length > 0">
+//                 @if (additionalImagePreviews.length > 0) {
+//                   <div class="grid grid-cols-3 gap-2 w-full">
+//                     @for (preview of additionalImagePreviews; track $index) {
+//                       <div class="relative">
+//                         <img [src]="preview.preview" alt="Additional image {{$index + 1}}" class="h-24 w-full object-cover rounded">
+//                         <button pButton icon="pi pi-times" class="p-button-rounded p-button-danger p-button-sm absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2"
+//                           (click)="removeAdditionalImage($index)"></button>
+//                       </div>
+//                     }
+//                   </div>
+//                 } @else {
+//                   <i class="pi pi-images text-4xl text-gray-400"></i>
+//                   <p class="text-gray-500 mt-2">
+//                     Drag & drop images or
+//                     <span class="text-blue-500 cursor-pointer" (click)="additionalImagesUpload.choose()">click to select</span>
+//                   </p>
+//                 }
+//               </div>
+//             </ng-template>
+//           </p-fileUpload>
+//           <small class="text-gray-500">You can upload up to 5 additional images</small>
+//         </div>
+//       </div>
+
+//       <!-- Pricing -->
+//       <div class="section-container">
+//         <h3 class="section-title">Pricing</h3>
+        
+//         <div class="flex items-center gap-2 mb-4">
+//           <p-inputSwitch [trueValue]="'choices'" [falseValue]="'standard'" formControlName="pricing_type"></p-inputSwitch>
+//           <label class="font-medium">Use Choice-Based Pricing</label>
+//         </div>
+
+//         <!-- Standard Pricing -->
+//         @if (productForm.get('pricing_type')?.value === 'standard') {
+//           <div class="grid md:grid-cols-3 gap-4">
+//             <div class="w-full ">
+//               <label class="font-medium mb-1 block">Price *</label>
+//               <p-inputNumber [style]="{'width': '100%'}" formControlName="price" mode="currency" currency="USD" class="w-full"></p-inputNumber>
+//               @if (productForm.get('price')?.invalid && productForm.get('price')?.touched) {
+//                 <small class="p-error">Price is required.</small>
+//               }
+//             </div>
+//             <div  class="w-full ">
+//               <label class="font-medium mb-1 block">Sale Percentage</label>
+//               <p-inputNumber [style]="{'width': '100%'}" formControlName="sale_price" suffix="%" class="w-full"></p-inputNumber>
+//             </div>
+//             <div  class="w-full ">
+//               <label class="font-medium mb-1 block">Price After Sale</label>
+//               <p-inputNumber [style]="{'width': '100%'}"  formControlName="price_after_sale" mode="currency" currency="USD" class="w-full" readonly="true"></p-inputNumber>
+//             </div>
+//           </div>
+//         } @else {
+//           <!-- Choice-Based Pricing -->
+//           <div formArrayName="choices">
+//             @for (choice of choicesArray.controls; let i = $index; track i) {
+//               <div [formGroupName]="i" class="choice-item mb-4 p-4 border rounded">
+//                 <div class="grid md:grid-cols-3 gap-4 mb-3">
+//                   <div>
+//                     <label class="font-medium mb-1 block">English Name *</label>
+//                     <input type="text" pInputText formControlName="en_name" class="w-full" />
+//                     @if (choice.get('en_name')?.invalid && choice.get('en_name')?.touched) {
+//                       <small class="p-error">English Name is required.</small>
+//                     }
+//                   </div>
+//                   <div>
+//                     <label class="font-medium mb-1 block">Arabic Name *</label>
+//                     <input type="text" pInputText formControlName="ar_name" class="w-full" dir="rtl" />
+//                     @if (choice.get('ar_name')?.invalid && choice.get('ar_name')?.touched) {
+//                       <small class="p-error">Arabic Name is required.</small>
+//                     }
+//                   </div>
+//                   <div>
+//                     <label class="font-medium mb-1 block">Price *</label>
+//                     <p-inputNumber formControlName="current_value" mode="currency" currency="USD" class="w-full"></p-inputNumber>
+//                     @if (choice.get('current_value')?.invalid && choice.get('current_value')?.touched) {
+//                       <small class="p-error">Price is required.</small>
+//                     }
+//                   </div>
+//                 </div>
+//                 <div class="flex justify-between items-center">
+//                   <div class="flex items-center gap-2">
+//                     <p-inputSwitch formControlName="active_status"></p-inputSwitch>
+//                     <label class="font-medium">Active Status</label>
+//                   </div>
+//                   <button pButton icon="pi pi-trash" class="p-button-danger" (click)="removeChoice(i)"></button>
+//                 </div>
+//               </div>
+//             }
+//             <button pButton label="Add Choice" icon="pi pi-plus" class="p-button-text" (click)="addChoice()"></button>
+//           </div>
+//         }
+//       </div>
+
+//       <!-- Status -->
+//       <div class="section-container">
+//         <h3 class="section-title">Status</h3>
+        
+//         <div class="flex flex-wrap gap-6">
+//           <div class="flex items-center gap-2">
+//             <p-inputSwitch formControlName="active_status"></p-inputSwitch>
+//             <label class="font-medium">Active Status</label>
+//           </div>
+//           <div class="flex items-center gap-2">
+//             <p-inputSwitch formControlName="stock_status"></p-inputSwitch>
+//             <label class="font-medium">Active Stock</label>
+//           </div>
+//           <div class="flex items-center gap-2">
+//             <p-inputSwitch formControlName="featured"></p-inputSwitch>
+//             <label class="font-medium">Featured</label>
+//           </div>
+//         </div>
+//       </div>
+
+//       <div class="flex justify-end gap-3 mt-4">
+//         <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" type="button" [routerLink]="['/dashboard/menu/products']"></button>
+//         <button pButton label="Save" icon="pi pi-check" class="p-button-success" type="submit"></button>
+//       </div>
+//     </form>
+
+//     <!-- Display Submitted Data -->
+//     @if (submittedData) {
+//       <div class="mt-6">
+//         <h3 class="text-lg font-semibold mb-2">Submitted Data</h3>
+//         <pre class="bg-gray-100 p-4 rounded-lg overflow-auto">{{ submittedData | json }}</pre>
+//       </div>
+//     }
+//   </ng-template>
+// </p-card>
+
+// <p-toast></p-toast>
+
+
+
+
+/* Main Container Styles */
+.form-container {
+  background-color: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-header {
+  margin-bottom: 1.5rem;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.form-content {
+  background-color: transparent;
+}
+
+/* Section Styles */
+.section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+/* Form Layout */
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .form-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Make pricing row 3 columns */
+  .section:has(.form-row:has(p-inputNumber[formControlName="price"])) .form-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Form Field Styles */
+.form-field {
+  margin-bottom: 1.25rem;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.field-input {
+  width: 100%;
+}
+
+/* Error Handling */
+.error-container {
+  min-height: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.75rem;
+}
+
+.helper-text {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+/* Upload Area Styles */
+.upload-area {
+  min-height: 150px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.upload-area:hover, 
+.upload-area.has-preview {
+  border-color: var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  color: #9ca3af;
+}
+
+.upload-text {
+  color: #6b7280;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.upload-link {
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.image-preview {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 0.375rem;
+  object-fit: cover;
+}
+
+/* Additional Images Grid */
+.additional-images-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 100%;
+  // background-color: #9ca3af;
+}
+
+.additional-image-container {
+  position: relative;
+}
+
+.additional-image {
+  height: 10rem;
+  width: 10rem;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+// .remove-image-button {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   transform: translate(25%, -25%);
+//   width: 1.5rem;
+//   height: 1.5rem;
+//   border-radius: 50%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   padding: 0;
+// }
+
+/* Toggle Switches */
+.pricing-toggle, 
+.status-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.toggle-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.status-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+/* Choice-Based Pricing */
+.choices-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.choice-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.choice-item:hover {
+  border-color: var(--primary-color);
+}
+
+.choice-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.choice-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-choice-button {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* Submitted Data (for development) */
+.submitted-data {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.submitted-data-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.submitted-data-content {
+  background-color: #f3f4f6;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  overflow: auto;
+  font-size: 0.875rem;
+  max-height: 300px;
+}
+
+/* PrimeNG Customizations */
+::ng-deep .p-fileupload-buttonbar {
+  display: none;
+}
+
+::ng-deep .jodit-status-bar-link,
+::ng-deep .jodit-toolbar-button_about {
+  display: none;
+}
+
+/* Hide number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Ensure consistent input heights */
+::ng-deep .p-inputtext,
+::ng-deep .p-dropdown,
+::ng-deep .p-inputnumber {
+  height: 2.5rem;
+}
+
+/* Ensure consistent dropdown styling */
+::ng-deep .p-dropdown {
+  width: 100%;
+}
+
+/* Ensure consistent button styling */
+::ng-deep .p-button {
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure consistent spacing in editor */
+::ng-deep .jodit-container {
+  margin-bottom: 0;
+}
+
+

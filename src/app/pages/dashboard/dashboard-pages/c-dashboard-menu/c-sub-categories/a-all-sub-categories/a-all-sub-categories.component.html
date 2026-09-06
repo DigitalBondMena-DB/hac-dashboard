@@ -1,0 +1,124 @@
+@if (loading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else {
+  <div class="card">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-2xl font-semibold">Sub Categories Control {{ isSpecial ? '(Special Orders)' : '' }}</h2>
+      <p-button
+        routerLink="/dashboard/menu/sub-categories/sub-categories-add"
+        [queryParams]="isSpecial ? { special: 'true' } : null"
+        label="Add Sub Category"
+        icon="pi pi-plus"
+        class="btn-main text-white"></p-button>
+    </div>
+    
+    <!-- Search Input -->
+    <div class="mb-3 flex justify-content-end">
+      <span class="p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input 
+          #search 
+          class="mb-0" 
+          type="text" 
+          pInputText 
+          placeholder="Search sub categories..." 
+          (input)="onGlobalFilter(dt, $event)" />
+      </span>
+    </div>
+    
+    <p-table
+      #dt
+      [paginator]="true"
+      [rows]="rowsPerPage"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="getPagination()"
+      [showCurrentPageReport]="true"
+      [value]="filteredCategories"
+      responsiveLayout="scroll"
+      (onSort)="onSort($event)">
+      
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center" pSortableColumn="id">
+            ID <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th class="text-center" pSortableColumn="en_name">
+            Name <p-sortIcon field="en_name"></p-sortIcon>
+          </th>
+          <th class="text-center" pSortableColumn="category.en_name">
+            <p-dropdown
+              class="mx-auto"
+              styleClass="mx-auto"
+              [options]="categories"
+              optionLabel="label"
+              optionValue="value"
+              [(ngModel)]="selectedCategory"
+              (onChange)="onFilterChange($event.value, 'category')"
+              (onClear)="onFilterChange(null, 'category')"
+              placeholder="Category"
+              [showClear]="true"
+              [autoZIndex]="true"></p-dropdown>
+          </th>
+          <th class="text-center" pSortableColumn="active_status">
+            <p-dropdown
+              class="mx-auto"
+              styleClass="mx-auto"
+              [options]="selectOptions"
+              optionLabel="label"
+              optionValue="value"
+              [(ngModel)]="selectedStatus"
+              (onChange)="onFilterChange($event.value, 'status')"
+              (onClear)="onFilterChange(null, 'status')"
+              placeholder="Status"
+              [showClear]="true"
+              [autoZIndex]="true"></p-dropdown>
+          </th>
+          <th class="text-center">Actions</th>
+          <th class="text-center">View</th>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="body" let-subCategory>
+        <tr>
+          <td class="text-center">{{ subCategory.id }}</td>
+          <td class="text-center">{{ subCategory.en_name }}</td>
+          <td class="text-center">{{ subCategory.category.en_name }}</td>
+          <td class="text-center">
+            <p-inputSwitch
+              [ngModel]="subCategory.active_status === 1"
+              (onChange)="toggleSubCategoryStatus(subCategory)"></p-inputSwitch>
+          </td>
+          <td class="text-center">
+            <p-button
+              icon="pi pi-pencil"
+              [routerLink]="['/dashboard/menu/sub-categories/sub-categories-edit', subCategory.id]"
+              [queryParams]="isSpecial ? { special: 'true' } : null"
+              (onClick)="runSpinner()"
+              class="p-button-text"></p-button>
+          </td>
+          <td class="text-center">
+            <p-button
+              label="View"
+              icon="pi pi-search"
+              (onClick)="runSpinner()"
+              [routerLink]="['/dashboard/menu/sub-categories/sub-categories-details', subCategory.id]"
+              [queryParams]="isSpecial ? { special: 'true' } : null"
+              class="p-button-text"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+}
+
+<p-toast></p-toast>

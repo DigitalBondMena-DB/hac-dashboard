@@ -1,0 +1,131 @@
+<p-toast></p-toast>
+
+<ngx-spinner 
+  name="actionsLoader" 
+  bdColor="rgba(0, 0, 0, 0.8)" 
+  size="medium" 
+  color="#fff" 
+  type="square-spin" 
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+@if (isLoading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} 
+<div class="card">
+  <div class="table-title-div">
+    <h2 class="text-2xl font-semibold">Promo Codes Control</h2>
+    <p-button
+      routerLink="/dashboard/promo-codes/add-promo-code"
+      label="Add Promo Code"
+      icon="pi pi-plus"
+      class="btn-main text-white"></p-button>
+  </div>
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input
+        #search
+        class="mb-0"
+        type="text"
+        pInputText
+        placeholder="Search promo codes..."
+        (input)="onGlobalFilter(dt, $event)" />
+    </span>
+  </div>
+  <p-table
+    #dt
+    [paginator]="true"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    [value]="filteredPromocodes"
+    responsiveLayout="scroll"
+    (onSort)="onSort($event)">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon></th>
+        <th class="text-center" pSortableColumn="value">Value <p-sortIcon field="value"></p-sortIcon></th>
+
+        <th class="text-center" >
+          <p-dropdown
+            #Dd2
+            class="mx-auto"
+            styleClass="mx-auto"
+            [options]="selectOptions2"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value, 'uses_count'); Dd2.showClear = true"
+            placeholder="Promo Type"
+            [showClear]="true"
+            [autoZIndex]="true"></p-dropdown>
+        </th>
+        <th class="text-center">
+          <p-dropdown
+            #Dd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [options]="selectOptions"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value, 'active_status'); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="true"
+            [autoZIndex]="true"></p-dropdown>
+        </th>
+        <th class="text-center" pSortableColumn="expired_date">Expired Date <p-sortIcon field="expired_date"></p-sortIcon></th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-promoCode>
+      <tr>
+        <td class="text-center">{{ promoCode.id }}</td>
+        <td class="text-center">{{ promoCode.code }}</td>
+        <td class="text-center">{{ promoCode.value }}</td>
+        <td class="text-center">
+          <!-- <p-inputSwitch
+            [ngModel]="promoCode.uses_count >= 1"
+            (onChange)="togglePromoCodeStatusNew(promoCode)"
+            [ngModelOptions]="{standalone: true}"></p-inputSwitch> -->
+            {{promoCode.uses_count >= 1 ? 'Multiple' : 'Single'}}
+        </td>
+        
+        <td class="text-center">
+          <p-inputSwitch
+            [ngModel]="promoCode.active_status"
+            (onChange)="togglePromoCodeStatus(promoCode)"
+            [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+        </td>
+        <td class="text-center">{{ promoCode.expired_date ? promoCode.expired_date  : 'N/A'  }}</td>
+        <td class="text-center">
+          <p-button
+            icon="pi pi-pencil"
+            (click)="navigateToEdit(promoCode.id)"
+            class="p-button-text"></p-button>
+        </td>
+        <td class="text-center">
+          <button
+            [routerLink]="['/dashboard/promo-codes/view-promo-code', promoCode.id]"
+            pButton
+            label="View"
+            icon="pi pi-search"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">
+          <div class="h-48 flex justify-center items-center flex-col">
+            <app-no-data-found-banner></app-no-data-found-banner>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<router-outlet></router-outlet>

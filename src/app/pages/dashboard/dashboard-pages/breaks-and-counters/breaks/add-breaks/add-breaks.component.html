@@ -1,0 +1,95 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="card-title">{{ isEditMode ? 'Edit Break' : 'Add New Break' }}</h2>
+  <form [formGroup]="breakForm" (ngSubmit)="onSubmit()" class="break-form">
+    <div class="form-section">
+      <h3 class="section-title">Break Details</h3>
+      <div class="form-row">
+        <!-- English Name -->
+        <div class="form-field">
+          <label for="en_name" class="field-label">English Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_name"
+              formControlName="en_name"
+              placeholder="Enter English Name"
+              [ngClass]="{'p-invalid': breakForm.get('en_name')?.touched && breakForm.get('en_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (breakForm.get('en_name')?.touched && breakForm.get('en_name')?.hasError('required')) {
+              <small class="error-message">English Name is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Name -->
+        <div class="form-field">
+          <label for="ar_name" class="field-label">Arabic Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_name"
+              formControlName="ar_name"
+              placeholder="Enter Arabic Name"
+              [ngClass]="{'p-invalid': breakForm.get('ar_name')?.touched && breakForm.get('ar_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (breakForm.get('ar_name')?.touched && breakForm.get('ar_name')?.hasError('required')) {
+              <small class="error-message">Arabic Name is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Order By -->
+      <div class="form-row">
+        <div class="form-field">
+          <label for="order_by" class="field-label">Order By</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="order_by"
+              formControlName="order_by"
+              placeholder="Enter Order By"
+              [ngClass]="{'p-invalid': breakForm.get('order_by')?.touched && breakForm.get('order_by')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (breakForm.get('order_by')?.touched && breakForm.get('order_by')?.hasError('required')) {
+              <small class="error-message">Order By is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex items-center">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/breaks']"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update Break' : 'Create Break'"
+        styleClass="btn-main"
+        [disabled]="breakForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

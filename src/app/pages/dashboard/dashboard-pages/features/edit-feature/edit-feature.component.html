@@ -1,0 +1,150 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="card-title">{{ isEditMode ? 'Edit Feature' : 'Add New Feature' }}</h2>
+  <form [formGroup]="featureForm" (ngSubmit)="onSubmit()" class="feature-form">
+    <div class="form-section">
+      <h3 class="section-title">Feature Titles</h3>
+      <div class="form-row">
+        <!-- English Title -->
+        <div class="form-field">
+          <label for="en_title" class="field-label">English Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_title"
+              formControlName="en_title"
+              placeholder="Enter English Title"
+              [ngClass]="{'p-invalid': featureForm.get('en_title')?.touched && featureForm.get('en_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (featureForm.get('en_title')?.touched && featureForm.get('en_title')?.hasError('required')) {
+              <small class="error-message">English Title is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Title -->
+        <div class="form-field">
+          <label for="ar_title" class="field-label">Arabic Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_title"
+              formControlName="ar_title"
+              placeholder="Enter Arabic Title"
+              [ngClass]="{'p-invalid': featureForm.get('ar_title')?.touched && featureForm.get('ar_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (featureForm.get('ar_title')?.touched && featureForm.get('ar_title')?.hasError('required')) {
+              <small class="error-message">Arabic Title is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Feature Content</h3>
+      <div class="form-row">
+        <!-- English Text -->
+        <div class="form-field">
+          <label for="en_text" class="field-label">English Content</label>
+          <!-- <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 400 }"
+            formControlName="en_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': featureForm.get('en_text')?.touched && featureForm.get('en_text')?.invalid}"
+          ></ngx-jodit> -->
+
+          <input
+              pInputText
+              id="en_text"
+              formControlName="en_text"
+              placeholder="Enter English Content "
+              [ngClass]="{'p-invalid': featureForm.get('en_text')?.touched && featureForm.get('en_text')?.invalid}"
+            />
+          <div class="error-container">
+            @if (featureForm.get('en_text')?.touched && featureForm.get('en_text')?.hasError('required')) {
+              <small class="error-message">English Content is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Text -->
+        <div class="form-field">
+          <label for="ar_text" class="field-label">Arabic Content</label>
+          <!-- <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 400 }"
+            formControlName="ar_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': featureForm.get('ar_text')?.touched && featureForm.get('ar_text')?.invalid}"
+          ></ngx-jodit> -->
+
+          <input
+              pInputText
+              id="ar_text"
+              formControlName="ar_text"
+              placeholder="Enter Arabic Content"
+              [ngClass]="{'p-invalid': featureForm.get('ar_text')?.touched && featureForm.get('ar_text')?.invalid}"
+            />
+          <div class="error-container">
+            @if (featureForm.get('ar_text')?.touched && featureForm.get('ar_text')?.hasError('required')) {
+              <small class="error-message">Arabic Content is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Additional Details</h3>
+      <div class="form-row">
+        <!-- Icon Image -->
+        <div class="form-field">
+          <label class="field-label">Icon Image</label>
+          <app-image-upload
+            [initialImages]="initialImages"
+            [singleImageMode]="true"
+            [id]="'icon'"
+            (imagesChanged)="onImagesChanged($event)"
+          ></app-image-upload>
+          <div class="error-container">
+            @if (featureForm.get('icon_image')?.touched && featureForm.get('icon_image')?.hasError('required')) {
+              <small class="error-message">Icon Image is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex gap-2 items-center">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/features']"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update Feature' : 'Create Feature'"
+        styleClass="btn-main"
+        [disabled]="featureForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,89 @@
+.social-media-control {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #555;
+    }
+  }
+  
+  .social-media-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .social-media-item {
+    display: flex;
+    flex-direction: column;
+    
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .input-container {
+      position: relative;
+      height: 42px;
+      
+      .input-icon {
+        position: absolute;
+        left: 10px; // Increased space from the left edge
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        z-index: 1;
+      }
+      
+      input {
+        height: 100%;
+        padding: 0.75rem 0.75rem 0.75rem 3rem; // Increased left padding for more space between icon and text
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.2s;
+        width: 100%;
+        
+        &:focus {
+          outline: none;
+          border-color: #2196F3;
+          box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+        }
+      }
+    }
+    
+    .error-container {
+      min-height: 20px; // Fixed height for error messages
+      margin-top: 4px;
+    }
+    
+    .error-message {
+      color: #f44336;
+      font-size: 0.8rem;
+    }
+  }
+  
+  .btn-main {
+    background-color: #2196F3;
+    border-color: #2196F3;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: #1976D2;
+      border-color: #1976D2;
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  

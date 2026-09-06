@@ -1,0 +1,123 @@
+<div class="card">
+    <h2 class="text-2xl font-semibold mb-4">Add Product Choices</h2>
+  
+    <form [formGroup]="choicesForm" (ngSubmit)="onSubmit()">
+      <div formArrayName="choices">
+        @for (choice of choicesArray.controls; track choice; let i = $index) {
+          <div [formGroupName]="i" class="choice-container mb-4 p-4 border rounded">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-lg font-medium mb-1">Choice {{ i + 1 }}</h3>
+              @if (choicesArray.length > 1) {
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-danger"
+                  (click)="removeChoice(i)"></button>
+              }
+            </div>
+  
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- English Name -->
+              <div class="flex flex-col">
+                <label for="en_name_{{ i }}" class="block text-sm font-medium mb-1">English Name *</label>
+                <input
+                  id="en_name_{{ i }}"
+                  type="text"
+                  pInputText
+                  formControlName="en_name"
+                  class="w-full"
+                  [ngClass]="{'ng-invalid ng-dirty': choice.get('en_name')?.touched && choice.get('en_name')?.invalid}" />
+                @if (choice.get('en_name')?.touched && choice.get('en_name')?.errors?.['required']) {
+                  <small class="mt-1 text-red-500">English Name is required.</small>
+                }
+              </div>
+  
+              <!-- Arabic Name -->
+              <div class="flex flex-col">
+                <label for="ar_name_{{ i }}" class="block text-sm font-medium mb-1">Arabic Name *</label>
+                <input
+                  id="ar_name_{{ i }}"
+                  type="text"
+                  pInputText
+                  formControlName="ar_name"
+                  class="w-full"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty': choice.get('ar_name')?.touched && choice.get('ar_name')?.invalid
+                  }" />
+                @if (choice.get('ar_name')?.touched && choice.get('ar_name')?.errors?.['required']) {
+                  <small class="mt-1 text-red-500">Arabic Name is required.</small>
+                }
+              </div>
+  
+              <!-- Value -->
+              <div class="flex flex-col">
+                <label for="current_value_{{ i }}" class="block text-sm font-medium mb-1">Value *</label>
+                <input
+                  id="current_value_{{ i }}"
+                  type="text"
+                  pInputText
+                  formControlName="current_value"
+                  class="w-full"
+                  (keypress)="restrictInput($event)"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty': choice.get('current_value')?.touched && choice.get('current_value')?.invalid
+                  }" />
+                @if (choice.get('current_value')?.touched && choice.get('current_value')?.errors) {
+                  <small class="mt-1 text-red-500">
+                    @if (choice.get('current_value')?.errors?.['required']) {
+                      Value is required.
+                    } @else if (choice.get('current_value')?.errors?.['pattern']) {
+                      Please enter a valid number.
+                    } @else if (choice.get('current_value')?.errors?.['min']) {
+                      Value must be greater than 0.
+                    }
+                  </small>
+                }
+              </div>
+  
+              <!-- Status -->
+              <div class="flex flex-col justify-center items-center-center">
+                <label for="active_status_{{ i }}" class="block text-sm font-medium mb-1">Status</label>
+                <p-inputSwitch
+                  id="active_status_{{ i }}"
+                  formControlName="active_status"
+                  class="mt-2"></p-inputSwitch>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+  
+      <!-- Add Choice Button -->
+      <div class="flex justify-end mb-4">
+        <p-button
+          type="button"
+          label="Add Another Choice"
+          icon="pi pi-plus"
+          class="btn-main"
+          (click)="addChoice()"></p-button>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="flex justify-end">
+        <p-button
+          type="submit"
+          label="Submit Choices"
+          icon="pi pi-check"
+          class="btn-main"
+          [disabled]="choicesForm.invalid || isSubmitting"></p-button>
+      </div>
+    </form>
+  </div>
+  
+  <p-toast></p-toast>
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+  ><p style="color: white">Loading...</p></ngx-spinner>

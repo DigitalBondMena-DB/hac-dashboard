@@ -1,0 +1,65 @@
+@if (loading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else if (orders.length > 0) {
+  <div class="card">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-semibold">User Orders</h2>
+      <button
+        pButton
+        label="Back to Users"
+        icon="pi pi-angle-double-left"
+        class="p-button-text"
+        (click)="backToUsers()"
+      ></button>
+    </div>
+    <p-table
+      [value]="orders"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [loading]="loading"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} orders"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+          <th pSortableColumn="order_number">Order Number <p-sortIcon field="order_number"></p-sortIcon></th>
+          <th pSortableColumn="order_date">Order Date <p-sortIcon field="order_date"></p-sortIcon></th>
+          <th pSortableColumn="order_status">Status <p-sortIcon field="order_status"></p-sortIcon></th>
+          <th pSortableColumn="total">Total <p-sortIcon field="total"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.order_number }}</td>
+          <td>{{ order.order_date }}</td>
+          <td>
+            <span [ngClass]="getStatusClass(order.order_status)">{{ order.order_status }}</span>
+          </td>
+          <td> <span class="icon-saudi_riyal mx-2"></span> {{ order.total }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+} @else {
+  <div class="card">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-semibold">User Orders</h2>
+      <button
+        pButton
+        label="Back to Users"
+        icon="pi pi-angle-double-left"
+        class="p-button-text"
+        (click)="backToUsers()"
+      ></button>
+    </div>
+    <div class="text-center p-4">
+      <p class="text-lg text-gray-600">This user has no orders.</p>
+    </div>
+  </div>
+}
+<p-toast key="usersMessage"></p-toast>

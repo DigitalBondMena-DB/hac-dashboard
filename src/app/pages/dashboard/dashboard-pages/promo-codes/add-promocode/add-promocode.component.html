@@ -1,0 +1,187 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="text-2xl font-semibold mb-4">Add New Promo Code</h2>
+  <form [formGroup]="promocodeForm" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <!-- Row 1: Code and Value -->
+      <div class="form-field">
+        <label for="code" class="font-medium">Promo Code Name</label>
+        <div class="input-container">
+          <input
+            pInputText
+            id="code"
+            formControlName="code"
+            placeholder="Enter Promo Code Name"
+            [ngClass]="{
+              'p-invalid':
+                promocodeForm.get('code')?.touched &&
+                promocodeForm.get('code')?.invalid
+            }"
+          />
+        </div>
+        <div class="error-container">
+          @if (promocodeForm.get('code')?.touched &&
+          promocodeForm.get('code')?.hasError('required')) {
+          <small class="error-message">Promo Code is required</small>
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="value" class="font-medium">Discount Percentage</label>
+        <div class="input-container">
+          <input
+            pInputText
+            id="value"
+            formControlName="value"
+            placeholder="Enter Discount Percentage"
+            (keypress)="restrictInput($event)"
+            [ngClass]="{
+              'p-invalid':
+                promocodeForm.get('value')?.touched &&
+                promocodeForm.get('value')?.invalid
+            }"
+          />
+        </div>
+        <div class="error-container">
+          @if (promocodeForm.get('value')?.touched &&
+          promocodeForm.get('value')?.hasError('required')) {
+          <small class="error-message">Value is required</small>
+          } @if (promocodeForm.get('value')?.touched &&
+          promocodeForm.get('value')?.hasError('min')) {
+          <small class="error-message">Value must be a positive number</small>
+          } @if (promocodeForm.get('value')?.touched &&
+          promocodeForm.get('value')?.hasError('max')) {
+          <small class="error-message">Value cannot exceed 100</small>
+          } @if (promocodeForm.get('value')?.touched &&
+          promocodeForm.get('value')?.hasError('pattern')) {
+          <small class="error-message">Value must be a valid number (e.g., 10 or 10.50)</small>
+          }
+        </div>
+      </div>
+
+      <!-- Row 2: Products and Expired Date -->
+      <div class="form-field">
+        <label for="product_ids" class="font-medium">Products</label>
+        <div class="input-container">
+          <p-multiSelect
+            id="product_ids"
+            formControlName="product_ids"
+            [options]="products"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Products"
+            display="chip"
+            styleClass="w-full"
+            [ngClass]="{
+              'p-invalid':
+                promocodeForm.get('product_ids')?.touched &&
+                promocodeForm.get('product_ids')?.invalid
+            }"
+          ></p-multiSelect>
+        </div>
+        <div class="error-container"></div>
+      </div>
+
+      <div class="form-field">
+        <label for="expired_date" class="font-medium">Expiration Date</label>
+        <div class="input-container">
+          <input
+            type="date"
+            pInputText
+            id="expired_date"
+            formControlName="expired_date"
+            [min]="minDate"
+            [ngClass]="{
+              'p-invalid':
+                promocodeForm.get('expired_date')?.touched &&
+                promocodeForm.get('expired_date')?.invalid
+            }"
+          />
+        </div>
+        <div class="error-container">
+          @if (promocodeForm.get('expired_date')?.touched &&
+          promocodeForm.get('expired_date')?.hasError('required')) {
+          <small class="error-message">Expiration Date is required</small>
+          } @if (promocodeForm.get('expired_date')?.touched &&
+          promocodeForm.get('expired_date')?.hasError('pastDate')) {
+          <small class="error-message">Expiration date cannot be in the past</small>
+          }
+        </div>
+      </div>
+
+      <!-- Row 3: Switches (Active Status, Uses Count, First Order Status) -->
+      <div class="switch-row">
+        <div class="form-field switch-field">
+          <label for="active_status" class="font-medium">Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="active_status"
+              formControlName="active_status"
+            ></p-inputSwitch>
+            <span class="status-label">{{
+              promocodeForm.get("active_status")?.value ? "Active" : "Inactive"
+            }}</span>
+          </div>
+          <div class="error-container"></div>
+        </div>
+
+        <div class="form-field switch-field">
+          <label for="uses_count" class="font-medium">Promo Type</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="uses_count"
+              formControlName="uses_count"
+            ></p-inputSwitch>
+            <span class="status-label">{{
+              promocodeForm.get("uses_count")?.value ? "Multiple" : "Single"
+            }}</span>
+          </div>
+          <div class="error-container"></div>
+        </div>
+
+        <div class="form-field switch-field">
+          <label for="first_order_status" class="font-medium">First Order Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="first_order_status"
+              formControlName="first_order_status"
+              [disabled]="promocodeForm.get('uses_count')?.value"
+            ></p-inputSwitch>
+            <span class="status-label">{{
+              promocodeForm.get("first_order_status")?.value ? "Enabled" : "Disabled"
+            }}</span>
+          </div>
+          <div class="error-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-btns flex items-center gap-2">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary mr-2"
+        [routerLink]="['/dashboard/promo-codes']"
+      ></p-button>
+      <p-button
+        type="submit"
+        label="Create Promo Code"
+        styleClass="btn-main"
+        [disabled]="promocodeForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

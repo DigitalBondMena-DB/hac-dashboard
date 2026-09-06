@@ -1,0 +1,30 @@
+<div class="test-container">
+  <h2>Image Upload Test</h2>
+  
+  <div class="test-section">
+    <h3>Main Image</h3>
+    <app-image-upload 
+      [initialImages]="mainImageInitial" 
+      [singleImageMode]="true"
+      [id]="'main'"
+      (imagesChanged)="onMainImageChanged($event)">
+    </app-image-upload>
+  </div>
+  
+  <div class="test-section">
+    <h3>Additional Images</h3>
+    <app-image-upload 
+      [initialImages]="imagesInitial" 
+      [singleImageMode]="false"
+      [id]="'add'"
+      (imagesChanged)="onImagesChanged($event)">
+    </app-image-upload>
+  </div>
+  
+  <div class="current-data">
+    <h3>Current Data State</h3>
+    <pre>{{ state | json }}</pre>
+  </div>
+  
+  <button pButton type="button" label="Save" (click)="onSave()">save</button>
+</div>

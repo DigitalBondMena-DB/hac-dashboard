@@ -1,0 +1,130 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+
+<div class="social-media-control p-4">
+  @if (contactForm) {
+    <h2 class="mb-4">Contact Information</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="social-media-items">
+        <!-- English Address -->
+        <div class="social-media-item">
+          <label for="en_address" class="font-medium">English Address</label>
+          <div class="input-container">
+            <i class="pi pi-home text-gray-600 input-icon"></i>
+            <input id="en_address" type="text" pInputText formControlName="en_address" placeholder="Enter English Address" />
+          </div>
+          <div class="error-container">
+            @if (contactForm.get('en_address')?.invalid && contactForm.get('en_address')?.touched) {
+              <small class="error-message">English Address is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Address -->
+        <div class="social-media-item">
+          <label for="ar_address" class="font-medium">Arabic Address</label>
+          <div class="input-container">
+            <i class="pi pi-home text-gray-600 input-icon"></i>
+            <input id="ar_address" type="text" pInputText formControlName="ar_address" placeholder="Enter Arabic Address" />
+          </div>
+          <div class="error-container">
+            @if (contactForm.get('ar_address')?.invalid && contactForm.get('ar_address')?.touched) {
+              <small class="error-message">Arabic Address is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="social-media-item">
+          <label for="phone" class="font-medium">Phone</label>
+          <div class="input-container">
+            <i class="pi pi-phone text-green-500 input-icon"></i>
+            <input id="phone" type="text" pInputText formControlName="phone" placeholder="Enter Phone Number" />
+          </div>
+          <div class="error-container">
+            @if (contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched) {
+              <small class="error-message">Phone is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="social-media-item">
+          <label for="email" class="font-medium">Email</label>
+          <div class="input-container">
+            <i class="pi pi-envelope text-blue-500 input-icon"></i>
+            <input  id="email" type="email" pInputText formControlName="email" placeholder="Enter Email Address" />
+          </div>
+          <div class="error-container">
+            @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+              <small class="error-message">Valid email is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Social Media Links Section -->
+        <h3 class="mt-4 mb-3">Social Media Links</h3>
+
+        <!-- Facebook -->
+        <div class="social-media-item">
+          <label for="facebook" class="font-medium">Facebook</label>
+          <div class="input-container">
+            <i class="pi pi-facebook text-blue-600 input-icon"></i>
+            <input id="facebook" type="text" pInputText formControlName="facebook" placeholder="Enter Facebook URL" />
+          </div>
+        </div>
+
+        <!-- Twitter -->
+        <div class="social-media-item">
+          <label for="twitter" class="font-medium">TikTok</label>
+          <div class="input-container">
+            <i class="pi pi-tiktok text-blue-400 input-icon"></i>
+            <input id="twitter" type="text" pInputText formControlName="twitter" placeholder="Enter Tiktok URL" />
+          </div>
+        </div>
+
+        <!-- Instagram -->
+        <div class="social-media-item">
+          <label for="instagram" class="font-medium">Instagram</label>
+          <div class="input-container">
+            <i class="pi pi-instagram text-pink-500 input-icon"></i>
+            <input id="instagram" type="text" pInputText formControlName="instagram" placeholder="Enter Instagram URL" />
+          </div>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="social-media-item">
+          <label for="linkedin" class="font-medium">Snapchat</label>
+          <div class="input-container">
+            <!-- <i class="pi pi-snapchat text-blue-700 input-icon"></i> -->
+            <img src="assets/snapchat.png" alt="" class="input-icon !w-6 !h-6">
+            <input id="linkedin" type="text" pInputText formControlName="linkedin" placeholder="Enter Snapchat URL" />
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button 
+          pButton 
+          type="submit" 
+          class="btn-main px-3"
+          [disabled]="!contactForm.dirty || contactForm.invalid || isLoading"
+          [icon]="isLoading ? 'pi pi-spin pi-spinner mx-2' : ''"
+          label="Save Changes">
+        </button>
+      </div>
+    </form>
+  } @else {
+    <app-loading-data-banner></app-loading-data-banner>
+  }
+</div>
+
+<ngx-spinner
+  name="contactSpinner"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

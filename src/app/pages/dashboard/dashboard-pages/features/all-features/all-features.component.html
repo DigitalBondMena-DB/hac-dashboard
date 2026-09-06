@@ -1,0 +1,105 @@
+<p-toast></p-toast>
+
+<!-- Show loading banner while data is loading -->
+@if (loading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else if (features.length === 0) {
+  <!-- Show no data banner when no features exist -->
+  <div class="h-48 flex justify-center items-center flex-col">
+    <app-no-data-found-banner></app-no-data-found-banner>
+  </div>
+} @else {
+  <!-- Show data table when features exist -->
+  <div class="card">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-2xl font-semibold">Features Control</h2>
+    </div>
+    <!-- Search Input -->
+    <div class="mb-3 flex justify-content-end">
+      <span class="p-input-icon-right">
+        <input
+          #search
+          class="mb-0"
+          type="text"
+          pInputText
+          placeholder="Search features..."
+          (input)="onGlobalFilter(dt, $event)" />
+      </span>
+    </div>
+    <p-table
+      #dt
+      [paginator]="true"
+      [rows]="rowsPerPage"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="getPagination()"
+      [showCurrentPageReport]="true"
+      [value]="filteredFeatures"
+      responsiveLayout="scroll"
+      (onSort)="onSort($event)"
+      (onPage)="onPageChange($event)">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+          <th class="text-center">Image</th>
+          <th class="text-center" pSortableColumn="en_title">Title  <p-sortIcon field="en_title"></p-sortIcon></th>
+          <th class="text-center">Actions</th>
+          <th class="text-center">View</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-feature>
+        <tr>
+          <td class="text-center">{{ feature.id }}</td>
+          <td class="text-center">
+            <div class="image-container">
+              <div class="image-placeholder"></div>
+              <img
+                width="50"
+                height="50"
+                class="feature-image rounded-full mx-auto"
+                [src]="getImageUrl(feature.icon_image)"
+                [alt]="feature.en_title"
+                role="presentation"
+                (load)="onImageLoad($event)"
+                (error)="onImageError($event)" />
+            </div>
+          </td>
+          <td class="text-center">{{ feature.en_title }}</td>
+          <td class="text-center">
+            <p-button
+              icon="pi pi-pencil"
+              [routerLink]="['/dashboard/features/edit-feature', feature.id]"
+              (onClick)="runSpinner()"
+              class="p-button-text"></p-button>
+          </td>
+          <td class="text-center">
+            <p-button
+              label="View"
+              icon="pi pi-search"
+              (onClick)="runSpinner()"
+              [routerLink]="['/dashboard/features/view-feature', feature.id]"
+              class="p-button-text"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+}
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

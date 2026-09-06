@@ -1,0 +1,25 @@
+// .card {
+//   padding: 1rem;
+//   border-radius: 0.5rem;
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// }
+
+// .p-inputtext {
+//   border-radius: 0.25rem;
+//   font-size: 0.875rem;
+// }
+:host ::ng-deep {
+  .admin-toggle {
+    &.p-togglebutton.p-component {
+      &.p-highlight {
+        background: #CBAC8D;
+        border-color: #CBAC8D;
+        
+        &:hover {
+          background: #e5c5a4;
+          border-color: #CBAC8D;
+        }
+      }
+    }
+  }
+}

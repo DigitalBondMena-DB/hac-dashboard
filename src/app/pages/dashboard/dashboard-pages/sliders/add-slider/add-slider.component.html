@@ -1,0 +1,151 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+
+<div class="card">
+  <h2 class="card-title">
+    {{ isEditMode ? "Edit Slider" : "Add New Slider" }}
+  </h2>
+  <form [formGroup]="sliderForm" (ngSubmit)="onSubmit()" class="slider-form">
+    <div class="form-section">
+      <h3 class="section-title">Slider Links</h3>
+      <div class="form-row">
+        <!-- English Slider Link -->
+        <div class="form-field">
+          <label for="en_slider_link" class="field-label"
+            >English Slider Link</label
+          >
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_slider_link"
+              formControlName="en_slider_link"
+              placeholder="Enter English Slider Link"
+              [ngClass]="{
+                'p-invalid':
+                  sliderForm.get('en_slider_link')?.touched &&
+                  sliderForm.get('en_slider_link')?.invalid
+              }"
+            />
+          </div>
+          <div class="error-container">
+            @if (sliderForm.get('en_slider_link')?.touched &&
+            sliderForm.get('en_slider_link')?.hasError('required')) {
+            <small class="error-message">English Slider Link is required</small>
+            } @if (sliderForm.get('en_slider_link')?.touched &&
+            sliderForm.get('en_slider_link')?.hasError('pattern')) {
+            <small class="error-message">Please enter a valid URL</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Slider Link -->
+        <div class="form-field">
+          <label for="ar_slider_link" class="field-label"
+            >Arabic Slider Link</label
+          >
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_slider_link"
+              formControlName="ar_slider_link"
+              placeholder="Enter Arabic Slider Link"
+              [ngClass]="{
+                'p-invalid':
+                  sliderForm.get('ar_slider_link')?.touched &&
+                  sliderForm.get('ar_slider_link')?.invalid
+              }"
+            />
+          </div>
+          <div class="error-container">
+            @if (sliderForm.get('ar_slider_link')?.touched &&
+            sliderForm.get('ar_slider_link')?.hasError('required')) {
+            <small class="error-message">Arabic Slider Link is required</small>
+            } @if (sliderForm.get('ar_slider_link')?.touched &&
+            sliderForm.get('ar_slider_link')?.hasError('pattern')) {
+            <small class="error-message">Please enter a valid URL</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Additional Details</h3>
+      <div class="form-row">
+        <!-- Active Status -->
+        <div class="form-field">
+          <label for="active_status" class="field-label">Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="active_status"
+              formControlName="active_status"
+              [trueValue]="1"
+              [falseValue]="0"
+              (onChange)="onActiveStatusChange($event)"
+            ></p-inputSwitch>
+            <span class="status-label">{{
+              sliderForm.get("active_status")?.value === 1
+                ? "Active"
+                : "Inactive"
+            }}</span>
+          </div>
+          <div class="error-container">
+            @if (sliderForm.get('active_status')?.touched &&
+            sliderForm.get('active_status')?.hasError('required')) {
+            <small class="error-message">Status is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Arabic Main Image -->
+      <div class="form-field">
+        <label class="field-label">Arabic Main Image</label>
+        <app-image-upload
+          [initialImages]="initialArImages"
+          [singleImageMode]="true"
+          [id]="'ar-main'"
+          (imagesChanged)="onArImagesChanged($event)"
+        ></app-image-upload>
+        <div class="error-container">
+          @if (sliderForm.get('main_image_ar')?.touched &&
+          sliderForm.get('main_image_ar')?.hasError('required')) {
+          <small class="error-message">Arabic Main Image is required</small>
+          }
+        </div>
+      </div>
+
+      <!-- English Main Image -->
+      <div class="form-field">
+        <label class="field-label">English Main Image</label>
+        <app-image-upload
+          [initialImages]="initialEnImages"
+          [singleImageMode]="true"
+          [id]="'en-main'"
+          (imagesChanged)="onEnImagesChanged($event)"
+        ></app-image-upload>
+        <div class="error-container">
+          @if (sliderForm.get('main_image')?.touched &&
+          sliderForm.get('main_image')?.hasError('required')) {
+          <small class="error-message">English Main Image is required</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex items-center gap-2">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/sliders']"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update Slider' : 'Create Slider'"
+        styleClass="btn-main"
+        [disabled]="sliderForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,184 @@
+/* Global card styling */
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+/* Card title */
+.card-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1.5rem;
+}
+
+/* Form container */
+.category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Form section */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #2d3748;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+/* Form row for paired fields */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+/* Individual form field */
+.form-field {
+  flex: 1;
+  min-width: 280px; /* Ensure fields don’t get too narrow */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Field label */
+.field-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+/* Input container */
+.input-container {
+  position: relative;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #1a202c;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.input-container input.p-invalid {
+  border-color: #e53e3e;
+}
+
+/* Error messages */
+.error-container {
+  min-height: 1.5rem;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.85rem;
+}
+
+/* Status container */
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-label {
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+/* Image upload */
+app-image-upload {
+  width: 100%;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.p-button.btn-main {
+  background: #3182ce;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.p-button.btn-main:hover {
+  background: #2b6cb0;
+}
+
+.p-button.p-button-secondary {
+  color: #718096;
+  font-weight: 500;
+}
+
+.p-button.p-button-secondary:hover {
+  color: #2d3748;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-field {
+    min-width: 100%;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .p-button {
+    width: 100%;
+    text-align: center;
+  }
+}

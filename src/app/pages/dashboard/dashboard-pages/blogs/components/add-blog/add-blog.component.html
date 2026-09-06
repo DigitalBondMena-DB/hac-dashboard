@@ -1,0 +1,336 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="card-title">{{ isEditMode ? 'Edit Blog' : 'Add New Blog' }}</h2>
+  <form [formGroup]="blogForm" (ngSubmit)="onSubmit()" class="blog-form">
+    <div class="form-section">
+      <h3 class="section-title">Blog Titles</h3>
+      <div class="form-row">
+        <!-- English Blog Title -->
+        <div class="form-field">
+          <label for="en_blog_title" class="field-label">English Blog Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_blog_title"
+              formControlName="en_blog_title"
+              placeholder="Enter English Blog Title"
+              [ngClass]="{'p-invalid': blogForm.get('en_blog_title')?.touched && blogForm.get('en_blog_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (blogForm.get('en_blog_title')?.touched && blogForm.get('en_blog_title')?.hasError('required')) {
+              <small class="error-message">English Blog Title is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Blog Title -->
+        <div class="form-field">
+          <label for="ar_blog_title" class="field-label">Arabic Blog Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_blog_title"
+              formControlName="ar_blog_title"
+              placeholder="Enter Arabic Blog Title"
+              [ngClass]="{'p-invalid': blogForm.get('ar_blog_title')?.touched && blogForm.get('ar_blog_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (blogForm.get('ar_blog_title')?.touched && blogForm.get('ar_blog_title')?.hasError('required')) {
+              <small class="error-message">Arabic Blog Title is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Blog Content</h3>
+      <div class="form-row">
+        <!-- English Blog Text -->
+        <div class="form-field">
+          <label for="en_blog_text" class="field-label">English Blog Content</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 400 }"
+            formControlName="en_blog_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': blogForm.get('en_blog_text')?.touched && blogForm.get('en_blog_text')?.invalid}"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (blogForm.get('en_blog_text')?.touched && blogForm.get('en_blog_text')?.hasError('required')) {
+              <small class="error-message">English Blog Content is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Blog Text -->
+        <div class="form-field">
+          <label for="ar_blog_text" class="field-label">Arabic Blog Content</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 400 }"
+            formControlName="ar_blog_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': blogForm.get('ar_blog_text')?.touched && blogForm.get('ar_blog_text')?.invalid}"
+          ></ngx-jodit>
+
+          <div class="error-container">
+            @if (blogForm.get('ar_blog_text')?.touched && blogForm.get('ar_blog_text')?.hasError('required')) {
+              <small class="error-message">Arabic Blog Content is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Meta Information</h3>
+      <div class="form-row">
+        <!-- English Meta Title -->
+        <div class="form-field">
+          <label for="en_meta_title" class="field-label">English Meta Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_meta_title"
+              formControlName="en_meta_title"
+              placeholder="Enter English Meta Title"
+              [ngClass]="{'p-invalid': blogForm.get('en_meta_title')?.touched && blogForm.get('en_meta_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (blogForm.get('en_meta_title')?.touched && blogForm.get('en_meta_title')?.hasError('required')) {
+              <small class="error-message">English Meta Title is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Meta Title -->
+        <div class="form-field">
+          <label for="ar_meta_title" class="field-label">Arabic Meta Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_meta_title"
+              formControlName="ar_meta_title"
+              placeholder="Enter Arabic Meta Title"
+              [ngClass]="{'p-invalid': blogForm.get('ar_meta_title')?.touched && blogForm.get('ar_meta_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (blogForm.get('ar_meta_title')?.touched && blogForm.get('ar_meta_title')?.hasError('required')) {
+              <small class="error-message">Arabic Meta Title is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- English Meta Text -->
+        <div class="form-field">
+          <label for="en_meta_text" class="field-label">English Meta Description</label>
+          <!-- <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 400 }"
+            formControlName="en_meta_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': blogForm.get('en_meta_text')?.touched && blogForm.get('en_meta_text')?.invalid}"
+          ></ngx-jodit> -->
+
+          <textarea
+            pInputTextarea
+            id="en_meta_text"
+            formControlName="en_meta_text"
+            rows="7"
+
+            placeholder="Enter English Meta Description"
+            [ngClass]="{'p-invalid': blogForm.get('en_meta_text')?.touched && blogForm.get('en_meta_text')?.invalid}"
+          ></textarea>
+          <div class="error-container">
+            @if (blogForm.get('en_meta_text')?.touched && blogForm.get('en_meta_text')?.hasError('required')) {
+              <small class="error-message">English Meta Description is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Meta Text -->
+        <div class="form-field">
+          <label for="ar_meta_text" class="field-label">Arabic Meta Description</label>
+          <!-- <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 400 }"
+            formControlName="ar_meta_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': blogForm.get('ar_meta_text')?.touched && blogForm.get('ar_meta_text')?.invalid}"
+          ></ngx-jodit> -->
+
+          <textarea
+            pInputTextarea
+            id="ar_meta_text"
+            formControlName="ar_meta_text"
+            rows="7"
+
+            placeholder="Enter Arabic Meta Description"
+            [ngClass]="{'p-invalid': blogForm.get('ar_meta_text')?.touched && blogForm.get('ar_meta_text')?.invalid}"
+          ></textarea>  
+          <div class="error-container">
+            @if (blogForm.get('ar_meta_text')?.touched && blogForm.get('ar_meta_text')?.hasError('required')) {
+              <small class="error-message">Arabic Meta Description is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Script Text</h3>
+      <div class="form-row">
+        <!-- English Script Text -->
+        <div class="form-field">
+          <label for="en_script_text" class="field-label">English Script Text</label>
+          <!-- <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 400 }"
+            formControlName="en_script_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': blogForm.get('en_script_text')?.touched && blogForm.get('en_script_text')?.invalid}"
+          ></ngx-jodit> -->
+
+          <textarea
+            pInputTextarea
+            id="en_script_text"
+            formControlName="en_script_text"
+            rows="7"
+
+            placeholder="Enter English Script Text"
+            [ngClass]="{'p-invalid': blogForm.get('en_script_text')?.touched && blogForm.get('en_script_text')?.invalid}"
+          ></textarea>
+          <div class="error-container">
+            @if (blogForm.get('en_script_text')?.touched && blogForm.get('en_script_text')?.hasError('required')) {
+              <small class="error-message">English Script Text is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Script Text -->
+        <div class="form-field">
+          <label for="ar_script_text" class="field-label">Arabic Script Text</label>
+          <!-- <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 400 }"
+            formControlName="ar_script_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': blogForm.get('ar_script_text')?.touched && blogForm.get('ar_script_text')?.invalid}"
+          ></ngx-jodit> -->
+
+          <textarea
+            pInputTextarea
+            id="ar_script_text"
+            rows="7"
+            formControlName="ar_script_text"
+            placeholder="Enter Arabic Script Text"
+            [ngClass]="{'p-invalid': blogForm.get('ar_script_text')?.touched && blogForm.get('ar_script_text')?.invalid}"
+          ></textarea>
+          <div class="error-container">
+            @if (blogForm.get('ar_script_text')?.touched && blogForm.get('ar_script_text')?.hasError('required')) {
+              <small class="error-message">Arabic Script Text is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Additional Details</h3>
+      <div class="form-row flex items-center">
+        <!-- Blog Date -->
+        <div class="form-field" *ngIf="!isEditMode">
+          <label for="blog_date" class="field-label">Blog Date</label>
+
+          <div  class="input-container">
+            <input
+              type="date"
+              pInputText
+              id="blog_date"
+              formControlName="blog_date"
+              [min]="!isEditMode ? minDate : null"
+              [ngClass]="{'p-invalid': blogForm.get('blog_date')?.touched && blogForm.get('blog_date')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (blogForm.get('blog_date')?.touched && blogForm.get('blog_date')?.hasError('required')) {
+              <small class="error-message">Blog Date is required</small>
+            }
+            @if (!isEditMode && blogForm.get('blog_date')?.touched && blogForm.get('blog_date')?.hasError('pastDate')) {
+              <small class="error-message">Selected date is in the past. Please choose today or a future date.</small>
+            }
+          </div>
+        </div>
+
+        <!-- Active Status -->
+        <div class="form-field">
+          <label for="active_status" class="field-label">Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="active_status"
+              formControlName="active_status"
+              [trueValue]="1"
+              [falseValue]="0"
+              (onChange)="onActiveStatusChange($event)"
+            ></p-inputSwitch>
+            <span class="status-label">{{ blogForm.get('active_status')?.value === 1 ? 'Active' : 'Inactive' }}</span>
+          </div>
+          <div class="error-container">
+            @if (blogForm.get('active_status')?.touched && blogForm.get('active_status')?.hasError('required')) {
+              <small class="error-message">Status is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Image -->
+      <div class="form-field">
+        <label class="field-label">Main Image</label>
+        <app-image-upload
+          [initialImages]="initialImages"
+          [singleImageMode]="true"
+          [id]="'main'"
+          (imagesChanged)="onImagesChanged($event)"
+        ></app-image-upload>
+        <div class="error-container">
+          @if (blogForm.get('main_image')?.touched && blogForm.get('main_image')?.hasError('required')) {
+            <small class="error-message">Main Image is required</small>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex items-center">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/blogs']"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update Blog' : 'Create Blog'"
+        styleClass="btn-main"
+        [disabled]="blogForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

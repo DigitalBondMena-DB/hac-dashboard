@@ -1,0 +1,343 @@
+@if (order) {
+<div class="card">
+  <div class="flex justify-between items-center">
+    <h2 class="text-2xl font-semibold mb-4">
+      {{ order.address.first_name }} {{ order.address.last_name }}'s Order
+    </h2>
+    <div class="flex justify-end">
+      <button
+        icon="pi pi-angle-double-left"
+        pButton
+        label="Back"
+        class="p-button-text text-[#D2B79C]-500 hover:bg-red-50"
+        (click)="backToOrders()"
+      ></button>
+    </div>
+  </div>
+
+  <!-- User Details -->
+  <p-card header="User Details" styleClass="shadow-md border rounded-lg mb-4">
+    <p-table
+      [value]="userDetails"
+      [paginator]="false"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Phone</th>
+          <th class="text-center">City</th>
+          <th class="text-center">Role</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td class="text-center">{{ user.id }}</td>
+          <td class="text-center">
+            {{ user.first_name }} {{ user.last_name }}
+          </td>
+          <td class="text-center">{{ user.phone }}</td>
+          <td class="text-center">{{ user.city }}</td>
+          <td class="text-center">
+            {{ order.user?.role == "user" ? "Customer" : "Business" }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- Order Details -->
+  <p-card header="Order Details" styleClass="shadow-md border rounded-lg mb-4">
+    <p-table [value]="[order]" [paginator]="false" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Date</th>
+          <th class="text-center">Time</th>
+          <th class="text-center">Payment Method</th>
+          <th class="text-center">Status</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td class="text-center">{{ order.id }}</td>
+          <td class="text-center">{{ order.order_date }}</td>
+          <td class="text-center">{{ order.order_time }}</td>
+          <td class="text-center">
+            {{ order.payment_method ? order.payment_method : "Cash" }}
+          </td>
+          <td [ngClass]="getStatusClass(order.order_status)">
+            <div class="mt-3">
+              <p-dropdown
+                [options]="getAvailableStatusOptions(order.order_status)"
+                [(ngModel)]="order.order_status"
+                (onChange)="updateOrderStatus(order)"
+                placeholder="Update Status"
+                optionLabel="label"
+                optionValue="value"
+                styleClass="status-dropdown text-center"
+                panelStyleClass="text-center"
+                [autoZIndex]="true"
+                [appendTo]="'body'"
+                [style]="{ width: '100%' }"
+              >
+                <!-- Selected item -->
+                <ng-template pTemplate="selectedItem" let-selected>
+                  <div
+                    class="flex justify-center items-center text-center w-full"
+                  >
+                    <i
+                      [class]="selected.icon + ' ' + selected.color"
+                      class="mr-2"
+                    ></i>
+                    <span [class]="selected.color">{{ selected.label }}</span>
+                  </div>
+                </ng-template>
+
+                <!-- Dropdown items -->
+                <ng-template pTemplate="item" let-option>
+                  <div
+                    class="flex justify-center items-center text-center w-full"
+                  >
+                    <i
+                      [class]="option.icon + ' ' + option.color"
+                      class="mr-2"
+                    ></i>
+                    <span [class]="option.color">{{ option.label }}</span>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- Address Details -->
+  <p-card
+    header="Address Details"
+    styleClass="shadow-md border rounded-lg mb-4"
+  >
+    <p-table
+      [value]="userAddress"
+      [paginator]="false"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">City</th>
+          <th class="text-center">Address</th>
+          <th class="text-center">Notes</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-address>
+        <tr>
+          <td class="text-center">{{ order.id }}</td>
+          <td class="text-center">{{ address.city }}</td>
+          <td class="text-center">{{ address.address || "" }}</td>
+          <td class="text-center">{{ address.notes || "" }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- Promo Details -->
+  @if (order.promo_code_id) {
+  <p-card header="Promo Code" styleClass="shadow-md border rounded-lg mb-4">
+    <p-table [value]="userPromo" [paginator]="false" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Value</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-promo>
+        <tr>
+          <td class="text-center">{{ promo.id }}</td>
+          <td class="text-center">
+            <span class="icon-saudi_riyal"></span>
+            {{ promo.value }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  }
+
+  <!-- Order Cart -->
+  @if(userOrders && userOrders.length > 0) {
+  <p-card header="Cart Details" styleClass="shadow-md border rounded-lg mb-4">
+    <p-table [value]="userOrders" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Cart Item</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Price</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td class="text-center">{{ item.id }}</td>
+          <td class="text-center">{{ getItemDescription(item) }}</td>
+          <td class="text-center">{{ item.quantity }}</td>
+          <td class="text-center">
+            <span class="icon-saudi_riyal"></span>
+            {{ item.unit_price }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr class="bg-gray-50">
+          <td colspan="3" class="text-right font-bold text-lg py-3 px-4">
+            Subtotal:
+          </td>
+          <td class="text-center font-bold text-lg py-3 px-4">
+            <span class="icon-saudi_riyal"></span>
+            {{ order.subtotal }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" class="text-right font-bold text-lg py-3 px-4">
+            Shipping:
+          </td>
+          <td class="text-center font-bold text-lg py-3 px-4">
+            <span class="icon-saudi_riyal"></span>{{ order.shipping }}
+          </td>
+        </tr>
+        <tr class="bg-gray-50">
+          <td colspan="3" class="text-right font-bold text-lg py-3 px-4">
+            Tax:
+          </td>
+          <td class="text-center font-bold text-lg py-3 px-4">
+            <span class="icon-saudi_riyal"></span>{{ order.tax }}
+          </td>
+        </tr>
+        @if (order.cash_on_shipping){
+
+        <tr class="bg-gray-50">
+          <td colspan="3" class="text-right font-bold text-lg py-3 px-4">
+            Cash on Delivery fee:
+          </td>
+          <td class="text-center font-bold text-lg py-3 px-4">
+            <span class="icon-saudi_riyal"></span>{{ order.cash_on_shipping }}
+          </td>
+        </tr>
+        }
+
+        <tr>
+          <td colspan="3" class="text-right font-bold text-lg py-3 px-4">
+            Promo Code:
+          </td>
+          <td class="text-center font-bold text-lg py-3 px-4">
+            <span class="icon-saudi_riyal"></span> -
+            {{ order.promo_code_value }}
+          </td>
+        </tr>
+        <tr class="bg-blue-50">
+          <td
+            colspan="3"
+            class="text-right font-bold text-xl py-4 px-4 text-blue-800"
+          >
+            Total:
+          </td>
+          <td class="text-center font-bold text-xl py-4 px-4 text-blue-800">
+            <span class="icon-saudi_riyal"></span>{{ order.total }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+  }
+</div>
+
+<!-- Download Button -->
+<div class="flex justify-end my-4">
+  <button
+    pButton
+    [label]="isDownloading ? 'Downloading ...' : 'Download Receipt'"
+    [icon]="isDownloading ? 'pi pi-spin pi-spinner' : 'pi pi-download'"
+    class="download-button bg-[#D2B79C] hover:bg-[#c7b29e] text-white font-semibold text-lg py-3 px-6 rounded-lg shadow-md"
+    [disabled]="isDownloading"
+    (click)="downloadOrderReceipt()"
+  ></button>
+</div>
+
+<!-- Order Receipt (Visual Display Only) -->
+<p-card styleClass="shadow-md border rounded-lg mb-4">
+  <div class="flex items-center mb-4">
+    <img
+      src="./assets/favicon_io/web-app-manifest-192x192.png"
+      class="ms-3 rounded-md w-[90px]"
+      alt="logo"
+    />
+    <h2 class="flex-1 text-center">Order Receipt</h2>
+  </div>
+
+  <div id="receipt-section">
+    <p><strong>Order ID:</strong> {{ order.id }}</p>
+    <p>
+      <strong>Customer Name:</strong> {{ order.address.first_name }}
+      {{ order.address.last_name }}
+    </p>
+    <p><strong>Phone:</strong> {{ order.address.phone }}</p>
+    <p>
+      <strong>Address:</strong> {{ order.address.city }} -
+      {{ order.address.address }}
+    </p>
+    <p><strong>Date:</strong> {{ order.order_date }}</p>
+    <p><strong>Status:</strong> {{ order.order_status }}</p>
+
+    <table class="w-full border-collapse border text-center">
+      <thead>
+        <tr>
+          <th class="border p-2">Item</th>
+          <th class="border p-2">Quantity</th>
+          <th class="border p-2">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of userOrders; track item.id) {
+        <tr class="">
+          <td class="border p-2">{{ getItemDescription(item) }}</td>
+          <td class="border p-2">{{ item.quantity }}</td>
+          <td class="border p-2">
+            <span class="icon-saudi_riyal"></span>{{ item.unit_price }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="mt-4 mr-4">
+      <p class="text-right font-bold">
+        Subtotal: <span class="icon-saudi_riyal mx-2"></span
+        >{{ order.subtotal }}
+      </p>
+      <p class="text-right font-bold">
+        Shipping: <span class="icon-saudi_riyal mx-2"></span
+        >{{ order.shipping }}
+      </p>
+      <p class="text-right font-bold">
+        Tax: <span class="icon-saudi_riyal mx-2"></span>{{ order.tax }}
+      </p>
+
+      <p class="text-right font-bold">
+        Promo Code: <span class="icon-saudi_riyal mx-2"></span> -
+        {{ order.promo_code_value }}
+      </p>
+      <p class="text-right font-bold text-lg">
+        Total: <span class="icon-saudi_riyal mx-2"></span>{{ order.total }}
+      </p>
+    </div>
+  </div>
+</p-card>
+
+} @else {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast [key]="'orderStatusMessage'"></p-toast>

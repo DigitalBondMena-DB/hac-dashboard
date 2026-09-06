@@ -1,0 +1,138 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="card-title">{{ isEditMode ? 'Edit FAQ' : 'Add New FAQ' }}</h2>
+  <form [formGroup]="faqForm" (ngSubmit)="onSubmit()" class="faq-form">
+    <div class="form-section">
+      <h3 class="section-title">FAQ Titles</h3>
+      <div class="form-row">
+        <!-- English Title -->
+        <div class="form-field">
+          <label for="en_title" class="field-label">English Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_title"
+              formControlName="en_title"
+              placeholder="Enter English Title"
+              [ngClass]="{'p-invalid': faqForm.get('en_title')?.touched && faqForm.get('en_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (faqForm.get('en_title')?.touched && faqForm.get('en_title')?.hasError('required')) {
+              <small class="error-message">English Title is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Title -->
+        <div class="form-field">
+          <label for="ar_title" class="field-label">Arabic Title</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_title"
+              formControlName="ar_title"
+              placeholder="Enter Arabic Title"
+              [ngClass]="{'p-invalid': faqForm.get('ar_title')?.touched && faqForm.get('ar_title')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (faqForm.get('ar_title')?.touched && faqForm.get('ar_title')?.hasError('required')) {
+              <small class="error-message">Arabic Title is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">FAQ Content</h3>
+      <div class="form-row">
+        <!-- English Text -->
+        <div class="form-field">
+          <label for="en_text" class="field-label">English Content</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': faqForm.get('en_text')?.touched && faqForm.get('en_text')?.invalid}"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (faqForm.get('en_text')?.touched && faqForm.get('en_text')?.hasError('required')) {
+              <small class="error-message">English Content is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Text -->
+        <div class="form-field">
+          <label for="ar_text" class="field-label">Arabic Content</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_text"
+            class="rich-text-content"
+            [ngClass]="{'p-invalid': faqForm.get('ar_text')?.touched && faqForm.get('ar_text')?.invalid}"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (faqForm.get('ar_text')?.touched && faqForm.get('ar_text')?.hasError('required')) {
+              <small class="error-message">Arabic Content is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Additional Details</h3>
+      <div class="form-row">
+        <!-- Active Status -->
+        <div class="form-field">
+          <label for="active_status" class="field-label">Status</label>
+          <div class="status-container">
+            <p-inputSwitch
+              id="active_status"
+              formControlName="active_status"
+              [trueValue]="1"
+              [falseValue]="0"
+              (onChange)="onActiveStatusChange($event)"
+            ></p-inputSwitch>
+            <span class="status-label">{{ faqForm.get('active_status')?.value === 1 ? 'Active' : 'Inactive' }}</span>
+          </div>
+          <div class="error-container">
+            @if (faqForm.get('active_status')?.touched && faqForm.get('active_status')?.hasError('required')) {
+              <small class="error-message">Status is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex items-center">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/faqs']"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update FAQ' : 'Create FAQ'"
+        styleClass="btn-main"
+        [disabled]="faqForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

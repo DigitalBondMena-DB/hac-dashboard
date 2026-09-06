@@ -1,0 +1,78 @@
+<p-toast key="usersMessage"></p-toast>
+<ngx-spinner name="actionsLoader" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-spin"
+    [fullScreen]="true">
+    <p style="color: white">Loading...</p>
+</ngx-spinner>
+@if (loading) {
+<app-loading-data-banner></app-loading-data-banner>
+} @else {
+<div class="card">
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Users List</h2>
+        <input type="text" pInputText [(ngModel)]="globalFilter" (input)="applyGlobalFilter()"
+            placeholder="Search users..." class="p-inputtext p-component p-2" style="width: 200px;"
+            [disabled]="loading" />
+    </div>
+
+    <p-table #dt [value]="users"
+        [globalFilterFields]="['id', 'name', 'email', 'phone', 'trade_name', 'national_address']"
+        [tableStyle]="{'min-width': '50rem'}" [loading]="loading" [paginator]="true" [rows]="rowsPerPage"
+        [totalRecords]="totalRecords" [rowsPerPageOptions]="getPagination()" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users" responsiveLayout="scroll"
+        [lazy]="true" (onPage)="onPageChange($event)" [filterDelay]="0">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">User ID <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
+                <th pSortableColumn="phone">Files </th>
+                <th>Buisness Status</th>
+                <th>Orders</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone || 'N/A' }}</td>
+                <td>
+                    <div class="flex gap-2">
+                        @if(user.vat_file){
+                        <a href="{{ 'https://mesoshop.digitalbondmena.com/' + user.vat_file}}">{{' vat File' }}</a>
+                        }
+                        @if(user.commercial_file){
+                        <a href="{{ 'https://mesoshop.digitalbondmena.com/' + user.commercial_file}}">{{' commercial
+                            file' }}</a>
+                        }
+                    </div>
+
+
+                </td>
+                <td>
+                    <p-toggleButton [(ngModel)]="adminToggleStates[user.id]" [onLabel]="'Enabeled'"
+                        [offLabel]="'Disabled'" (click)="toggleAdminStatus(user)" [style]="{ width: '100px' }"
+                        styleClass="{{adminToggleStates[user.id] ? 'admin-toggle' : ''}}"></p-toggleButton>
+                </td>
+                <td>
+                    <p-button label="View Orders" icon="pi pi-eye" class="p-button-text"
+                        (click)="viewUserOrders(user.id)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">
+                    <div class="h-48 flex justify-center items-center flex-col">
+                        <app-no-data-found-banner></app-no-data-found-banner>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+}

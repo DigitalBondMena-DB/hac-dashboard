@@ -1,0 +1,93 @@
+<form [formGroup]="choiceForm" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- English Name -->
+    <div>
+      <label for="en_name" class="block text-sm font-medium mb-1">English Name *</label>
+      <input
+        id="en_name"
+        type="text"
+        pInputText
+        formControlName="en_name"
+        class="w-full"
+        [ngClass]="{
+          'ng-invalid ng-dirty': choiceForm.get('en_name')?.touched && choiceForm.get('en_name')?.invalid
+        }" />
+      @if (choiceForm.get('en_name')?.touched && choiceForm.get('en_name')?.errors?.['required']) {
+        <small class="p-error">English Name is required.</small>
+      }
+    </div>
+
+    <!-- Arabic Name -->
+    <div>
+      <label for="ar_name" class="block text-sm font-medium mb-1">Arabic Name *</label>
+      <input
+        id="ar_name"
+        type="text"
+        pInputText
+        formControlName="ar_name"
+        class="w-full"
+        [ngClass]="{
+          'ng-invalid ng-dirty': choiceForm.get('ar_name')?.touched && choiceForm.get('ar_name')?.invalid
+        }" />
+      @if (choiceForm.get('ar_name')?.touched && choiceForm.get('ar_name')?.errors?.['required']) {
+        <small class="p-error">Arabic Name is required.</small>
+      }
+    </div>
+
+    <!-- Value -->
+    <div>
+      <label for="current_value" class="block text-sm font-medium mb-1">Value *</label>
+      <input
+        id="current_value"
+        type="text"
+        pInputText
+        formControlName="current_value"
+        class="w-full"
+        (input)="restrictInput($event)"
+        [ngClass]="{
+          'ng-invalid ng-dirty': choiceForm.get('current_value')?.touched && choiceForm.get('current_value')?.invalid
+        }" />
+      @if (choiceForm.get('current_value')?.touched && choiceForm.get('current_value')?.errors) {
+        <div>
+          @if (choiceForm.get('current_value')?.errors?.['required']) {
+            <small class="p-error">Value is required.</small>
+          }
+          @if (choiceForm.get('current_value')?.errors?.['pattern']) {
+            <small class="p-error">Only positive numbers are allowed.</small>
+          }
+          @if (choiceForm.get('current_value')?.errors?.['min']) {
+            <small class="p-error">Value must be at least 1.</small>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="active_status" class="block text-sm font-medium mb-1">Status</label>
+      <p-inputSwitch
+        id="active_status"
+        formControlName="active_status"
+        class="mt-2"></p-inputSwitch>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="flex justify-end mt-4">
+    <p-button
+      type="submit"
+      label="Update Choice"
+      icon="pi pi-check"
+      class="btn-main"
+      [disabled]="choiceForm.invalid || isSubmitting"></p-button>
+  </div>
+</form>
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+  ><p style="color: white">Loading...</p></ngx-spinner>

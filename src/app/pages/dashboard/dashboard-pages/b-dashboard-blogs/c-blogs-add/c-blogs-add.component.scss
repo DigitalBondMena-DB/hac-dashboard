@@ -1,0 +1,93 @@
+@import "variables";
+
+::ng-deep .p-editor {
+  width: 100%;
+  height: 300px;
+}
+
+::ng-deep .image-card input[type="file"] {
+  display: none;
+}
+::ng-deep input {
+  width: 100%;
+}
+::ng-deep .image-card .p-card-body {
+  padding: 17px !important;
+}
+::ng-deep .p-fileupload-choose {
+  width: 100%;
+  background-color: $main-color !important;
+  display: none;
+}
+::ng-deep .p-fileupload-buttonbar {
+  display: none;
+}
+.p-card {
+  background: #ffffff !important;
+  color: #4b5563 !important;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  border-radius: 6px !important;
+}
+
+::ng-deep .p-multiselect-filter.p-inputtext.p-component {
+  margin-bottom: 0px;
+}
+
+::ng-deep .p-calendar input {
+  border-radius: 6px !important;
+  margin-bottom: 0px !important;
+}
+
+::ng-deep .p-datepicker .p-datepicker-header {
+  direction: ltr;
+}
+/* Styling the warning messages */
+.warning-message {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.warning-message .pi {
+  font-size: 1.2rem;
+}
+
+.title-length-info {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.title-length-info.p-error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Optional: Making warning messages appear with a smoother transition */
+.warning-message {
+  transition: all 0.3s ease-in-out;
+}
+
+::ng-deep .p-ripple.p-element.p-multiselect-item,
+::ng-deep .p-multiselect-header.ng-star-inserted {
+  gap: 10px !important;
+}
+
+.hover\:border-blue-500:hover {
+  border-color: $main-color !important;
+}
+
+::ng-deep .jodit-status-bar-link,
+::ng-deep .jodit-toolbar-button_about {
+  display: none;
+}
+::ng-deep .p-element:not(input){
+  padding: 0px !important;
+}
+

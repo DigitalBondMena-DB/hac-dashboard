@@ -1,0 +1,114 @@
+<p-toast></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+><p style="color: white">Loading...</p></ngx-spinner>
+
+@if (isLoading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else if (locations.length > 0) {
+  <div class="card">
+    <div class="table-title-div">
+      <h2 class="text-2xl font-semibold">Locations Control</h2>
+      <p-button
+        routerLink="/dashboard/locations/add-location"
+        label="Add Location"
+        icon="pi pi-plus"
+        class="btn-main text-white"></p-button>
+    </div>
+
+    <div class="mb-3 flex justify-content-end">
+      <span class="p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input
+          #search
+          class="mb-0"
+          type="text"
+          pInputText
+          placeholder="Search locations..."
+          (input)="onGlobalFilter(dt, $event)" />
+      </span>
+    </div>
+
+    <p-table
+      #dt
+      [paginator]="true"
+      [rows]="rowsPerPage"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="getPagination()"
+      [showCurrentPageReport]="true"
+      [value]="filteredLocations"
+      responsiveLayout="scroll"
+      (onSort)="onSort($event)">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+          <th class="text-center" pSortableColumn="en_name">Name (EN) <p-sortIcon field="en_name"></p-sortIcon></th>
+          <th class="text-center" pSortableColumn="ar_name">Name (AR) <p-sortIcon field="ar_name"></p-sortIcon></th>
+          <th class="text-center" pSortableColumn="delivery_amount">Delivery Amount <p-sortIcon field="delivery_amount"></p-sortIcon></th>
+          <th class="text-center">
+            <p-dropdown
+              #Dd
+              class="mx-auto"
+              styleClass="mx-auto"
+              [options]="selectOptions"
+              optionLabel="label"
+              optionValue="value"
+              (onChange)="onFilterChange($event.value); Dd.showClear = true"
+              placeholder="Status"
+              [showClear]="false"
+              [autoZIndex]="true"></p-dropdown>
+          </th>
+          <th class="text-center">Actions</th>
+          <th class="text-center">View</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-location>
+        <tr>
+          <td class="text-center">{{ location.id }}</td>
+          <td class="text-center">{{ location.en_name }}</td>
+          <td class="text-center">{{ location.ar_name }}</td>
+          <td class="text-center">{{ location.delivery_amount }}</td>
+          <td class="text-center">
+            <p-inputSwitch
+              [ngModel]="location.active_status"
+              (onChange)="toggleLocationStatus(location)"
+              [ngModelOptions]="{standalone: true}"></p-inputSwitch>
+          </td>
+          <td class="text-center">
+            <p-button
+              icon="pi pi-pencil"
+              (click)="navigateToEdit( location.id)"
+              class="p-button-text"></p-button>
+          </td>
+          <td class="text-center">
+            <button
+              [routerLink]="['/dashboard/locations/view-location', location.id]"
+              pButton
+              label="View"
+              icon="pi pi-search"></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+} @else {
+  <app-no-data-found-banner></app-no-data-found-banner>
+}
+
+<router-outlet></router-outlet>

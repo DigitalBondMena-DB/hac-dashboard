@@ -1,0 +1,578 @@
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+>
+  <p style="color: white; font-size: 16px">Loading...</p>
+</ngx-spinner>
+
+<div *ngIf="isDataLoaded" class="form-container">
+  <div class="form-header">
+    <h2 class="form-title">Edit Product {{ isSpecial ? '(Special Orders)' : '' }}</h2>
+  </div>
+  <div class="form-content">
+    <form
+      [formGroup]="productForm"
+      (ngSubmit)="onFormSubmit()"
+      class="product-form"
+    >
+      <div class="section">
+        <h3 class="section-title">Basic Information</h3>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">English Name *</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="en_name"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('en_name')?.invalid &&
+                  productForm.get('en_name')?.touched
+                "
+                class="error-message"
+              >
+                English Name is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Arabic Name *</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="ar_name"
+              class="field-input uniform-input"
+              dir="rtl"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('ar_name')?.invalid &&
+                  productForm.get('ar_name')?.touched
+                "
+                class="error-message"
+              >
+                Arabic Name is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Size/ Pack *</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="size"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('size')?.invalid &&
+                  productForm.get('size')?.touched
+                "
+                class="error-message"
+              >
+                Size/ pack is required.
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">English Meta Title</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="en_meta_Title"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('en_meta_Title')?.invalid &&
+                  productForm.get('en_meta_Title')?.touched
+                "
+                class="error-message"
+              >
+                english meta title is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Arabic Meta Title</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="ar_meta_Title"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('ar_meta_Title')?.invalid &&
+                  productForm.get('ar_meta_Title')?.touched
+                "
+                class="error-message"
+              >
+                arabic meta title is required.
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">English Meta Text</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="en_meta_text"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('en_meta_text')?.invalid &&
+                  productForm.get('en_meta_text')?.touched
+                "
+                class="error-message"
+              >
+                english meta text is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Arabic Meta Text</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="ar_meta_text"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('ar_meta_text')?.invalid &&
+                  productForm.get('ar_meta_text')?.touched
+                "
+                class="error-message"
+              >
+                arabic meta text is required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">English Small Description *</label>
+          <ngx-jodit
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_small_descritpion"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container">
+            <small
+              *ngIf="
+                productForm.get('en_small_descritpion')?.invalid &&
+                productForm.get('en_small_descritpion')?.touched
+              "
+              class="error-message"
+            >
+              English Small Description is required.
+            </small>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Arabic Small Description *</label>
+          <ngx-jodit
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_small_descritpion"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container">
+            <small
+              *ngIf="
+                productForm.get('ar_small_descritpion')?.invalid &&
+                productForm.get('ar_small_descritpion')?.touched
+              "
+              class="error-message"
+            >
+              Arabic Small Description is required.
+            </small>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">English Description *</label>
+          <ngx-jodit
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_description"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container">
+            <small
+              *ngIf="
+                productForm.get('en_description')?.invalid &&
+                productForm.get('en_description')?.touched
+              "
+              class="error-message"
+            >
+              English Description is required.
+            </small>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Arabic Description *</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_description"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container">
+            <small
+              *ngIf="
+                productForm.get('ar_description')?.invalid &&
+                productForm.get('ar_description')?.touched
+              "
+              class="error-message"
+            >
+              Arabic Description is required.
+            </small>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">English Ingredients</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_ingredient"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Arabic Ingredients</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_ingredient"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">English How to Use</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_how_to_use"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Arabic How to Use</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_how_to_use"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">English Benefits</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_more_information"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        <div class="form-field">
+          <label class="field-label">Arabic Benefits</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_more_information"
+            class="uniform-input"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        <!-- Script Blocks: raw script tags allowed as plain strings -->
+        <div class="form-field">
+          <label class="field-label">English Script</label>
+          <textarea
+            pInputTextarea
+            rows="4"
+            formControlName="en_script"
+            class="field-input uniform-input"
+            placeholder="Paste full <script>...</script> block here"
+          ></textarea>
+          <div class="helper-text">Enter a raw script block (include &lt;script&gt; tags). Backend is expected to handle/sanitize.</div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic Script</label>
+          <textarea
+            pInputTextarea
+            rows="4"
+            formControlName="ar_script"
+            class="field-input uniform-input"
+            dir="rtl"
+            placeholder="أدخل وسم &lt;script&gt; الكامل هنا"
+          ></textarea>
+          <div class="helper-text">أدخل وسم &lt;script&gt; الكامل (يتوقع أن يتولى الخادم التنقيح/المعالجة).</div>
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="section-title">Category</h3>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">Category *</label>
+            <p-dropdown
+              [options]="categories"
+              formControlName="category_id"
+              optionLabel="en_name"
+              optionValue="id"
+              placeholder="Select Category"
+              [style]="{ width: '100%' }"
+              class="field-input uniform-input"
+            ></p-dropdown>
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('category_id')?.invalid &&
+                  productForm.get('category_id')?.touched
+                "
+                class="error-message"
+              >
+                Category is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Subcategory</label>
+            <p-dropdown
+              [options]="subcategories"
+              formControlName="subcategory_id"
+              optionLabel="en_name"
+              optionValue="id"
+              placeholder="Select Subcategory"
+              [style]="{ width: '100%' }"
+              [disabled]="isSubcategoryDisabled"
+              [showClear]="!isSubcategoryDisabled"
+              class="field-input uniform-input"
+            ></p-dropdown>
+            <div class="error-container">
+              <small
+                *ngIf="
+                  !isSubcategoryDisabled &&
+                  productForm.get('subcategory_id')?.invalid &&
+                  productForm.get('subcategory_id')?.touched
+                "
+                class="error-message"
+              >
+                Subcategory is required.
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="section-title">Main Product Image</h3>
+        <p class="section-description">
+          This will be the primary image displayed for the product
+        </p>
+        <div class="form-field">
+          <label class="field-label">Main Image *</label>
+          <app-image-upload
+            [initialImages]="mainImageInitial"
+            [singleImageMode]="true"
+            [id]="'main'"
+            (imagesChanged)="onMainImageChanged($event)"
+            class="uniform-input"
+          ></app-image-upload>
+          <div class="error-container">
+            <small
+              *ngIf="
+                !state.mainImage && !state.mainImageFile && productForm.touched
+              "
+              class="error-message"
+            >
+              Main product image is required.
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="section-title">Additional Product Images</h3>
+        <p class="section-description">
+          Upload more images to showcase the product from different angles
+        </p>
+        <div class="form-field">
+          <label class="field-label">Additional Images</label>
+          <app-image-upload
+            [initialImages]="imagesInitial"
+            [singleImageMode]="false"
+            [id]="'add'"
+            (imagesChanged)="onImagesChanged($event)"
+            class="uniform-input"
+          ></app-image-upload>
+          <div class="error-container"></div>
+        </div>
+      </div>
+      <div
+        class="section"
+        *ngIf="
+          !product?.choices || product?.choices?.length === 0
+        "
+      >
+        <h3 class="section-title">Pricing</h3>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">Price *</label>
+            <input
+              type="number"
+              formControlName="price"
+              class="field-input uniform-input"
+              placeholder="100.00"
+              step="0.01"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('price')?.invalid &&
+                  productForm.get('price')?.touched
+                "
+                class="error-message"
+              >
+                <ng-container
+                  *ngIf="productForm.get('price')?.errors?.['required']"
+                  >Price is required.</ng-container
+                >
+                <ng-container *ngIf="productForm.get('price')?.errors?.['min']"
+                  >Price cannot be less than 0.</ng-container
+                >
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Sale Percentage %</label>
+            <p-inputNumber
+              [style]="{ width: '100%' }"
+              formControlName="sale_price"
+              [min]="0"
+              [max]="100"
+              mode="decimal"
+              [useGrouping]="false"
+              [showButtons]="false"
+              [maxFractionDigits]="2"
+              class="field-input uniform-input"
+            ></p-inputNumber>
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('sale_price')?.invalid &&
+                  productForm.get('sale_price')?.touched
+                "
+                class="error-message"
+              >
+                <ng-container
+                  *ngIf="productForm.get('sale_price')?.errors?.['min']"
+                  >Sale percentage cannot be less than 0.</ng-container
+                >
+                <ng-container
+                  *ngIf="productForm.get('sale_price')?.errors?.['max']"
+                  >Sale percentage cannot be greater than 100.</ng-container
+                >
+              </small>
+            </div>
+          </div>
+          <div class="form-field cursor-not-allowed">
+            <label class="field-label">Price After Sale</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="price_after_sale"
+              class="field-input uniform-input"
+              readonly="true"
+            />
+            <div class="error-container"></div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h3 class="section-title">Status</h3>
+        <div class="status-toggles">
+          <div class="status-toggle">
+            <p-inputSwitch
+              formControlName="active_status"
+              class="uniform-input"
+            ></p-inputSwitch>
+            <label class="toggle-label">{{
+              productForm.get("active_status")?.value ? "Product Active" : "Product Not Active"
+            }}</label>
+          </div>
+          <div class="status-toggle">
+            <p-inputSwitch formControlName="commercial_status"></p-inputSwitch>
+            <label class="toggle-label">{{
+              productForm.get("commercial_status")?.value
+                ? "Business"
+                : "Commercial User"
+            }}</label>
+          </div>
+          <div class="status-toggle">
+            <p-inputSwitch
+              formControlName="stock_status"
+              class="uniform-input"
+            ></p-inputSwitch>
+            <label class="toggle-label">{{
+              productForm.get("stock_status")?.value
+                ? "In Stock"
+                : "Out of Stock"
+            }}</label>
+          </div>
+         
+          <div class="status-toggle">
+            <p-inputSwitch
+              formControlName="promo_code_status"
+              class="uniform-input"
+            ></p-inputSwitch>
+            <label class="toggle-label">{{
+              productForm.get("promo_code_status")?.value
+                ? "Promo Code Active"
+                : "Promo Code Not Active"
+            }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button
+          pButton
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text uniform-button"
+          type="button"
+          [routerLink]="['/dashboard/menu/products']"
+          [queryParams]="isSpecial ? { special: 'true' } : null"
+        ></button>
+        <button
+          pButton
+          label="Update"
+          icon="pi pi-check"
+          class="p-button-success uniform-button"
+          type="submit"
+        ></button>
+      </div>
+    </form>
+  </div>
+</div>
+<p-toast></p-toast>

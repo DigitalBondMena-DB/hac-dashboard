@@ -1,0 +1,131 @@
+<p-toast></p-toast>
+
+@if (isLoading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else {
+  <div class="card">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-2xl font-semibold">Categories Control {{ isSpecial ? '(Special Orders)' : '' }}</h2>
+      <p-button
+        routerLink="/dashboard/new-categories/add-category"
+        [queryParams]="isSpecial ? { special: 'true' } : null"
+        label="Add Category"
+        icon="pi pi-plus"
+        class="btn-main text-white"></p-button>
+    </div>
+
+    <!-- Search Input -->
+    <div class="mb-3 flex justify-content-end">
+      <span class="p-input-icon-right">
+        <i class="pi pi-search"></i>
+        <input
+          #search
+          class="mb-0"
+          type="text"
+          pInputText
+          placeholder="Search categories..."
+          (input)="onGlobalFilter(dt, $event)" />
+      </span>
+    </div>
+
+    <p-table
+      #dt
+      [paginator]="true"
+      [rows]="rowsPerPage"
+      [totalRecords]="totalRecords"
+      [rowsPerPageOptions]="getPagination()"
+      [showCurrentPageReport]="true"
+      [value]="filteredCategories"
+      responsiveLayout="scroll"
+      (onSort)="onSort($event)"
+      (onPage)="onPageChange($event)">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="text-center" pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+          <!-- <th class="text-center">Image</th> -->
+          <th class="text-center" pSortableColumn="en_name">Name<p-sortIcon field="en_name"></p-sortIcon></th>
+          <!-- <th class="text-center" pSortableColumn="order_view">Order <p-sortIcon field="order_view"></p-sortIcon></th> -->
+          <th class="text-center">
+            <p-dropdown
+              #Dd
+              class="mx-auto"
+              styleClass="mx-auto"
+              [options]="selectOptions"
+              optionLabel="label"
+              optionValue="value"
+              (onChange)="onFilterChange($event.value); Dd.showClear = true"
+              placeholder="Status"
+              [showClear]="true"
+              [autoZIndex]="true"></p-dropdown>
+          </th>
+          <th class="text-center">Actions</th>
+          <th class="text-center">View</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-category>
+        <tr>
+          <td class="text-center">{{ category.id }}</td>
+          <!-- <td class="text-center">
+            <div class="image-container">
+              <div class="image-placeholder"></div>
+              <img
+                width="50"
+                height="50"
+                class="category-image rounded-full mx-auto"
+                [src]="getImageUrl(category.main_image)"
+                [alt]="category.en_name"
+                role="presentation"
+                (load)="onImageLoad($event)"
+                (error)="onImageError($event)" />
+            </div>
+          </td> -->
+          <td class="text-center">{{ category.en_name }}</td>
+          <!-- <td class="text-center">{{ category.order_view }}</td> -->
+          <td class="text-center">
+            <p-inputSwitch
+              [ngModel]="category.active_status === 1"
+              (onChange)="toggleCategoryStatus(category)"></p-inputSwitch>
+          </td>
+          <td class="text-center">
+            <p-button
+              icon="pi pi-pencil"
+              [routerLink]="['/dashboard/new-categories/edit-category', category.id]"
+              [queryParams]="isSpecial ? { special: 'true' } : null"
+              (onClick)="runSpinner()"
+              class="p-button-text"></p-button>
+          </td>
+          <td class="text-center">
+            <p-button
+              label="View"
+              icon="pi pi-search"
+              (onClick)="runSpinner()"
+              [routerLink]="['/dashboard/new-categories/view-category', category.id]"
+              [queryParams]="isSpecial ? { special: 'true' } : null"
+              class="p-button-text"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">
+            <div class="h-48 flex justify-center items-center flex-col">
+              <app-no-data-found-banner></app-no-data-found-banner>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+}
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

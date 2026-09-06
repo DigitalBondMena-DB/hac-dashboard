@@ -1,0 +1,103 @@
+<p-card class="p-4">
+  <ng-template pTemplate="title">
+    <h2 class="text-xl font-semibold text-gray-800">{{ isEditing ? "Edit Sub Category" : "Add Sub Category" }} {{ isSpecial ? '(Special Orders)' : '' }}</h2>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <form [formGroup]="submitForm" class="grid md:grid-cols-2 gap-4">
+      <div class="flex flex-col">
+        <label class="font-medium">English Name</label>
+        <input type="text" pInputText formControlName="en_name" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('en_name')?.invalid && submitForm.get('en_name')?.touched) {
+        <div class="p-error">
+          <small>English Name is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Name</label>
+        <input type="text" pInputText formControlName="ar_name" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('ar_name')?.invalid && submitForm.get('ar_name')?.touched) {
+        <div class="p-error">
+          <small>Arabic Name is required.</small>
+        </div>
+        }
+      </div>
+<!-- 
+      <div class="flex flex-col">
+        <label class="font-medium">English Slug</label>
+        <input type="text" pInputText formControlName="en_slug" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('en_slug')?.invalid && submitForm.get('en_slug')?.touched) {
+        <div class="p-error">
+          <small>English Slug is required.</small>
+        </div>
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <label class="font-medium">Arabic Slug</label>
+        <input type="text" pInputText formControlName="ar_slug" class="p-inputtext-sm w-full" />
+        @if (submitForm.get('ar_slug')?.invalid && submitForm.get('ar_slug')?.touched) {
+        <div class="p-error">
+          <small>Arabic Slug is required.</small>
+        </div> -->
+        <!-- }
+      </div> -->
+
+      <div>
+        <label class="font-medium mb-1 block">Category</label>
+        <p-dropdown
+          [placeholder]="'Choose Category'"
+          styleClass="w-full border border-black/25 rounded-[10px] px-3"
+          [options]="categories"
+          formControlName="category_id"
+          optionLabel="label"
+          optionValue="value" />
+        @if (submitForm.get('category_id')?.invalid && submitForm.get('category_id')?.touched) {
+        <div class="p-error">
+          <small>Category is required.</small>
+        </div>
+        }
+      </div>
+<div class="section">
+        <h3 class="section-title">Main Product Image</h3>
+        <p class="section-description">
+          This will be the primary image displayed for the product
+        </p>
+
+         <div class="form-field">
+        <label class="field-label">Main Image</label>
+        <app-image-upload
+          [initialImages]="mainImagePreview"
+          [singleImageMode]="true"
+          [id]="'image'"
+          (imagesChanged)="onImagesChanged($event)"
+        ></app-image-upload>
+        <div class="error-container">
+          @if (submitForm.get('image')?.touched && submitForm.get('image')?.hasError('required')) {
+            <small class="error-message">Main Image is required</small>
+          }
+        </div>
+      </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <label class="font-medium">Status</label>
+        <p-inputSwitch [trueValue]="1" [falseValue]="0" formControlName="active_status"></p-inputSwitch>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <button
+        icon="pi pi-times"
+        pButton
+        label="Cancel"
+        class="p-button-text"
+        routerLink="/dashboard/menu/sub-categories"
+        [queryParams]="isSpecial ? { special: 'true' } : null"></button>
+      <button pButton label="Save" (click)="saveForm()" class="p-button-success btn-main px-3"></button>
+    </div>
+  </ng-template>
+</p-card>

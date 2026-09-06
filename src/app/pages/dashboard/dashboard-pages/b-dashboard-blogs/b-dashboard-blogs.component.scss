@@ -1,0 +1,33 @@
+td {
+  text-align: start;
+}
+
+::ng-deep .p-dropdown-items {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+::ng-deep .p-button-label {
+  margin-inline: 4px;
+}
+.p-dialog .p-button {
+  min-width: 100px;
+  padding: 10px 20px;
+}
+
+.p-dialog .pi {
+  margin-right: 10px;
+}
+
+.p-dialog-header {
+  background-color: #007bff;
+  color: white;
+}
+.text-truncate {
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden; /* Hides overflow */
+  text-overflow: ellipsis; /* Adds ellipsis (...) */
+}
+
+::ng-deep .p-datatable > .p-datatable-wrapper {
+  max-height: 62vh;
+}

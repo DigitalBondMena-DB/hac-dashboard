@@ -1,0 +1,114 @@
+<div class="dashboard-container">
+  <!-- Product Card -->
+  <div *ngIf="ProductData" class="product-card">
+    <!-- Product Header -->
+    <div class="product-header">
+      <h1 class="product-title">{{ ProductData.en_name }}</h1>
+      <p class="product-subtitle">{{ ProductData.ar_name }}</p>
+    </div>
+    <div class="product-header">
+      <h1 class="product-title">Size/ Pack</h1>
+      <p class="product-subtitle">{{ ProductData.size }}</p>
+    </div>
+
+    <!-- Main Image -->
+    <div class="main-image-container">
+      <img [src]="'https://mesoshop.digitalbondmena.com/' + ProductData.main_image" alt="{{ ProductData.en_name }}"
+        class="main-image" [ngClass]="{'loaded': imageLoaded}" (load)="imageLoaded = true">
+      <div class="image-placeholder" *ngIf="!imageLoaded"></div>
+    </div>
+
+    <!-- Key Information Grid -->
+    <div class="info-grid">
+      <!-- Price -->
+      <div class="info-item">
+        <span class="info-label">Price</span>
+        <span class="info-value">{{ ProductData.price | currency }}</span>
+        <span *ngIf="ProductData.sale_price" class="discount-price">
+          {{ ProductData.sale_price | currency }}
+        </span>
+      </div>
+      <!-- Category -->
+      <div class="info-item">
+        <span class="info-label">Category</span>
+        <span class="info-value">{{ ProductData.category['en_name'] }}</span>
+      </div>
+
+      <!-- Subcategory -->
+      <div class="info-item">
+        <span class="info-label">Subcategory</span>
+        <span class="info-value">{{ ProductData.subcategory['en_name'] || 'None' }}</span>
+      </div>
+
+      <!-- Status (with color) -->
+      <div class="info-item status-item">
+        <span class="info-label">Status</span>
+        <span class="status-badge" [class.active]="ProductData.active_status">
+          {{ ProductData.active_status ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+      <div class="info-item status-item">
+        <span class="info-label">Promo Code Status</span>
+        <span class="status-badge" [class.active]="ProductData.promo_code_status">
+          {{ ProductData.promo_code_status ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+      <div class="info-item status-item">
+        <span class="info-label">Commercial Status</span>
+        <span class="status-badge" [class.active]="ProductData.commercial_status">
+          {{ ProductData.commercial_status ? 'Business' : 'User' }}
+        </span>
+      </div>
+
+      <!-- Stock (with color) -->
+      <div class="info-item stock-item">
+        <span class="info-label">Stock</span>
+        <span class="stock-badge" [class.in-stock]="ProductData.stock_status">
+          {{ ProductData.stock_status ? 'In Stock' : 'Out of Stock' }}
+        </span>
+      </div>
+
+
+    </div>
+
+    <!-- Content Sections -->
+    <div class="content-section" *ngIf="ProductData.en_description">
+      <h2 class="section-title">Description</h2>
+      <p class="section-content" [innerHTML]="ProductData.en_description |safeHtml "></p>
+    </div>
+
+    <!-- <div class="content-section" *ngIf="ProductData.en_specifications">
+      <h2 class="section-title">Specifications</h2>
+      <p class="section-content" [innerHTML]="ProductData.en_specifications |safeHtml"></p>
+    </div> -->
+
+    <div class="content-section" *ngIf="ProductData.en_more_information">
+      <h2 class="section-title">More Information</h2>
+      <p class="section-content" [innerHTML]="ProductData.en_more_information |safeHtml"></p>
+    </div>
+
+    <!-- Additional Images -->
+    <div class="content-section" *ngIf="ProductData.images?.length">
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery-grid">
+        <div *ngFor="let image of ProductData.images" class="gallery-item">
+          <img [src]="'https://mesoshop.digitalbondmena.com/' + image.image" alt="Additional image"
+            class="gallery-image" [ngClass]="{'loaded': additionalImagesLoaded[+image.id]}"
+            (load)="additionalImagesLoaded[+image.id] = true">
+          <div class="image-placeholder" *ngIf="!additionalImagesLoaded[+image.id]"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metadata -->
+    <div class="metadata">
+      <span>Created: {{ ProductData.created_at | date:'mediumDate' }}</span>
+      <span>Updated: {{ ProductData.updated_at | date:'mediumDate' }}</span>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner name="actionsLoader" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,199 @@
+<p-toast></p-toast>
+
+@if (loading === true) {
+<app-loading-data-banner></app-loading-data-banner>
+} @else if (sliders.length === 0) {
+<div class="h-48 flex justify-center items-center flex-col">
+  <app-no-data-found-banner></app-no-data-found-banner>
+</div>
+} @else {
+<div class="card">
+  <div class="flex justify-between items-center mb-3">
+    <h2 class="text-2xl font-semibold">Sliders Control</h2>
+    <p-button
+      routerLink="/dashboard/sliders/add-slider"
+      label="Add Slider"
+      icon="pi pi-plus"
+      class="btn-main text-white"
+    ></p-button>
+  </div>
+  <!-- Search Input -->
+  <div class="mb-3 flex justify-content-end">
+    <span class="p-input-icon-right">
+      <i class="pi pi-search"></i>
+      <input
+        #search
+        class="mb-0"
+        type="text"
+        pInputText
+        placeholder="Search sliders..."
+        (input)="onGlobalFilter(dt, $event)"
+      />
+    </span>
+  </div>
+  <p-table
+    #dt
+    [paginator]="true"
+    [rows]="rowsPerPage"
+    [totalRecords]="totalRecords"
+    [rowsPerPageOptions]="getPagination()"
+    [showCurrentPageReport]="true"
+    [value]="filteredSliders"
+    responsiveLayout="scroll"
+    (onSort)="onSort($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="text-center" pSortableColumn="id">
+          ID <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th class="text-center">Image</th>
+        <th class="text-center">Links</th>
+        <th class="text-center">
+          <p-dropdown
+            #Dd
+            class="mx-auto"
+            styleClass="mx-auto"
+            [options]="selectOptions"
+            optionLabel="label"
+            optionValue="value"
+            (onChange)="onFilterChange($event.value); Dd.showClear = true"
+            placeholder="Status"
+            [showClear]="true"
+            [autoZIndex]="true"
+          ></p-dropdown>
+        </th>
+        <th class="text-center">Actions</th>
+        <th class="text-center">View</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-slider>
+      <tr>
+        <td class="text-center">{{ slider.id }}</td>
+        <td class="text-center">
+          <div class="image-container flex gap-1 justify-center">
+            <!-- Arabic Image -->
+            @if (slider.main_image_ar && slider.main_image_ar !==
+            'placeholder.png') {
+            <div class="image-wrapper">
+              <div class="image-placeholder"></div>
+              <img
+                width="40"
+                height="40"
+                class="slider-image rounded-full"
+                [src]="getImageUrl(slider.main_image_ar)"
+                alt="Arabic Image"
+                title="Arabic Image"
+                role="presentation"
+                (load)="onImageLoad($event)"
+                (error)="onImageError($event)"
+              />
+            </div>
+            } @else {
+            <div class="no-image-placeholder">
+              <span class="text-xs text-gray-500">No AR</span>
+            </div>
+            }
+
+            <!-- English Image -->
+            @if (slider.main_image && slider.main_image !== 'placeholder.png') {
+            <div class="image-wrapper">
+              <div class="image-placeholder"></div>
+              <img
+                width="40"
+                height="40"
+                class="slider-image rounded-full"
+                [src]="getImageUrl(slider.main_image)"
+                alt="English Image"
+                title="English Image"
+                role="presentation"
+                (load)="onImageLoad($event)"
+                (error)="onImageError($event)"
+              />
+            </div>
+            } @else {
+            <div class="no-image-placeholder">
+              <span class="text-xs text-gray-500">No EN</span>
+            </div>
+            }
+          </div>
+        </td>
+        <td class="text-center">
+          <div class="links-container">
+            @if (slider.ar_slider_link) {
+            <div
+              class="text-xs text-blue-600 truncate"
+              title="{{ slider.ar_slider_link }}"
+            >
+              AR:
+              {{
+                slider.ar_slider_link.length > 20
+                  ? slider.ar_slider_link.substring(0, 20) + "..."
+                  : slider.ar_slider_link
+              }}
+            </div>
+            } @if (slider.en_slider_link) {
+            <div
+              class="text-xs text-green-600 truncate"
+              title="{{ slider.en_slider_link }}"
+            >
+              EN:
+              {{
+                slider.en_slider_link.length > 20
+                  ? slider.en_slider_link.substring(0, 20) + "..."
+                  : slider.en_slider_link
+              }}
+            </div>
+            } @if (!slider.ar_slider_link && !slider.en_slider_link) {
+            <span class="text-xs text-gray-500">No links</span>
+            }
+          </div>
+        </td>
+        <td class="text-center">
+          <p-inputSwitch
+            [ngModel]="slider.active_status === 1"
+            (onChange)="toggleSliderStatus(slider)"
+          ></p-inputSwitch>
+        </td>
+        <td class="text-center">
+          <p-button
+            icon="pi pi-pencil"
+            [routerLink]="['/dashboard/sliders/edit-slider', slider.id]"
+            (onClick)="runSpinner()"
+            class="p-button-text"
+          ></p-button>
+        </td>
+        <td class="text-center">
+          <p-button
+            label="View"
+            icon="pi pi-search"
+            (onClick)="runSpinner()"
+            [routerLink]="['/dashboard/sliders/view-slider', slider.id]"
+            class="p-button-text"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          <div class="h-48 flex justify-center items-center flex-col">
+            <app-no-data-found-banner></app-no-data-found-banner>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+}
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

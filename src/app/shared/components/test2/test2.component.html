@@ -1,0 +1,25 @@
+<div class="product-add-container">
+  <h2>Add New Product</h2>
+
+  <div class="form-section">
+    <h3>Main Image</h3>
+    <app-image-upload
+      [initialImages]="[]"
+      [singleImageMode]="true"
+      [id]="'main'"
+      (imagesChanged)="onMainImageChanged($event)">
+    </app-image-upload>
+  </div>
+
+  <div class="form-section">
+    <h3>Additional Images</h3>
+    <app-image-upload
+      [initialImages]="[]"
+      [singleImageMode]="false"
+      [id]="'additional'"
+      (imagesChanged)="onAdditionalImagesChanged($event)">
+    </app-image-upload>
+  </div>
+
+  <button pButton type="button" label="Add Product" (click)="onSave()"></button>
+</div>

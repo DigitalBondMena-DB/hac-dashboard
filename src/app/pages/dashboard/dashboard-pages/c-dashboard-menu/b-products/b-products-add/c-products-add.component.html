@@ -1,0 +1,688 @@
+<!-- Main Container -->
+<div class="form-container">
+  <!-- Form Header -->
+  <div class="form-header">
+    <h2 class="form-title">{{ isEditing ? "Edit Product" : "Add Product" }} {{ isSpecial ? '(Special Orders)' : '' }}</h2>
+  </div>
+
+  <!-- Form Content -->
+  <div class="form-content">
+    <form
+      [formGroup]="productForm"
+      (ngSubmit)="onFormSubmit()"
+      class="product-form"
+    >
+      <!-- SECTION: Basic Information -->
+      <div class="section">
+        <h3 class="section-title">Basic Information</h3>
+
+        <!-- Name Fields (2-column layout) -->
+        <div class="flex gap-4 justify-between items-center w-full">
+          <div class="form-field w-full">
+            <label class="field-label">English Name *</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="en_name"
+              class="field-input"
+              style="width: 100%"
+            />
+            <div class="error-container">
+              @if (productForm.get('en_name')?.invalid &&
+              productForm.get('en_name')?.touched) {
+              <small class="error-message">English Name is required.</small>
+              }
+            </div>
+          </div>
+
+          <div class="form-field w-full">
+            <label class="field-label">Arabic Name *</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="ar_name"
+              class="field-input"
+              dir="rtl"
+            />
+            <div class="error-container">
+              @if (productForm.get('ar_name')?.invalid &&
+              productForm.get('ar_name')?.touched) {
+              <small class="error-message">Arabic Name is required.</small>
+              }
+            </div>
+          </div>
+          <div class="form-field w-full">
+            <label class="field-label">Size/ Pack</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="size"
+              class="field-input"
+            />
+            <div class="error-container">
+              @if (productForm.get('size')?.invalid &&
+              productForm.get('size')?.touched) {
+              <small class="error-message">size/ pack is required.</small>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">English Meta Title</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="en_meta_Title"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('en_meta_Title')?.invalid &&
+                  productForm.get('en_meta_Title')?.touched
+                "
+                class="error-message"
+              >
+                english meta title is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Arabic Meta Title</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="ar_meta_Title"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('ar_meta_Title')?.invalid &&
+                  productForm.get('ar_meta_Title')?.touched
+                "
+                class="error-message"
+              >
+                arabic meta title is required.
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">English Meta Text</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="en_meta_text"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('en_meta_text')?.invalid &&
+                  productForm.get('en_meta_text')?.touched
+                "
+                class="error-message"
+              >
+                english meta text is required.
+              </small>
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Arabic Meta Text</label>
+            <input
+              type="text"
+              pInputText
+              formControlName="ar_meta_text"
+              class="field-input uniform-input"
+            />
+            <div class="error-container">
+              <small
+                *ngIf="
+                  productForm.get('ar_meta_text')?.invalid &&
+                  productForm.get('ar_meta_text')?.touched
+                "
+                class="error-message"
+              >
+                arabic meta text is required.
+              </small>
+            </div>
+          </div>
+        </div>
+        <!-- Description Fields -->
+        <div class="form-field">
+          <label class="field-label">English Small Description *</label>
+          <ngx-jodit
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_small_description"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (productForm.get('en_small_description')?.invalid &&
+            productForm.get('en_small_description')?.touched) {
+            <small class="error-message"
+              >English Small Description is required.</small
+            >
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic Small Description *</label>
+          <ngx-jodit
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_small_description"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (productForm.get('ar_small_description')?.invalid &&
+            productForm.get('ar_small_description')?.touched) {
+            <small class="error-message"
+              >Arabic Small Description is required.</small
+            >
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">English Description *</label>
+          <ngx-jodit
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_description"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (productForm.get('en_description')?.invalid &&
+            productForm.get('en_description')?.touched) {
+            <small class="error-message"
+              >English Description is required.</small
+            >
+            }
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic Description *</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_description"
+          ></ngx-jodit>
+          <div class="error-container">
+            @if (productForm.get('ar_description')?.invalid &&
+            productForm.get('ar_description')?.touched) {
+            <small class="error-message">Arabic Description is required.</small>
+            }
+          </div>
+        </div>
+
+        <!-- Specifications Fields -->
+        <!-- <div class="form-field">
+          <label class="field-label">English Specifications</label>
+          <ngx-jodit dir="ltr" [options]="{ language: 'en', direction: 'ltr', height: 300 }" formControlName="en_specifications"></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+        
+        <div class="form-field">
+          <label class="field-label">Arabic Specifications</label>
+          <ngx-jodit dir="rtl" [options]="{ language: 'ar', direction: 'rtl', height: 300 }" formControlName="ar_specifications"></ngx-jodit>
+          <div class="error-container"></div>
+        </div> -->
+
+        <!-- Ingredients Fields -->
+        <div class="form-field">
+          <label class="field-label">English Ingredients</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_ingredient"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic Ingredients</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_ingredient"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+
+        <!-- How to Use Fields -->
+        <div class="form-field">
+          <label class="field-label">English How to Use</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_how_to_use"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic How to Use</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_how_to_use"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+
+        <!-- More Information Fields -->
+        <div class="form-field">
+          <label class="field-label">English Benefits</label>
+          <ngx-jodit
+            dir="ltr"
+            [options]="{ language: 'en', direction: 'ltr', height: 300 }"
+            formControlName="en_more_information"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic Benefits</label>
+          <ngx-jodit
+            dir="rtl"
+            [options]="{ language: 'ar', direction: 'rtl', height: 300 }"
+            formControlName="ar_more_information"
+          ></ngx-jodit>
+          <div class="error-container"></div>
+        </div>
+
+        <!-- Script Blocks: raw script tags allowed as plain strings -->
+        <div class="form-field">
+          <label class="field-label">English Script</label>
+          <textarea
+            pInputTextarea
+            rows="4"
+            formControlName="en_script"
+            class="field-input uniform-input h-auto"
+            placeholder="Paste full <script>...</script> block here"
+          ></textarea>
+          <div class="helper-text">Enter a raw script block (include &lt;script&gt; tags). Backend is expected to handle/sanitize.</div>
+        </div>
+
+        <div class="form-field">
+          <label class="field-label">Arabic Script</label>
+          <textarea
+            pInputTextarea
+            rows="4"
+            formControlName="ar_script"
+            class="field-input uniform-input h-auto"
+            dir="rtl"
+            placeholder="أدخل وسم &lt;script&gt; الكامل هنا"
+          ></textarea>
+          <div class="helper-text">أدخل وسم &lt;script&gt; الكامل (يتوقع أن يتولى الخادم التنقيح/المعالجة).</div>
+        </div>
+      </div>
+
+      <!-- SECTION: Category & Subcategory -->
+      <div class="section">
+        <h3 class="section-title">Category</h3>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label">Category *</label>
+            <p-dropdown
+              [options]="categories"
+              formControlName="category_id"
+              optionLabel="en_name"
+              optionValue="id"
+              placeholder="Select Category"
+              [style]="{ width: '100%' }"
+              class="field-input border border-gray-300"
+            >
+            </p-dropdown>
+            <div class="error-container">
+              @if (productForm.get('category_id')?.invalid &&
+              productForm.get('category_id')?.touched) {
+              <small class="error-message">Category is required.</small>
+              }
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">Subcategory</label>
+            <p-dropdown
+              [options]="subcategories"
+              formControlName="subcategory_id"
+              optionLabel="en_name"
+              optionValue="id"
+              placeholder="Select Subcategory"
+              [style]="{ width: '100%' }"
+              [disabled]="isSubcategoryDisabled"
+              class="field-input border border-gray-300"
+            >
+            </p-dropdown>
+            <div class="error-container">
+              @if (!isSubcategoryDisabled &&
+              productForm.get('subcategory_id')?.invalid &&
+              productForm.get('subcategory_id')?.touched) {
+              <small class="error-message">Subcategory is required.</small>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Main Product Image -->
+      <div class="section">
+        <h3 class="section-title">Main Product Image</h3>
+        <p class="section-description">
+          This will be the primary image displayed for the product
+        </p>
+
+        <div class="form-field">
+          <label class="field-label">Main Image *</label>
+          <p-fileUpload
+            #mainImageUpload
+            name="main_image"
+            accept="image/*"
+            [auto]="true"
+            [chooseLabel]="'Choose Image'"
+            [uploadLabel]="'Upload'"
+            [styleClass]="'field-input'"
+            [cancelLabel]="'Cancel'"
+            (onRemove)="clearMainImage()"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [customUpload]="true"
+            (onSelect)="onMainImageSelect($event)"
+            [maxFileSize]="1000000"
+            [draggable]="true"
+          >
+            <ng-template pTemplate="content">
+              <div class="upload-area" [class.has-preview]="mainImagePreview">
+                <!-- @if (mainImagePreview) {
+                  <img [src]="mainImagePreview" alt="Main product preview" class="image-preview">
+                } @else { -->
+                <div class="upload-placeholder">
+                  <i class="pi pi-cloud-upload upload-icon"></i>
+                  <p class="upload-text">
+                    Drag & drop an image or
+                    <span class="upload-link" (click)="mainImageUpload.choose()"
+                      >click to select</span
+                    >
+                  </p>
+                </div>
+                <!-- } -->
+              </div>
+            </ng-template>
+          </p-fileUpload>
+          <div class="error-container">
+            @if (productForm.get('main_image')?.invalid &&
+            productForm.get('main_image')?.touched) {
+            <small class="error-message">Main product image is required.</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Additional Product Images -->
+      <div class="section">
+        <h3 class="section-title">Additional Product Images</h3>
+        <p class="section-description">
+          Upload more images to showcase the product from different angles
+        </p>
+
+        <div class="form-field">
+          <label class="field-label">Additional Images</label>
+          <p-fileUpload
+            #additionalImagesUpload
+            name="additional_images"
+            accept="image/*"
+            [multiple]="true"
+            [auto]="true"
+            [chooseLabel]="'Choose Images'"
+            [uploadLabel]="'Upload'"
+            [styleClass]="'field-input'"
+            [cancelLabel]="'Cancel'"
+            (onRemove)="onAdditionalImageRemove($event)"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [customUpload]="true"
+            (onSelect)="onAdditionalImagesSelect($event)"
+            [maxFileSize]="1000000"
+            [draggable]="true"
+          >
+            <ng-template pTemplate="content">
+              <div class="upload-area">
+                <div class="upload-placeholder">
+                  <i class="pi pi-images upload-icon"></i>
+                  <p class="upload-text">
+                    Drag & drop images or
+                    <span
+                      class="upload-link"
+                      (click)="additionalImagesUpload.choose()"
+                      >click to select</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+          <!-- <div class="error-container">
+            <small class="helper-text">You can upload up to 5 additional images</small>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- SECTION: Pricing -->
+      <div class="section">
+        <h3 class="section-title">Pricing</h3>
+
+        <div class="pricing-toggle">
+          <p-inputSwitch
+            [trueValue]="'choices'"
+            [falseValue]="'standard'"
+            formControlName="pricing_type"
+          ></p-inputSwitch>
+          <label class="toggle-label">Use Choice-Based Pricing</label>
+        </div>
+
+        <!-- Standard Pricing -->
+        @if (productForm.get('pricing_type')?.value === 'standard') {
+        <div class="form-row w-full">
+          <div class="form-field">
+            <label class="field-label">Price *</label>
+            <p-inputNumber
+              [style]="{ width: '100%' }"
+              formControlName="price"
+              class="field-input"
+              [min]="0"
+              [showButtons]="true"
+              [useGrouping]="false"
+            >
+            </p-inputNumber>
+            <div class="error-container">
+              @if (productForm.get('price')?.invalid &&
+              productForm.get('price')?.touched) {
+              <small class="error-message">Price is required.</small>
+              }
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">Sale Percentage %</label>
+            <p-inputNumber
+              [style]="{ width: '100%' }"
+              formControlName="sale_price"
+                            mode="decimal"
+              class="field-input"
+              [maxFractionDigits]="2"
+              [showButtons]="false"
+              [useGrouping]="false"
+              max="100"
+            />
+          
+            <div class="error-container"></div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">Price After Sale</label>
+            <p-inputNumber
+              [style]="{ width: '100%' }"
+              formControlName="price_after_sale"
+              class="field-input"
+              readonly="true"
+              [useGrouping]="false"
+              min="0"
+
+            ></p-inputNumber>
+            <div class="error-container"></div>
+          </div>
+        </div>
+        } @else {
+        <!-- Choice-Based Pricing -->
+        <div formArrayName="choices" class="choices-container">
+          @for (choice of choicesArray.controls; let i = $index; track i) {
+          <div [formGroupName]="i" class="choice-item">
+            <div class="form-row">
+              <div class="form-field">
+                <label class="field-label">English Name *</label>
+                <input
+                  type="text"
+                  pInputText
+                  formControlName="en_name"
+                  class="field-input"
+                />
+                <div class="error-container">
+                  @if (choice.get('en_name')?.invalid &&
+                  choice.get('en_name')?.touched) {
+                  <small class="error-message">English Name is required.</small>
+                  }
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="field-label">Arabic Name *</label>
+                <input
+                  type="text"
+                  pInputText
+                  formControlName="ar_name"
+                  class="field-input"
+                  dir="rtl"
+                />
+                <div class="error-container">
+                  @if (choice.get('ar_name')?.invalid &&
+                  choice.get('ar_name')?.touched) {
+                  <small class="error-message">Arabic Name is required.</small>
+                  }
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="field-label">Price *</label>
+                <p-inputNumber
+                  [style]="{ width: '100%' }"
+                  formControlName="current_value"
+                  class="field-input"
+                  [min]="0"
+                  [showButtons]="true"
+                  [useGrouping]="false"
+                >
+                </p-inputNumber>
+                <div class="error-container">
+                  @if (choice.get('current_value')?.invalid &&
+                  choice.get('current_value')?.touched) {
+                  <small class="error-message">Price is required.</small>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="choice-actions">
+            <div class="choice-status">
+              <p-inputSwitch formControlName="active_status"></p-inputSwitch>
+              <label class="toggle-label">Active Status</label>
+            </div>
+            <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" type="button" (click)="removeChoice(i)"></button>
+          </div> -->
+          </div>
+          }
+
+          <button
+            pButton
+            label="Add Choice"
+            icon="pi pi-plus"
+            class="p-button-text add-choice-button"
+            type="button"
+            (click)="addChoice()"
+          ></button>
+        </div>
+        }
+      </div>
+
+      <!-- SECTION: Status -->
+      <div class="section">
+        <h3 class="section-title">Status</h3>
+
+        <div class="status-toggles">
+          <div class="status-toggle">
+            <p-inputSwitch formControlName="active_status"></p-inputSwitch>
+            <label class="toggle-label">{{ productForm.get("active_status")?.value ? "Product Active" : "Product Not Active" }}</label>
+          </div>
+          <div class="status-toggle">
+            <p-inputSwitch formControlName="stock_status"></p-inputSwitch>
+            <label class="toggle-label">{{ productForm.get("stock_status")?.value ? "In Stock" : "Out of Stock" }}</label>
+          </div>
+          <div class="status-toggle">
+            <p-inputSwitch formControlName="commercial_status"></p-inputSwitch>
+            <label class="toggle-label">{{ productForm.get("commercial_status")?.value ? "Business" : "Commercial User" }}</label>
+          </div>
+          <div class="status-toggle">
+            <p-inputSwitch
+              id="uses_count"
+              formControlName="promo_code_status"
+            ></p-inputSwitch>
+            <label class="toggle-label">{{ productForm.get('promo_code_status')?.value ? 'Promo Code Active' : 'Promo Code Not Active' }}</label>
+            <div class="error-container"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button
+          pButton
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          type="button"
+          [routerLink]="['/dashboard/menu/products']"
+          [queryParams]="isSpecial ? { special: 'true' } : null"
+        ></button>
+        <button
+          pButton
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-success"
+          type="submit"
+        ></button>
+      </div>
+    </form>
+
+    <!-- Display Submitted Data (for development purposes) -->
+    @if (submittedData) {
+    <div class="submitted-data">
+      <h3 class="submitted-data-title">Submitted Data</h3>
+      <pre class="submitted-data-content">{{ submittedData | json }}</pre>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Toast for notifications -->
+<p-toast></p-toast>
+
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

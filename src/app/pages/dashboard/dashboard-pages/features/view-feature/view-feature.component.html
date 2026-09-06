@@ -1,0 +1,84 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+@if (isLoading) {
+  <app-loading-data-banner></app-loading-data-banner>
+} @else if (feature) {
+  <div class="card" [class.loading]="isLoading">
+    <div class="card-header">
+      <h2 class="card-title">Feature Details</h2>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-row">
+        <div class="detail-label">Icon Image</div>
+        <div class="detail-value">
+          <div class="image-container">
+            <img
+              [src]="featureImageUrl"
+              alt="Feature Icon Image"
+              class="feature-image"
+              [class.loaded]="imageLoaded"
+              (load)="onImageLoad()" />
+            @if (!imageLoaded) {
+              <div class="image-placeholder"></div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">English Title</div>
+        <div class="detail-value">{{ feature.en_title }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Arabic Title</div>
+        <div class="detail-value">{{ feature.ar_title }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">English Text</div>
+        <div class="detail-value rich-text-content" [innerHTML]="feature.en_text | safeHtml"></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Arabic Text</div>
+        <div class="detail-value rich-text-content" [innerHTML]="feature.ar_text | safeHtml"></div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Created At</div>
+        <div class="detail-value">{{ feature.created_at | date:'medium' }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">Updated At</div>
+        <div class="detail-value">{{ feature.updated_at | date:'medium' }}</div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <p-button label="Back" styleClass="p-button-text" (onClick)="navigateBack()"></p-button>
+      <p-button label="Edit" styleClass="p-button-outlined" (onClick)="navigateToEdit()"></p-button>
+    </div>
+  </div>
+} @else {
+  <div class="no-data-card">
+    <div class="no-data-message">
+      <i class="pi pi-exclamation-circle"></i>
+      <p>No feature data found</p>
+    </div>
+    <div class="action-buttons">
+      <p-button label="Back to Features" styleClass="p-button-text" (onClick)="navigateBack()"></p-button>
+    </div>
+  </div>
+}

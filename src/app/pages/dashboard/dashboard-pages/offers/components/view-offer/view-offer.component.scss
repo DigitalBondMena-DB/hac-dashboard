@@ -1,0 +1,212 @@
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 20px;
+  transition: opacity 0.3s ease;
+
+  &.loading {
+    opacity: 0.7;
+  }
+}
+
+.card-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+
+  .card-title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+}
+
+.detail-section {
+  display: grid;
+  gap: 15px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-bottom: 1px solid #f5f5f5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.detail-label {
+  width: 200px;
+  font-weight: 500;
+  color: #555;
+}
+
+.detail-value {
+  flex: 1;
+  color: #333;
+  word-break: break-word;
+}
+
+/* Image container with fixed dimensions */
+.image-container {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.offer-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+.image-placeholder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.2);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+
+  &.active {
+    background: rgba(46, 125, 50, 0.1);
+    color: #2e7d32;
+  }
+
+  &:not(.active) {
+    background: rgba(211, 47, 47, 0.1);
+    color: #d32f2f;
+  }
+}
+
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.no-data-card {
+  text-align: center;
+  padding: 40px;
+  margin: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-data-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+  font-size: 16px;
+
+  .pi {
+    font-size: 32px;
+    color: rgba(239, 83, 80, 0.5);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .detail-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .detail-label {
+    width: 100%;
+  }
+
+  .image-container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/2;
+  }
+}
+
+.detail-value {
+  word-break: break-word; /* Prevent text overflow */
+  line-height: 1.5; /* Improve readability */
+  font-size: 1rem; /* Ensure consistent text size */
+}
+
+/* Style HTML elements */
+.detail-value p {
+  margin: 0.5rem 0;
+}
+
+.detail-value ul, .detail-value ol {
+  margin: 0.5rem 0;
+  padding-left: 2rem; /* Indent lists */
+}
+
+.detail-value ul {
+  list-style-type: disc; /* Bullets for unordered lists */
+}
+
+.detail-value ol {
+  list-style-type: decimal; /* Numbers for ordered lists */
+}
+
+.detail-value li {
+  margin-bottom: 0.25rem; /* Space between list items */
+}
+
+.detail-value strong, .detail-value b {
+  font-weight: bold;
+}
+
+.detail-value em, .detail-value i {
+  font-style: italic;
+}
+
+.detail-value u {
+  text-decoration: underline;
+}
+
+/* Ensure nested elements render correctly */
+.detail-value ul ul, .detail-value ol ol, .detail-value ul ol, .detail-value ol ul {
+  margin: 0.25rem 0;
+  padding-left: 1.5rem;
+}
+
+/* Optional: Style for inline elements */
+.detail-value a {
+  color: #D3BAA1;
+  text-decoration: underline;
+}
+
+.detail-value img {
+  max-width: 100%;
+  height: auto;
+}
+
+ul {
+  list-style-type: square !important;
+}

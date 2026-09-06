@@ -1,0 +1,94 @@
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>
+<ngx-spinner
+  name="actionsLoader"
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-spin"
+  [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="card">
+  <h2 class="card-title">{{ isEditMode ? 'Edit Counter' : 'Add New Counter' }}</h2>
+  <form [formGroup]="counterForm" (ngSubmit)="onSubmit()" class="counter-form ">
+    <div class="form-section ">
+      <div class="form-row">
+        <!-- English Name -->
+        <div class="form-field">
+          <label for="en_name" class="field-label">English Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="en_name"
+              formControlName="en_name"
+              placeholder="Enter English Name"
+              [ngClass]="{'p-invalid': counterForm.get('en_name')?.touched && counterForm.get('en_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (counterForm.get('en_name')?.touched && counterForm.get('en_name')?.hasError('required')) {
+              <small class="error-message">English Name is required</small>
+            }
+          </div>
+        </div>
+
+        <!-- Arabic Name -->
+        <div class="form-field mt-3">
+          <label for="ar_name" class="field-label">Arabic Name</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="ar_name"
+              formControlName="ar_name"
+              placeholder="Enter Arabic Name"
+              [ngClass]="{'p-invalid': counterForm.get('ar_name')?.touched && counterForm.get('ar_name')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (counterForm.get('ar_name')?.touched && counterForm.get('ar_name')?.hasError('required')) {
+              <small class="error-message">Arabic Name is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Counter Value -->
+      <div class="form-row mt-3">
+        <div class="form-field">
+          <label for="counter_value" class="field-label">Counter Value</label>
+          <div class="input-container">
+            <input
+              pInputText
+              id="counter_value"
+              formControlName="counter_value"
+              placeholder="Enter Counter Value"
+              [ngClass]="{'p-invalid': counterForm.get('counter_value')?.touched && counterForm.get('counter_value')?.invalid}"
+            />
+          </div>
+          <div class="error-container">
+            @if (counterForm.get('counter_value')?.touched && counterForm.get('counter_value')?.hasError('required')) {
+              <small class="error-message">Counter Value is required</small>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons flex justify-center items-center mt-3">
+      <p-button
+        type="button"
+        label="Cancel"
+        styleClass="p-button-text p-button-secondary"
+        [routerLink]="['/dashboard/counters']"
+      ></p-button>
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Update Counter' : 'Create Counter'"
+        styleClass="btn-main"
+        [disabled]="counterForm.invalid || isSubmitting"
+        [icon]="isSubmitting ? 'pi pi-spin pi-spinner' : ''"
+      ></p-button>
+    </div>
+  </form>
+</div>

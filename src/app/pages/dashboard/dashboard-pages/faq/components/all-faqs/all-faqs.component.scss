@@ -1,0 +1,34 @@
+.card {
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-main {
+  background-color: #007bff;
+  border-color: #007bff;
+  &:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+}
+
+:host ::ng-deep {
+  .p-table {
+    .p-paginator {
+      margin-top: 1rem;
+    }
+    .p-datatable-thead > tr > th {
+      background-color: #f8f9fa;
+    }
+    .p-inputswitch {
+      margin: 0 auto;
+    }
+    .p-dropdown {
+      width: 120px;
+    }
+  }
+  .p-input-icon-right > input {
+    padding-right: 2.5rem;
+  }
+}

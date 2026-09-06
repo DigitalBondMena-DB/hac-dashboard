@@ -1,0 +1,97 @@
+@if (!isLoading && request) {
+<div class="card">
+  <div class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-3">
+      <p-button icon="pi pi-arrow-left" [text]="true" routerLink="/dashboard/special-requests"></p-button>
+      <h2 class="text-2xl font-semibold m-0">Request Details</h2>
+    </div>
+    <div class="text-gray-500">
+      Created: {{ request.created_at | date:'medium' }}
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <!-- Customer Information -->
+    <p-card header="Customer Information" styleClass="h-full">
+      <div class="flex flex-col gap-3">
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Name:</span>
+          <span>{{ request.name }}</span>
+        </div>
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Email:</span>
+          <span>{{ request.email }}</span>
+        </div>
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Phone:</span>
+          <span>{{ request.phone }}</span>
+        </div>
+        <div class="flex justify-between pb-2">
+          <span class="text-gray-600 font-semibold">Address:</span>
+          <span>{{ request.address }}</span>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Request Summary -->
+    <p-card header="Request Summary" styleClass="h-full">
+      <div class="flex flex-col gap-3">
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Request ID:</span>
+          <span>#{{ request.id }}</span>
+        </div>
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Quantity Requested:</span>
+          <span>{{ request.quantity }}</span>
+        </div>
+        <div class="flex justify-between pb-2">
+          <span class="text-gray-600 font-semibold">Status:</span>
+          <span [ngClass]="request.is_read ? 'text-green-600' : 'text-yellow-600'">
+            {{ request.is_read ? 'Read' : 'Unread' }}
+          </span>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Product Details -->
+  @if (request.product) {
+  <p-card header="Product Details">
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+      <img [src]="'https://backend.mesoesteic.digitalbondmena.com/' + request.product.main_image"
+        [alt]="request.product.en_name" class="w-48 h-48 object-cover rounded shadow" />
+      <div class="flex-1 w-full">
+        <h3 class="text-xl font-bold mb-2">{{ request.product.en_name }}</h3>
+        <p class="text-gray-500 mb-4" [innerHTML]="request.product.en_description"></p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex justify-between border-b pb-2">
+            <span class="text-gray-600 font-semibold">Price:</span>
+            <span>{{ request.product.price | currency }}</span>
+          </div>
+          <div class="flex justify-between border-b pb-2">
+            <span class="text-gray-600 font-semibold">Category ID:</span>
+            <span>{{ request.product.category_id }}</span>
+          </div>
+          <div class="flex justify-between border-b pb-2">
+            <span class="text-gray-600 font-semibold">Stock Status:</span>
+            <span [class.text-green-600]="request.product.stock_status"
+              [class.text-red-600]="!request.product.stock_status">
+              {{ request.product.stock_status ? 'In Stock' : 'Out of Stock' }}
+            </span>
+          </div>
+          <div class="flex justify-between border-b pb-2">
+            <span class="text-gray-600 font-semibold">Size:</span>
+            <span>{{ request.product.size || 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-card>
+  }
+</div>
+} @else if (isLoading) {
+<app-loading-data-banner></app-loading-data-banner>
+}
+
+<p-toast></p-toast>
