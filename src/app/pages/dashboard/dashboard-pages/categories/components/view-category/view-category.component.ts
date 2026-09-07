@@ -7,6 +7,8 @@ import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { LoadingDataBannerComponent } from '../../../../../../shared/components/loading-data-banner/loading-data-banner.component';
 import { NewCategoriesService, Category, SingleCategoryResponse } from '../../services/new-categories.service';
+import { MAIN_SITE_URL } from '../../../../../../core/constants/WEB_SITE_BASE_UTL';
+import { ProductWebsiteLinksComponent } from '../../../../../../shared/components/product-website-links/product-website-links.component';
 
 @Component({
   selector: 'app-view-category',
@@ -16,7 +18,8 @@ import { NewCategoriesService, Category, SingleCategoryResponse } from '../../se
     ToastModule,
     NgxSpinnerModule,
     LoadingDataBannerComponent,
-    CommonModule
+    CommonModule,
+    ProductWebsiteLinksComponent
   ],
   templateUrl: './view-category.component.html',
   styleUrl: './view-category.component.scss',
@@ -91,5 +94,11 @@ export class ViewCategoryComponent implements OnInit {
 
   onImageLoad() {
     this.imageLoaded = true;
+  }
+
+  getCategoryUrl(lang: 'en' | 'ar'): string {
+    if (!this.categoryId) return '';
+    const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
+    return `${baseUrl}/#/${lang}/shopping?categoryId=${this.categoryId}`;
   }
 }

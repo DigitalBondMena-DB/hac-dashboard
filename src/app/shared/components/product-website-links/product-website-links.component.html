@@ -1,0 +1,108 @@
+@if (isSpecial && (enUrl || arUrl)) {
+<div class="product-website-links">
+  <div class="links-header">
+    <div class="header-left">
+      <i class="pi pi-globe"></i>
+      <span>{{ displayTitle }}</span>
+    </div>
+    <span class="special-badge">
+      <i class="pi pi-star-fill"></i>
+      {{ displayBadge }}
+    </span>
+  </div>
+
+  <div class="links-grid">
+    <!-- English URL & QR -->
+    @if (enUrl) {
+    <div class="link-item">
+      <div class="link-item-top">
+        <span class="lang-badge en">EN</span>
+        <span class="link-label">English {{ itemType }} Link</span>
+      </div>
+      <div class="link-box">
+        <span class="link-text" [title]="enUrl">{{ enUrl }}</span>
+        <div class="link-actions">
+          <a [href]="enUrl" target="_blank" rel="noopener noreferrer" class="btn-action open-btn"
+            title="Open in website">
+            <i class="pi pi-external-link"></i>
+            <span>Open</span>
+          </a>
+          <button type="button" (click)="copyToClipboard(enUrl, 'en')" class="btn-action copy-btn"
+            title="Copy to clipboard">
+            <i [class]="copiedLang === 'en' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
+            <span>{{ copiedLang === 'en' ? 'Copied!' : 'Copy' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- QR Code Preview & Download Card -->
+      <div class="qr-card">
+        <div class="qr-preview qr-preview-en">
+          <qrcode [qrdata]="enUrl" [width]="110" [errorCorrectionLevel]="'M'" [margin]="1"
+            [allowEmptyString]="true" elementType="canvas" [title]="'English ' + itemType + ' QR Code'">
+          </qrcode>
+        </div>
+        <div class="qr-info">
+          <div class="qr-info-header">
+            <i class="pi pi-qrcode"></i>
+            <span class="qr-title">English QR Code</span>
+          </div>
+          <p class="qr-description">Scan with any mobile camera or download to print on packaging & marketing stands.</p>
+          <button type="button" (click)="downloadQRCode('en')" class="btn-action download-btn"
+            title="Download QR Code Image">
+            <i class="pi pi-download"></i>
+            <span>Download PNG</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
+    <!-- Arabic URL & QR -->
+    @if (arUrl) {
+    <div class="link-item">
+      <div class="link-item-top">
+        <span class="lang-badge ar">AR</span>
+        <span class="link-label">Arabic {{ itemType }} Link</span>
+      </div>
+      <div class="link-box">
+        <span class="link-text" [title]="arUrl">{{ arUrl }}</span>
+        <div class="link-actions">
+          <a [href]="arUrl" target="_blank" rel="noopener noreferrer" class="btn-action open-btn"
+            title="Open in website">
+            <i class="pi pi-external-link"></i>
+            <span>Open</span>
+          </a>
+          <button type="button" (click)="copyToClipboard(arUrl, 'ar')" class="btn-action copy-btn"
+            title="Copy to clipboard">
+            <i [class]="copiedLang === 'ar' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
+            <span>{{ copiedLang === 'ar' ? 'Copied!' : 'Copy' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- QR Code Preview & Download Card -->
+      <div class="qr-card">
+        <div class="qr-preview qr-preview-ar">
+          <qrcode [qrdata]="arUrl" [width]="110" [errorCorrectionLevel]="'M'" [margin]="1"
+            [allowEmptyString]="true" elementType="canvas" [title]="'Arabic ' + itemType + ' QR Code'">
+          </qrcode>
+        </div>
+        <div class="qr-info">
+          <div class="qr-info-header">
+            <i class="pi pi-qrcode"></i>
+            <span class="qr-title">Arabic QR Code</span>
+          </div>
+          <p class="qr-description">Scan with any mobile camera or download to print on packaging & marketing stands.</p>
+          <button type="button" (click)="downloadQRCode('ar')" class="btn-action download-btn"
+            title="Download QR Code Image">
+            <i class="pi pi-download"></i>
+            <span>Download PNG</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+}

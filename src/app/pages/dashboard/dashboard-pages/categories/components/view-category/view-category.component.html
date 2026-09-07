@@ -17,6 +17,16 @@
       <h2 class="card-title">Category Details {{ isSpecial ? '(Special Orders)' : '' }}</h2>
     </div>
 
+    @if (isSpecial && category) {
+      <app-product-website-links
+        [enUrl]="getCategoryUrl('en')"
+        [arUrl]="getCategoryUrl('ar')"
+        [itemType]="'Category'"
+        [filePrefix]="'special-category-' + (category.en_slug || category.ar_slug || categoryId)"
+        [isSpecial]="isSpecial">
+      </app-product-website-links>
+    }
+
     <div class="detail-section">
       <div class="detail-row">
         <div class="detail-label">Main Image</div>

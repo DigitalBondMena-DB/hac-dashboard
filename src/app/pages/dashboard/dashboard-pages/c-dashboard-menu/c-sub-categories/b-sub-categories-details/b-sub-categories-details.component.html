@@ -4,6 +4,16 @@
   </ng-template>
 
   <ng-template pTemplate="content">
+    @if (isSpecial && subCategoryData) {
+      <app-product-website-links
+        [enUrl]="getSubCategoryUrl('en')"
+        [arUrl]="getSubCategoryUrl('ar')"
+        [itemType]="'Sub Category'"
+        [filePrefix]="'special-subcategory-' + (subCategoryData.data.en_slug || subCategoryData.data.id)"
+        [isSpecial]="isSpecial">
+      </app-product-website-links>
+    }
+
     <div class="grid md:grid-cols-2 gap-4">
       <!-- English & Arabic Names -->
       <div class="flex flex-col">

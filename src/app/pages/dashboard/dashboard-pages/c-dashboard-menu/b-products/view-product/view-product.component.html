@@ -12,117 +12,12 @@
       <p class="product-subtitle">{{ ProductData.size }}</p>
     </div>
 
-    <!-- Website Product Links -->
     <!-- Website Product Links & QR Codes -->
-    @if((ProductData.en_slug || ProductData.ar_slug) && isSpecial){
-    <div class="product-website-links">
-      <div class="links-header">
-        <div class="header-left">
-          <i class="pi pi-globe"></i>
-          <span>Website Product URLs & QR Codes</span>
-        </div>
-        <span class="special-badge">
-          <i class="pi pi-star-fill"></i>
-          Special Product
-        </span>
-      </div>
-      <div class="links-grid">
-        <!-- English URL & QR -->
-        @if(ProductData.en_slug){
-        <div class="link-item">
-          <div class="link-item-top">
-            <span class="lang-badge en">EN</span>
-            <span class="link-label">English Product Link</span>
-          </div>
-          <div class="link-box">
-            <span class="link-text" [title]="getProductUrl('en')">{{ getProductUrl('en') }}</span>
-            <div class="link-actions">
-              <a [href]="getProductUrl('en')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn"
-                title="Open in website">
-                <i class="pi pi-external-link"></i>
-                <span>Open</span>
-              </a>
-              <button type="button" (click)="copyToClipboard(getProductUrl('en'), 'en')" class="btn-action copy-btn"
-                title="Copy to clipboard">
-                <i [class]="copiedLang === 'en' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
-                <span>{{ copiedLang === 'en' ? 'Copied!' : 'Copy' }}</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- QR Code Preview & Download Card -->
-          <div class="qr-card">
-            <div class="qr-preview" id="qr-code-en">
-              <qrcode [qrdata]="getProductUrl('en')" [width]="110" [errorCorrectionLevel]="'M'" [margin]="1"
-                [allowEmptyString]="true" elementType="canvas" [title]="'English Product QR Code'">
-              </qrcode>
-            </div>
-            <div class="qr-info">
-              <div class="qr-info-header">
-                <i class="pi pi-qrcode"></i>
-                <span class="qr-title">English QR Code</span>
-              </div>
-              <p class="qr-description">Scan with any mobile camera or download to print on packaging & marketing
-                stands.</p>
-              <button type="button" (click)="downloadQRCode('en')" class="btn-action download-btn"
-                title="Download QR Code Image">
-                <i class="pi pi-download"></i>
-                <span>Download PNG</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        }
-
-        <!-- Arabic URL & QR -->
-        @if(ProductData.ar_slug){
-        <div class="link-item">
-          <div class="link-item-top">
-            <span class="lang-badge ar">AR</span>
-            <span class="link-label">Arabic Product Link</span>
-          </div>
-          <div class="link-box">
-            <span class="link-text" [title]="getProductUrl('ar')">{{ getProductUrl('ar') }}</span>
-            <div class="link-actions">
-              <a [href]="getProductUrl('ar')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn"
-                title="Open in website">
-                <i class="pi pi-external-link"></i>
-                <span>Open</span>
-              </a>
-              <button type="button" (click)="copyToClipboard(getProductUrl('ar'), 'ar')" class="btn-action copy-btn"
-                title="Copy to clipboard">
-                <i [class]="copiedLang === 'ar' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
-                <span>{{ copiedLang === 'ar' ? 'Copied!' : 'Copy' }}</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- QR Code Preview & Download Card -->
-          <div class="qr-card">
-            <div class="qr-preview" id="qr-code-ar">
-              <qrcode [qrdata]="getProductUrl('ar')" [width]="110" [errorCorrectionLevel]="'M'" [margin]="1"
-                [allowEmptyString]="true" elementType="canvas" [title]="'Arabic Product QR Code'">
-              </qrcode>
-            </div>
-            <div class="qr-info">
-              <div class="qr-info-header">
-                <i class="pi pi-qrcode"></i>
-                <span class="qr-title">Arabic QR Code</span>
-              </div>
-              <p class="qr-description">Scan with any mobile camera or download to print on packaging & marketing
-                stands.</p>
-              <button type="button" (click)="downloadQRCode('ar')" class="btn-action download-btn"
-                title="Download QR Code Image">
-                <i class="pi pi-download"></i>
-                <span>Download PNG</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        }
-      </div>
-
-    </div>
+    @if (isSpecial) {
+    <app-product-website-links [enUrl]="getProductUrl('en')" [arUrl]="getProductUrl('ar')" [itemType]="'Product'"
+      [filePrefix]="'special-' + (ProductData.en_slug || ProductData.ar_slug || ProductData.id)"
+      [isSpecial]="isSpecial">
+    </app-product-website-links>
     }
 
     <!-- Main Image -->
@@ -218,16 +113,18 @@
     }
 
     <!-- Additional Images -->
-    @if(ProductData?.images?.length) {
+    @if(galleryImages.length) {
     <div class="content-section">
       <h2 class="section-title">Gallery</h2>
       <div class="gallery-grid">
-        @for (image of ProductData.images; track image.id) {
+        @for (image of galleryImages; track image.id) {
         <div class="gallery-item">
           <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + image.image" alt="Additional image"
             class="gallery-image" [class.loaded]="additionalImagesLoaded[+image.id]"
             (load)="additionalImagesLoaded[+image.id] = true">
-          <div class="image-placeholder" *ngIf="!additionalImagesLoaded[+image.id]"></div>
+          @if(!additionalImagesLoaded[+image.id]) {
+          <div class="image-placeholder"></div>
+          }
         </div>
         }
       </div>

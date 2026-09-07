@@ -6,12 +6,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { SafeHtmlPipe } from '../../../../../../core/pipes/safe-html.pipe';
 import { MAIN_SITE_URL } from '../../../../../../core/constants/WEB_SITE_BASE_UTL';
-import { QRCodeModule } from 'angularx-qrcode';
+import { ProductWebsiteLinksComponent } from '../../../../../../shared/components/product-website-links/product-website-links.component';
 
 @Component({
   selector: 'app-view-product',
   standalone: true,
-  imports: [NgxSpinnerModule, CommonModule, SafeHtmlPipe, QRCodeModule],
+  imports: [NgxSpinnerModule, CommonModule, SafeHtmlPipe, ProductWebsiteLinksComponent],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.scss',
 })
@@ -21,7 +21,6 @@ export class ViewProductComponent implements OnInit {
   imageLoaded: boolean = false;
   additionalImagesLoaded: { [key: number]: boolean } = {};
   isSpecial = false;
-  copiedLang: 'en' | 'ar' | null = null;
 
   constructor(private route: ActivatedRoute, private productService: ProductsService) { }
 
@@ -51,29 +50,9 @@ export class ViewProductComponent implements OnInit {
     return `${baseUrl}/#/${lang}/product-details/${slug}`;
   }
 
-  copyToClipboard(url: string, lang: 'en' | 'ar'): void {
-    if (!url) return;
-    navigator.clipboard.writeText(url).then(() => {
-      this.copiedLang = lang;
-      setTimeout(() => {
-        if (this.copiedLang === lang) {
-          this.copiedLang = null;
-        }
-      }, 2000);
-    });
-  }
-
-  downloadQRCode(lang: 'en' | 'ar'): void {
-    const container = document.getElementById(`qr-code-${lang}`);
-    if (!container) return;
-    const canvas = container.querySelector('canvas') as HTMLCanvasElement;
-    if (canvas) {
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      const slug = (lang === 'en' ? this.ProductData?.en_slug : this.ProductData?.ar_slug) || `product-${this.id}`;
-      const prefix = this.isSpecial ? 'special-' : '';
-      link.download = `${prefix}${slug}-${lang}-qrcode.png`;
-      link.click();
-    }
+  get galleryImages(): any[] {
+    if (!this.ProductData?.images?.length) return [];
+    const mainImg = this.ProductData.main_image;
+    return this.ProductData.images.filter(img => !img.is_main && img.image && img.image !== mainImg);
   }
 }

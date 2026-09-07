@@ -275,10 +275,14 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
   }
 
   private populateForm(product: Product): void {
+    const mainImgPath = product.main_image || (product.images?.find(img => img.is_main)?.image) || '';
+
+    const additionalImages = (product.images || []).filter(img => img.image && !img.is_main && img.image !== mainImgPath);
+
     this.state = {
-      mainImage: product.main_image || '',
+      mainImage: mainImgPath,
       mainImageFile: null,
-      images: product.images?.map(img => img.image).filter(Boolean) || [],
+      images: additionalImages.map(img => img.image).filter(Boolean),
       additionalImageFiles: []
     };
 
@@ -295,7 +299,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       updated_at: new Date().toISOString()
     }] : [];
 
-    this.imagesInitial = product.images?.slice(1).map((img, index) => ({
+    this.imagesInitial = additionalImages.map((img, index) => ({
       id: img.id.toString(),
       product_id: product.id,
       image: img.image,
@@ -306,7 +310,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       active_status: true,
       created_at: img.created_at || new Date().toISOString(),
       updated_at: img.updated_at || new Date().toISOString()
-    })) || [];
+    }));
 
     if (product.category_id) {
       this.fetchSubcategoriesAndSetValues(product.category_id, product.subcategory_id).then(() => {
@@ -410,8 +414,8 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
 
   onMainImageChanged({ added, removed }: { added: File[], removed: string[] }): void {
     if (removed.length > 0) {
-      const path = removed[0].split('digitalbondmena.com/mesoshop/')[1] || removed[0];
-      if (path === this.state.mainImage) {
+      const cleanPath = removed[0].match(/uploads\/.+/)?.[0] || removed[0];
+      if (cleanPath === this.state.mainImage || removed[0].includes(this.state.mainImage)) {
         this.state.mainImage = '';
       }
     }
@@ -420,9 +424,9 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
 
   onImagesChanged({ added, removed }: { added: File[], removed: string[] }): void {
     const removedPaths = removed
-      .map(url => url.split('digitalbondmena.com/mesoshop/')[1] || url)
+      .map(url => url.match(/uploads\/.+/)?.[0] || url)
       .filter(Boolean);
-    this.state.images = this.state.images.filter(path => !removedPaths.includes(path));
+    this.state.images = this.state.images.filter(path => !removedPaths.some(r => path.includes(r) || r.includes(path)));
     this.state.additionalImageFiles = added;
   }
 
