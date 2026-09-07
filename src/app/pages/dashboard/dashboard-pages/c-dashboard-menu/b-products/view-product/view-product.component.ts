@@ -2,15 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductsService } from '../../../../../../core/services/d-products/products.service';
 import { ProductData } from '../../../../../../core/Interfaces/d-products/IGetAllProducts';
-import { NgxSpinnerComponent, NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { SafeHtmlPipe } from '../../../../../../core/pipes/safe-html.pipe';
 import { MAIN_SITE_URL } from '../../../../../../core/constants/WEB_SITE_BASE_UTL';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-view-product',
   standalone: true,
-  imports: [NgxSpinnerModule, CommonModule, SafeHtmlPipe],
+  imports: [NgxSpinnerModule, CommonModule, SafeHtmlPipe, QRCodeModule],
   templateUrl: './view-product.component.html',
   styleUrl: './view-product.component.scss',
 })
@@ -60,5 +61,19 @@ export class ViewProductComponent implements OnInit {
         }
       }, 2000);
     });
+  }
+
+  downloadQRCode(lang: 'en' | 'ar'): void {
+    const container = document.getElementById(`qr-code-${lang}`);
+    if (!container) return;
+    const canvas = container.querySelector('canvas') as HTMLCanvasElement;
+    if (canvas) {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      const slug = (lang === 'en' ? this.ProductData?.en_slug : this.ProductData?.ar_slug) || `product-${this.id}`;
+      const prefix = this.isSpecial ? 'special-' : '';
+      link.download = `${prefix}${slug}-${lang}-qrcode.png`;
+      link.click();
+    }
   }
 }

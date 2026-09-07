@@ -34,6 +34,7 @@
     "@ngx-translate/http-loader": "^16.0.1",
     "@sanmanto-sds/ngx-daterangepicker-material": "^1.0.3",
     "@swimlane/ngx-charts": "^22.0.0-alpha.1",
+    "angularx-qrcode": "^17.0.1",
     "apexcharts": "^4.5.0",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.7",
