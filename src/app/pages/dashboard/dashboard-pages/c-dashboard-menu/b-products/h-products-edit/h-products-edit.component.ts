@@ -187,6 +187,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
 
   constructor() {
     this.spinnerService.show('actionsLoader');
+    this.isSpecial = this.route.snapshot.queryParams['special'] === 'true' || this.route.snapshot.queryParams['special'] === '1';
 
     this.productForm = this.createForm();
     this.setupPricingTypeListener();
@@ -197,6 +198,9 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
     this.isSpinnerLocked = true;
     this.spinnerService.show('actionsLoader');
     this.isSpecial = this.route.snapshot.queryParams['special'] === 'true' || this.route.snapshot.queryParams['special'] === '1';
+    this.route.queryParams.subscribe(params => {
+      this.isSpecial = params['special'] === 'true' || params['special'] === '1';
+    });
   }
 
 
@@ -616,7 +620,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
     if (!this.isSpinnerLocked) {
       this.spinnerService.show('actionsLoader');
     }
-    this.http.get<ApiResponse<Subcategory>>(`${this.baseUrl}subcategories`).subscribe({
+    this.http.get<ApiResponse<Subcategory>>(`${this.baseUrl}subcategories${this.isSpecial ? '?is_special=1' : ''}`).subscribe({
       next: (response) => {
         if (response.status && Array.isArray(response.data)) {
           this.subcategories = response.data.filter(sc => sc.category_id === categoryId && sc.active_status === 1);
