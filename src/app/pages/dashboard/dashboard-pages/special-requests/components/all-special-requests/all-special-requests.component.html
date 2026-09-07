@@ -19,8 +19,8 @@
   </div>
 
   <p-table #dt [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="getPagination()"
-    [globalFilterFields]="['name', 'email', 'phone', 'address', 'created_at']" [showCurrentPageReport]="true"
-    [value]="requests" responsiveLayout="scroll">
+    [globalFilterFields]="['name', 'email', 'phone', 'address', 'product.en_name', 'product.ar_name', 'created_at']"
+    [showCurrentPageReport]="true" [value]="requests" responsiveLayout="scroll">
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="name">
@@ -32,11 +32,17 @@
         <th pSortableColumn="phone">
           Phone <p-sortIcon field="phone"></p-sortIcon>
         </th>
-        <th pSortableColumn="address">
-          Address <p-sortIcon field="address"></p-sortIcon>
+        <th>
+          Product
+        </th>
+        <th>
+          Website Links
         </th>
         <th pSortableColumn="created_at">
           Created At <p-sortIcon field="created_at"></p-sortIcon>
+        </th>
+        <th pSortableColumn="is_read" class="text-center">
+          Status <p-sortIcon field="is_read"></p-sortIcon>
         </th>
         <th class="text-center">
           View
@@ -49,8 +55,66 @@
         <td>{{ req.name }}</td>
         <td>{{ req.email }}</td>
         <td>{{ req.phone }}</td>
-        <td>{{ req.address }}</td>
+        <td>
+          @if (req.product) {
+          <div class="flex items-center gap-2">
+
+            <div class="flex flex-col">
+              <a [routerLink]="['/dashboard/menu/products/view-product', req.product.id]"
+                [queryParams]="{ special: 'true' }"
+                class="text-xs text-blue-600 hover:underline inline-flex items-center gap-1 mt-0.5"
+                title="View in Products Dashboard">
+                <i class="pi pi-box text-xs"></i> View Product
+              </a>
+            </div>
+          </div>
+          } @else {
+          <span class="text-gray-400 text-sm">N/A</span>
+          }
+        </td>
+        <td>
+          @if (req.product && (getProductUrl(req.product, 'en') || getProductUrl(req.product, 'ar'))) {
+          <div class="flex items-center gap-1.5 flex-wrap">
+            @if (getProductUrl(req.product, 'en')) {
+            <a [href]="getProductUrl(req.product, 'en')" target="_blank" rel="noopener noreferrer"
+              class="p-button p-button-sm p-button-outlined inline-flex items-center gap-1 text-xs py-1 px-2 no-underline"
+              title="Open English website product page">
+              <i class="pi pi-external-link text-xs"></i> EN
+            </a>
+            }
+            @if (getProductUrl(req.product, 'ar')) {
+            <a [href]="getProductUrl(req.product, 'ar')" target="_blank" rel="noopener noreferrer"
+              class="p-button p-button-sm p-button-outlined inline-flex items-center gap-1 text-xs py-1 px-2 no-underline"
+              title="Open Arabic website product page">
+              <i class="pi pi-external-link text-xs"></i> AR
+            </a>
+            }
+            <button type="button" (click)="copyProductUrl(req.product, 'en', $event)" pButton icon="pi pi-copy"
+              class="p-button-text p-button-sm p-1" title="Copy EN website link">
+            </button>
+            <button type="button" (click)="openQrDialog(req.product, $event)" pButton icon="pi pi-qrcode"
+              class="p-button-text p-button-sm p-1" title="View QR Code & links">
+            </button>
+          </div>
+          } @else {
+          <span class="text-gray-400 text-sm">N/A</span>
+          }
+        </td>
         <td>{{ req.created_at | date:'medium' }}</td>
+        <td class="text-center">
+          <button
+            pButton
+            type="button"
+            [label]="isDone(req) ? 'Done' : 'Requested'"
+            [icon]="isDone(req) ? 'pi pi-check' : 'pi pi-clock'"
+            [loading]="updatingStatusId === req.id"
+            (click)="toggleStatus(req, $event)"
+            class="p-button-sm rounded-md px-3 py-1.5 text-xs font-semibold shadow-sm transition-all"
+            [ngClass]="isDone(req) 
+              ? '!bg-green-600 !border-green-600 !text-white hover:!bg-green-700' 
+              : '!bg-black !border-black !text-white hover:!bg-zinc-800'"
+          ></button>
+        </td>
         <td class="text-center">
           <button [routerLink]="['/dashboard/special-requests/view-special-request/', req.id]" pButton label="View"
             icon="pi pi-search"></button>
@@ -60,7 +124,7 @@
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="6">
+        <td colspan="8">
           <div class="h-48 flex justify-center items-center flex-col">
             <app-no-data-found-banner></app-no-data-found-banner>
           </div>
@@ -69,6 +133,31 @@
     </ng-template>
   </p-table>
 </div>
+
+<!-- Product Links & QR Code Dialog -->
+<p-dialog [(visible)]="showQrDialog" [modal]="true" [style]="{ width: '90vw', maxWidth: '820px' }"
+  header="Special Product Links & QR Codes" [dismissableMask]="true" [draggable]="false" [resizable]="false">
+  @if (selectedProduct) {
+  <div class="mb-4 flex items-center gap-3 p-3 bg-gray-50 rounded border">
+    @if (selectedProduct.main_image) {
+    <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + selectedProduct.main_image"
+      [alt]="selectedProduct.en_name" class="size-12 block object-cover rounded shadow" />
+    }
+    <div>
+      <h3 class="text-base font-semibold m-0">{{ selectedProduct.en_name }}</h3>
+      <p class="text-xs text-gray-500 m-0">{{ selectedProduct.ar_name }}</p>
+    </div>
+  </div>
+
+  <app-product-website-links [enUrl]="getProductUrl(selectedProduct, 'en')"
+    [arUrl]="getProductUrl(selectedProduct, 'ar')" [itemType]="'Product'"
+    [filePrefix]="'special-' + (selectedProduct?.en_slug || selectedProduct?.ar_slug || selectedProduct?.id)"
+    [isSpecial]="true">
+  </app-product-website-links>
+  }
+</p-dialog>
+
+<p-toast></p-toast>
 } @else {
 <app-loading-data-banner></app-loading-data-banner>
 }

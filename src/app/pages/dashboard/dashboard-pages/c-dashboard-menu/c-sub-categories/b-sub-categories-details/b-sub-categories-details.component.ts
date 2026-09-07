@@ -46,7 +46,6 @@ export class BSubCategoriesDetailsComponent {
     const subId = this.subCategoryData?.data?.id;
     if (!subId) return '';
 
-    if (!subId) return '';
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
     return `${baseUrl}/#/${lang}/shopping?subcategoryId=${subId}`;
   }

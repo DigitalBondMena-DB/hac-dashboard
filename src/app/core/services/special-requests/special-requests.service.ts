@@ -8,7 +8,7 @@ import { ISpecialRequestResponse, ISpecialRequest } from "../../Interfaces/speci
   providedIn: "root",
 })
 export class SpecialRequestsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllSpecialRequests(): Observable<ISpecialRequestResponse> {
     return this.http.get<ISpecialRequestResponse>(`${WEB_SITE_BASE_URL}special_request_index`);
@@ -25,5 +25,9 @@ export class SpecialRequestsService {
         error: (err) => observer.error(err),
       });
     });
+  }
+
+  updateSpecialRequestReadStatus(id: number): Observable<any> {
+    return this.http.post<any>(`${WEB_SITE_BASE_URL}special_request/${id}/read`, {});
   }
 }

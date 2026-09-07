@@ -10,6 +10,8 @@ import { ISpecialRequest } from '../../../../../../core/Interfaces/special-reque
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { MAIN_SITE_URL } from '../../../../../../core/constants/WEB_SITE_BASE_UTL';
+import { ProductWebsiteLinksComponent } from '../../../../../../shared/components/product-website-links/product-website-links.component';
 
 @Component({
   selector: 'app-view-special-request',
@@ -23,6 +25,7 @@ import { RouterLink } from '@angular/router';
     LoadingDataBannerComponent,
     ButtonModule,
     RouterLink,
+    ProductWebsiteLinksComponent,
   ],
   providers: [MessageService],
   templateUrl: './view-special-request.component.html',
@@ -30,10 +33,60 @@ import { RouterLink } from '@angular/router';
 export class ViewSpecialRequestComponent implements OnInit {
   request: ISpecialRequest | undefined;
   isLoading = true;
+  isUpdatingStatus = false;
 
   private activatedRoute = inject(ActivatedRoute);
   private specialRequestsService = inject(SpecialRequestsService);
   private messageService = inject(MessageService);
+
+  isDone(req?: ISpecialRequest): boolean {
+    const target = req || this.request;
+    return Boolean(target?.is_read);
+  }
+
+  toggleStatus(): void {
+    if (!this.request || this.isUpdatingStatus) return;
+
+    this.isUpdatingStatus = true;
+    this.specialRequestsService.updateSpecialRequestReadStatus(this.request.id).subscribe({
+      next: (res) => {
+        this.isUpdatingStatus = false;
+        if (this.request) {
+          if (res && res.special_request) {
+            this.request.is_read = res.special_request.is_read;
+          } else {
+            this.request.is_read = this.isDone(this.request) ? 0 : 1;
+          }
+          const statusText = this.isDone(this.request) ? 'Done' : 'Requested';
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Status Updated',
+            detail: `Request status is now ${statusText}`,
+            life: 2500,
+          });
+        }
+      },
+      error: (err) => {
+        this.isUpdatingStatus = false;
+        console.error('Failed to update status', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to update request status',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  getProductUrl(lang: 'en' | 'ar'): string {
+    const slug = lang === 'en'
+      ? (this.request?.product?.en_slug || this.request?.product?.ar_slug)
+      : (this.request?.product?.ar_slug || this.request?.product?.en_slug);
+    if (!slug) return '';
+    const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
+    return `${baseUrl}/#/${lang}/product-details/${slug}`;
+  }
 
   ngOnInit(): void {
     this.fetchData();

@@ -10,7 +10,7 @@ export interface ISpecialRequest {
   address: string;
   product_id: number;
   quantity: number;
-  is_read: number | null;
+  is_read: number | boolean | null;
   created_at: string;
   updated_at: string;
   product: any;
