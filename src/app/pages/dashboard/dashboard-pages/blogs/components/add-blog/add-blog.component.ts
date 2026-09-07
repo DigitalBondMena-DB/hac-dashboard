@@ -73,7 +73,7 @@ export class AddBlogComponent implements OnInit {
   isEditMode: boolean = false;
   blogId: string | null = null;
   initialImages: ProductImage[] = [];
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
   minDate: string = new Date().toISOString().split('T')[0]; // For input min attribute
 
   constructor() { }

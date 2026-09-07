@@ -53,7 +53,7 @@ export class AllOffersComponent {
   sortOrder: number = 1; // 1 for ascending, -1 for descending
   currentPage: number = 1;
 
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
 
   @ViewChild('dt') dt!: Table;
 

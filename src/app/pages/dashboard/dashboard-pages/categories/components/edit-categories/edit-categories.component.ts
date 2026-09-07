@@ -72,7 +72,7 @@ export class EditCategoriesComponent implements OnInit {
   categoryId: number | null = null;
   isSpecial: boolean = false;
   initialImages: ProductImage[] = []; // Changed to ProductImage[]
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

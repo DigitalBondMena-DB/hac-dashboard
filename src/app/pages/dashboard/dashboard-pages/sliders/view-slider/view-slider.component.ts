@@ -34,7 +34,7 @@ export class ViewSliderComponent implements OnInit, OnDestroy {
   private messageService = inject(MessageService);
   private ngxSpinnerService = inject(NgxSpinnerService);
 
-  SLIDERS_BASE_URL: string = 'https://mesoshop.digitalbondmena.com/';
+  SLIDERS_BASE_URL: string = 'https://dev.mesoshop.digitalbondmena.com/';
   sliderId: string = '';
   slider: Slider | null = null;
   isLoading: boolean = true;

@@ -34,7 +34,7 @@ export class ViewBlogComponent implements OnInit {
   private messageService = inject(MessageService);
   private ngxSpinnerService = inject(NgxSpinnerService);
 
-  BLOGS_BASE_URL: string = "https://mesoshop.digitalbondmena.com";
+  BLOGS_BASE_URL: string = "https://dev.mesoshop.digitalbondmena.com";
   blogId: string = '';
   blog: Blog | null = null;
   isLoading: boolean = true;

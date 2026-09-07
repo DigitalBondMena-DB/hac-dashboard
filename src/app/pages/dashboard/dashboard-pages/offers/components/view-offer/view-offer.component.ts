@@ -32,7 +32,7 @@ export class ViewOfferComponent implements OnInit {
   private messageService = inject(MessageService);
   private ngxSpinnerService = inject(NgxSpinnerService);
 
-  OFFERS_BASE_URL: string = 'https://mesoshop.digitalbondmena.com/';
+  OFFERS_BASE_URL: string = 'https://dev.mesoshop.digitalbondmena.com/';
   offerId: string = '';
   offer: Offer | null = null;
   isLoading: boolean = true;

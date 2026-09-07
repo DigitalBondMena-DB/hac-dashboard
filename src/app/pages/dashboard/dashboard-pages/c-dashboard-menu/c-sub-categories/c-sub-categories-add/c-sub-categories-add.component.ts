@@ -36,7 +36,7 @@ import { ProductImage } from "../../b-products/h-products-edit/h-products-edit.c
 })
 export class CSubCategoriesAddComponent {
   submitForm: FormGroup;
-  IMAGE_BASE_URL: string = `https://mesoshop.digitalbondmena.com/`;
+  IMAGE_BASE_URL: string = `https://dev.mesoshop.digitalbondmena.com/`;
   categories: {
     value: string;
     label: string;

@@ -144,7 +144,7 @@ export class AAllProductsComponent {
         this.products = response?.rows || [];
         this.marimages = [];
         this.products.forEach((product) => {
-          product.images?.forEach((image) => (this.marimages.push("https://mesoshop.digitalbondmena.com/" + image.image)));
+          product.images?.forEach((image) => (this.marimages.push("https://dev.mesoshop.digitalbondmena.com/" + image.image)));
         });
         this.filteredProducts = [...this.products];
         this.totalRecords = this.products.length;

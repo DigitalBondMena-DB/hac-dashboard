@@ -55,7 +55,7 @@ export class AllSlidersComponent implements OnInit, OnDestroy {
   selectOptions: SelectOption[] = [];
   loading: boolean = true;
 
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
 
   @ViewChild('dt') dt!: Table;
 

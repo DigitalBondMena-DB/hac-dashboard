@@ -28,11 +28,13 @@
           <div class="link-box">
             <span class="link-text" [title]="getProductUrl('en')">{{ getProductUrl('en') }}</span>
             <div class="link-actions">
-              <a [href]="getProductUrl('en')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn" title="Open in website">
+              <a [href]="getProductUrl('en')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn"
+                title="Open in website">
                 <i class="pi pi-external-link"></i>
                 <span>Open</span>
               </a>
-              <button type="button" (click)="copyToClipboard(getProductUrl('en'), 'en')" class="btn-action copy-btn" title="Copy to clipboard">
+              <button type="button" (click)="copyToClipboard(getProductUrl('en'), 'en')" class="btn-action copy-btn"
+                title="Copy to clipboard">
                 <i [class]="copiedLang === 'en' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
                 <span>{{ copiedLang === 'en' ? 'Copied!' : 'Copy' }}</span>
               </button>
@@ -49,11 +51,13 @@
           <div class="link-box">
             <span class="link-text" [title]="getProductUrl('ar')">{{ getProductUrl('ar') }}</span>
             <div class="link-actions">
-              <a [href]="getProductUrl('ar')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn" title="Open in website">
+              <a [href]="getProductUrl('ar')" target="_blank" rel="noopener noreferrer" class="btn-action open-btn"
+                title="Open in website">
                 <i class="pi pi-external-link"></i>
                 <span>Open</span>
               </a>
-              <button type="button" (click)="copyToClipboard(getProductUrl('ar'), 'ar')" class="btn-action copy-btn" title="Copy to clipboard">
+              <button type="button" (click)="copyToClipboard(getProductUrl('ar'), 'ar')" class="btn-action copy-btn"
+                title="Copy to clipboard">
                 <i [class]="copiedLang === 'ar' ? 'pi pi-check text-green-600' : 'pi pi-copy'"></i>
                 <span>{{ copiedLang === 'ar' ? 'Copied!' : 'Copy' }}</span>
               </button>
@@ -65,7 +69,7 @@
 
     <!-- Main Image -->
     <div class="main-image-container">
-      <img [src]="'https://mesoshop.digitalbondmena.com/' + ProductData.main_image" alt="{{ ProductData.en_name }}"
+      <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + ProductData.main_image" alt="{{ ProductData.en_name }}"
         class="main-image" [ngClass]="{'loaded': imageLoaded}" (load)="imageLoaded = true">
       <div class="image-placeholder" *ngIf="!imageLoaded"></div>
     </div>
@@ -144,7 +148,7 @@
       <h2 class="section-title">Gallery</h2>
       <div class="gallery-grid">
         <div *ngFor="let image of ProductData.images" class="gallery-item">
-          <img [src]="'https://mesoshop.digitalbondmena.com/' + image.image" alt="Additional image"
+          <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + image.image" alt="Additional image"
             class="gallery-image" [ngClass]="{'loaded': additionalImagesLoaded[+image.id]}"
             (load)="additionalImagesLoaded[+image.id] = true">
           <div class="image-placeholder" *ngIf="!additionalImagesLoaded[+image.id]"></div>

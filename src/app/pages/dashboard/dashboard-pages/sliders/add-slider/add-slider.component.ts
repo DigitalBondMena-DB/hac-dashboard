@@ -71,7 +71,7 @@ export class AddSliderComponent implements OnInit {
   sliderId: string | null = null;
   initialArImages: ProductImage[] = [];
   initialEnImages: ProductImage[] = [];
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
 
   constructor() { }
 

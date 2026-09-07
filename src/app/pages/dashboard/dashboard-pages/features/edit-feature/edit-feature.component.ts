@@ -77,7 +77,7 @@ export class EditFeatureComponent implements OnInit {
 
     string | null = null;
   initialImages: ProductImage[] = []; // Changed to ProductImage[] to match ImageUploadComponent
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
 
   constructor() { }
 

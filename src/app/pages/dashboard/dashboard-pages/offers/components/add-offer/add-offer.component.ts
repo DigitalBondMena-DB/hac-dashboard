@@ -61,7 +61,7 @@ export class AddOfferComponent implements OnInit {
   isEditMode: boolean = false;
   offerId: string | null = null;
   initialImages: ProductImage[] = [];
-  private readonly IMAGE_BASE_URL = 'https://mesoshop.digitalbondmena.com/';
+  private readonly IMAGE_BASE_URL = 'https://dev.mesoshop.digitalbondmena.com/';
 
   constructor() { }
 

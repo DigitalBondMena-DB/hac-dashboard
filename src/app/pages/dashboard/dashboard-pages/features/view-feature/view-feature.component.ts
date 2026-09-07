@@ -32,7 +32,7 @@ export class ViewFeatureComponent implements OnInit {
   private messageService = inject(MessageService);
   private ngxSpinnerService = inject(NgxSpinnerService);
 
-  FEATURES_BASE_URL: string = 'https://mesoshop.digitalbondmena.com/';
+  FEATURES_BASE_URL: string = 'https://dev.mesoshop.digitalbondmena.com/';
   featureId: string = '';
   feature: Feature | null = null;
   isLoading: boolean = true;
