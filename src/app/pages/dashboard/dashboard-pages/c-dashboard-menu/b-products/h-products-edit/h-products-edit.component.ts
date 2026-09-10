@@ -198,9 +198,25 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
     this.isSpinnerLocked = true;
     this.spinnerService.show('actionsLoader');
     this.isSpecial = this.route.snapshot.queryParams['special'] === 'true' || this.route.snapshot.queryParams['special'] === '1';
+    this.updatePriceValidators();
     this.route.queryParams.subscribe(params => {
       this.isSpecial = params['special'] === 'true' || params['special'] === '1';
+      this.updatePriceValidators();
     });
+  }
+
+  private updatePriceValidators(): void {
+    const pricingType = this.productForm?.get('pricing_type')?.value;
+    if (pricingType === 'standard') {
+      if (this.isSpecial) {
+        this.productForm.get('price')?.setValidators([Validators.min(0)]);
+      } else {
+        this.productForm.get('price')?.setValidators([Validators.required, Validators.min(0)]);
+      }
+    } else {
+      this.productForm?.get('price')?.clearValidators();
+    }
+    this.productForm?.get('price')?.updateValueAndValidity();
   }
 
 
@@ -246,7 +262,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       category_id: [null, [Validators.required]],
       subcategory_id: [null],
       pricing_type: ['standard', [Validators.required]],
-      price: [null, [Validators.required, Validators.min(0)]],
+      price: [null, this.isSpecial ? [Validators.min(0)] : [Validators.required, Validators.min(0)]],
       sale_price: [null, [Validators.min(0), Validators.max(100)]],
       price_after_sale: [{ value: null, disabled: true }],
       active_status: [false],
@@ -447,7 +463,11 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
   private setupPricingTypeListener(): void {
     this.productForm.get('pricing_type')?.valueChanges.subscribe(type => {
       if (type === 'standard') {
-        this.productForm.get('price')?.setValidators([Validators.required, Validators.min(0)]);
+        if (this.isSpecial) {
+          this.productForm.get('price')?.setValidators([Validators.min(0)]);
+        } else {
+          this.productForm.get('price')?.setValidators([Validators.required, Validators.min(0)]);
+        }
         this.productForm.get('sale_price')?.setValidators([Validators.min(0), Validators.max(100)]);
       } else {
         this.productForm.get('price')?.clearValidators();
@@ -490,7 +510,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       return;
     }
 
-    if (this.productForm.get('pricing_type')?.value === 'standard' && this.productForm.get('price')?.invalid) {
+    if (!this.isSpecial && this.productForm.get('pricing_type')?.value === 'standard' && this.productForm.get('price')?.invalid) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -570,7 +590,13 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
     formData.append('featured', formValue.featured ? '1' : '0');
     formData.append('stock_status', formValue.stock_status ? '1' : '0');
 
-    formData.append('price', formValue.price || '0');
+    if (formValue.price !== null && formValue.price !== undefined && formValue.price !== '') {
+      formData.append('price', formValue.price);
+    } else if (this.isSpecial) {
+      formData.append('price', '');
+    } else {
+      formData.append('price', formValue.price || '0');
+    }
     if (formValue.sale_price) {
       formData.append('sale_price', formValue.sale_price);
       formData.append('price_after_sale', formValue.price_after_sale);

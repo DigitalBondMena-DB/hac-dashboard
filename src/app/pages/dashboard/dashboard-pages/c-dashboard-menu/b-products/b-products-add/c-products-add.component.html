@@ -486,7 +486,7 @@
         @if (productForm.get('pricing_type')?.value === 'standard') {
         <div class="form-row w-full">
           <div class="form-field">
-            <label class="field-label">Price *</label>
+            <label class="field-label">Price {{ isSpecial ? '' : '*' }}</label>
             <p-inputNumber
               [style]="{ width: '100%' }"
               formControlName="price"
@@ -499,7 +499,12 @@
             <div class="error-container">
               @if (productForm.get('price')?.invalid &&
               productForm.get('price')?.touched) {
-              <small class="error-message">Price is required.</small>
+                @if (productForm.get('price')?.errors?.['required']) {
+                  <small class="error-message">Price is required.</small>
+                }
+                @if (productForm.get('price')?.errors?.['min']) {
+                  <small class="error-message">Price cannot be less than 0.</small>
+                }
               }
             </div>
           </div>

@@ -98,6 +98,7 @@ export class CProductsAddComponent implements OnInit {
   private baseUrl = WEB_SITE_BASE_URL;
 
   constructor() {
+    this.isSpecial = this.route.snapshot.queryParams['special'] === 'true' || this.route.snapshot.queryParams['special'] === '1';
     this.productForm = this.createForm();
     this.setupPricingTypeListener();
     this.setupCategoryListener();
@@ -106,9 +107,24 @@ export class CProductsAddComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.isSpecial = params['special'] === 'true' || params['special'] === '1';
+      this.updatePriceValidators();
       this.fetchCategories();
     });
     this.subcategories = this.noSubcategoriesOption;
+  }
+
+  private updatePriceValidators(): void {
+    const pricingType = this.productForm.get("pricing_type")?.value;
+    if (pricingType === "standard") {
+      if (this.isSpecial) {
+        this.productForm.get("price")?.setValidators([Validators.min(0)]);
+      } else {
+        this.productForm.get("price")?.setValidators([Validators.required, Validators.min(0)]);
+      }
+    } else {
+      this.productForm.get("price")?.clearValidators();
+    }
+    this.productForm.get("price")?.updateValueAndValidity();
   }
 
   createForm(): FormGroup {
@@ -122,7 +138,7 @@ export class CProductsAddComponent implements OnInit {
       category_id: [null, [Validators.required]],
       subcategory_id: [null],
       pricing_type: ["standard", [Validators.required]],
-      price: [null, [Validators.required, Validators.min(0)]],
+      price: [null, this.isSpecial ? [Validators.min(0)] : [Validators.required, Validators.min(0)]],
       sale_price: [{ value: null, disabled: true }, [Validators.min(0), Validators.max(100)]],
       price_after_sale: [{ value: null, disabled: true }],
       active_status: [0],
@@ -303,7 +319,11 @@ export class CProductsAddComponent implements OnInit {
     this.productForm.get("pricing_type")?.valueChanges.subscribe((type) => {
       if (type === "standard") {
         this.choicesArray.clear();
-        this.productForm.get("price")?.setValidators([Validators.required, Validators.min(0)]);
+        if (this.isSpecial) {
+          this.productForm.get("price")?.setValidators([Validators.min(0)]);
+        } else {
+          this.productForm.get("price")?.setValidators([Validators.required, Validators.min(0)]);
+        }
         this.productForm.get("sale_price")?.setValidators([Validators.min(0)]);
       } else {
         if (this.choicesArray.length === 0) {
@@ -420,7 +440,13 @@ export class CProductsAddComponent implements OnInit {
     formData.append("commercial_status", formValue.commercial_status ? "1" : "0"); // Added commercial_status
 
     if (formValue.pricing_type === "standard") {
-      formData.append("price", formValue.price);
+      if (formValue.price !== null && formValue.price !== undefined && formValue.price !== "") {
+        formData.append("price", formValue.price);
+      } else if (this.isSpecial) {
+        formData.append("price", "");
+      } else {
+        formData.append("price", formValue.price ?? "");
+      }
       if (formValue.sale_price) {
         formData.append("sale_price", formValue.sale_price);
         formData.append("price_after_sale", formValue.price_after_sale);
