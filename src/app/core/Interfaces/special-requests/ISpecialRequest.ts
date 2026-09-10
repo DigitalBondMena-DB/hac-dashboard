@@ -7,7 +7,11 @@ export interface ISpecialRequest {
   name: string;
   email: string;
   phone: string;
-  address: string;
+  city?: string;
+  doctor_name?: string;
+  hospital_name?: string;
+  doctor_code?: string;
+  address?: string;
   product_id: number;
   quantity: number;
   is_read: number | boolean | null;
@@ -15,3 +19,4 @@ export interface ISpecialRequest {
   updated_at: string;
   product: any;
 }
+

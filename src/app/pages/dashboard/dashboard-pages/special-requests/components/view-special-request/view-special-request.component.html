@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
     <!-- Customer Information -->
     <p-card header="Customer Information" styleClass="h-full">
       <div class="flex flex-col gap-3">
@@ -22,16 +22,40 @@
           <span>{{ request.name }}</span>
         </div>
         <div class="flex justify-between border-b pb-2">
-          <span class="text-gray-600 font-semibold">Email:</span>
-          <span>{{ request.email }}</span>
+          <span class="text-gray-600 font-semibold">City:</span>
+          <span>{{ request.city || '—' }}</span>
         </div>
         <div class="flex justify-between border-b pb-2">
           <span class="text-gray-600 font-semibold">Phone:</span>
           <span>{{ request.phone }}</span>
         </div>
         <div class="flex justify-between pb-2">
+          <span class="text-gray-600 font-semibold">Email:</span>
+          <span>{{ request.email }}</span>
+        </div>
+        @if (request.address) {
+        <div class="flex justify-between border-t pt-2">
           <span class="text-gray-600 font-semibold">Address:</span>
           <span>{{ request.address }}</span>
+        </div>
+        }
+      </div>
+    </p-card>
+
+    <!-- Doctor / Hospital Information -->
+    <p-card header="Doctor & Hospital Information" styleClass="h-full">
+      <div class="flex flex-col gap-3">
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Doctor Name:</span>
+          <span>{{ request.doctor_name || '—' }}</span>
+        </div>
+        <div class="flex justify-between border-b pb-2">
+          <span class="text-gray-600 font-semibold">Hospital Name:</span>
+          <span>{{ request.hospital_name || '—' }}</span>
+        </div>
+        <div class="flex justify-between pb-2">
+          <span class="text-gray-600 font-semibold">Doctor's Code:</span>
+          <span>{{ request.doctor_code || '—' }}</span>
         </div>
       </div>
     </p-card>
@@ -43,10 +67,12 @@
           <span class="text-gray-600 font-semibold">Request ID:</span>
           <span>#{{ request.id }}</span>
         </div>
+        @if (request.product) {
         <div class="flex justify-between border-b pb-2">
           <span class="text-gray-600 font-semibold">Price:</span>
           <span>{{ request.product.price | currency }}</span>
         </div>
+        }
         <div class="flex justify-between border-b pb-2">
           <span class="text-gray-600 font-semibold">Quantity Requested:</span>
           <span>{{ request.quantity }}</span>
