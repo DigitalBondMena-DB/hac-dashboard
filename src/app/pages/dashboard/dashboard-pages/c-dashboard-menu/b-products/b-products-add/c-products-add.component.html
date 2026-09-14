@@ -420,6 +420,55 @@
         </div>
       </div>
 
+      <!-- SECTION: Banner Image (Special Mode Only) -->
+      <div class="section" *ngIf="isSpecial">
+        <h3 class="section-title">Banner Image</h3>
+        <p class="section-description">
+          This will be the banner image displayed for the product
+        </p>
+
+        <div class="form-field">
+          <label class="field-label">Banner Image *</label>
+          <p-fileUpload
+            #bannerImageUpload
+            name="banner_image"
+            accept="image/*"
+            [auto]="true"
+            [chooseLabel]="'Choose Image'"
+            [uploadLabel]="'Upload'"
+            [styleClass]="'field-input'"
+            [cancelLabel]="'Cancel'"
+            (onRemove)="clearBannerImage()"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            [customUpload]="true"
+            (onSelect)="onBannerImageSelect($event)"
+            [maxFileSize]="1000000"
+            [draggable]="true"
+          >
+            <ng-template pTemplate="content">
+              <div class="upload-area" [class.has-preview]="bannerImagePreview">
+                <div class="upload-placeholder">
+                  <i class="pi pi-cloud-upload upload-icon"></i>
+                  <p class="upload-text">
+                    Drag & drop an image or
+                    <span class="upload-link" (click)="bannerImageUpload.choose()"
+                      >click to select</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+          <div class="error-container">
+            @if (productForm.get('banner_image')?.invalid &&
+            productForm.get('banner_image')?.touched) {
+            <small class="error-message">Banner image is required.</small>
+            }
+          </div>
+        </div>
+      </div>
+
       <!-- SECTION: Additional Product Images -->
       <div class="section">
         <h3 class="section-title">Additional Product Images</h3>

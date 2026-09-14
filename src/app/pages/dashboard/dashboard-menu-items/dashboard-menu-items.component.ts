@@ -52,9 +52,9 @@ export class DashboardMenuItemsComponent {
   @Input() parentKey!: string;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.item.label === "Dashboard") {
+    if (this.item?.label === "Dashboard") {
       this.item.routerLinkActiveOptions = {
-        exact: true,
+        paths: "exact",
         queryParams: "ignored",
         matrixParams: "ignored",
         fragment: "ignored",
@@ -110,12 +110,21 @@ export class DashboardMenuItemsComponent {
   }
 
   updateActiveStateFromRoute() {
-    const options = this.item.routerLinkActiveOptions || {
+    let options: any = this.item.routerLinkActiveOptions || {
       paths: "exact",
       queryParams: "ignored",
       matrixParams: "ignored",
       fragment: "ignored",
     };
+
+    if (options && !options.paths) {
+      options = {
+        paths: options.exact ? "exact" : "subset",
+        queryParams: options.queryParams || "ignored",
+        matrixParams: options.matrixParams || "ignored",
+        fragment: options.fragment || "ignored",
+      };
+    }
 
     const targetTree = this.item.queryParams
       ? this.router.createUrlTree(this.item.routerLink, { queryParams: this.item.queryParams })

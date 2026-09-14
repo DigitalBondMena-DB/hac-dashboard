@@ -88,6 +88,7 @@ export interface Product {
   price_after_sale: string | null;
   stock_status: boolean;
   main_image: string;
+  banner_image?: string;
   additional_images: string | null;
   featured: number;
   active_status: boolean;
@@ -125,6 +126,8 @@ export interface ProductApiResponse {
 export interface ProductState {
   mainImage: string;
   mainImageFile: File | null;
+  bannerImage: string;
+  bannerImageFile: File | null;
   images: string[];
   additionalImageFiles: File[];
 }
@@ -179,10 +182,13 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
   state: ProductState = {
     mainImage: '',
     mainImageFile: null,
+    bannerImage: '',
+    bannerImageFile: null,
     images: [],
     additionalImageFiles: []
   };
   mainImageInitial: ProductImage[] = [];
+  bannerImageInitial: ProductImage[] = [];
   imagesInitial: ProductImage[] = [];
 
   constructor() {
@@ -292,12 +298,15 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
 
   private populateForm(product: Product): void {
     const mainImgPath = product.main_image || (product.images?.find(img => img.is_main)?.image) || '';
+    const bannerImgPath = product.banner_image || '';
 
     const additionalImages = (product.images || []).filter(img => img.image && !img.is_main && img.image !== mainImgPath);
 
     this.state = {
       mainImage: mainImgPath,
       mainImageFile: null,
+      bannerImage: bannerImgPath,
+      bannerImageFile: null,
       images: additionalImages.map(img => img.image).filter(Boolean),
       additionalImageFiles: []
     };
@@ -310,6 +319,19 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       medium: `https://dev.mesoshop.digitalbondmena.com/${this.state.mainImage}`,
       order_view: 1,
       is_main: true,
+      active_status: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }] : [];
+
+    this.bannerImageInitial = this.state.bannerImage ? [{
+      id: 'banner',
+      product_id: product.id,
+      image: this.state.bannerImage,
+      thumb: this.state.bannerImage.startsWith('http') ? this.state.bannerImage : `https://dev.mesoshop.digitalbondmena.com/${this.state.bannerImage}`,
+      medium: this.state.bannerImage.startsWith('http') ? this.state.bannerImage : `https://dev.mesoshop.digitalbondmena.com/${this.state.bannerImage}`,
+      order_view: 1,
+      is_main: false,
       active_status: true,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -438,6 +460,16 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
     this.state.mainImageFile = added[0] || null;
   }
 
+  onBannerImageChanged({ added, removed }: { added: File[], removed: string[] }): void {
+    if (removed.length > 0) {
+      const cleanPath = removed[0].match(/uploads\/.+/)?.[0] || removed[0];
+      if (cleanPath === this.state.bannerImage || removed[0].includes(this.state.bannerImage)) {
+        this.state.bannerImage = '';
+      }
+    }
+    this.state.bannerImageFile = added[0] || null;
+  }
+
   onImagesChanged({ added, removed }: { added: File[], removed: string[] }): void {
     const removedPaths = removed
       .map(url => url.match(/uploads\/.+/)?.[0] || url)
@@ -506,6 +538,15 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
         severity: 'error',
         summary: 'Error',
         detail: 'Please fill all required fields, including the main image'
+      });
+      return;
+    }
+
+    if (this.isSpecial && !this.state.bannerImage && !this.state.bannerImageFile) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Please fill all required fields, including the banner image'
       });
       return;
     }
@@ -606,6 +647,14 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       formData.append('main_image', this.state.mainImageFile);
     } else if (this.state.mainImage) {
       formData.append('main_image', this.state.mainImage);
+    }
+
+    if (this.isSpecial) {
+      if (this.state.bannerImageFile) {
+        formData.append('banner_image', this.state.bannerImageFile);
+      } else if (this.state.bannerImage) {
+        formData.append('banner_image', this.state.bannerImage);
+      }
     }
 
     if (this.state.additionalImageFiles.length > 0) {

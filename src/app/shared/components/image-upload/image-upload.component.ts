@@ -28,6 +28,7 @@ export class ImageUploadComponent implements OnInit {
   @Input() initialImages: ProductImage[] = [];
   @Input() singleImageMode = false;
   @Input() id = 'default';
+  @Input() customLabel?: string;
   @Output() imagesChanged = new EventEmitter<{ added: File[], removed: string[] }>();
   isDeleting: { [key: string]: boolean } = {};
   images: ProductImage[] = [];

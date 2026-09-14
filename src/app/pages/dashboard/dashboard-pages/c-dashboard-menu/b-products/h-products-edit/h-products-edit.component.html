@@ -412,6 +412,34 @@
           </div>
         </div>
       </div>
+      <!-- SECTION: Banner Image (Special Mode Only) -->
+      <div class="section" *ngIf="isSpecial">
+        <h3 class="section-title">Banner Image</h3>
+        <p class="section-description">
+          This will be the banner image displayed for the product
+        </p>
+        <div class="form-field">
+          <label class="field-label">Banner Image *</label>
+          <app-image-upload
+            [initialImages]="bannerImageInitial"
+            [singleImageMode]="true"
+            [id]="'banner'"
+            [customLabel]="'Banner Image'"
+            (imagesChanged)="onBannerImageChanged($event)"
+            class="uniform-input"
+          ></app-image-upload>
+          <div class="error-container">
+            <small
+              *ngIf="
+                !state.bannerImage && !state.bannerImageFile && productForm.touched
+              "
+              class="error-message"
+            >
+              Banner image is required.
+            </small>
+          </div>
+        </div>
+      </div>
       <div class="section">
         <h3 class="section-title">Additional Product Images</h3>
         <p class="section-description">

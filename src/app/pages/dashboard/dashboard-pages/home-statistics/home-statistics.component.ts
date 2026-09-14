@@ -18,12 +18,12 @@ interface StatisticsData {
   templateUrl: './home-statistics.component.html',
   styleUrls: ['./home-statistics.component.scss'],
   standalone: true,
-  imports: [ChartModule,NgxSpinnerModule]
+  imports: [ChartModule, NgxSpinnerModule]
 })
 export class HomeStatisticsComponent implements OnInit {
   statisticsData!: StatisticsData;
   ngxSpinnerService = inject(NgxSpinnerService);
-  
+
   // Chart data
   overviewChartData: any;
   ordersChartData: any;
@@ -31,7 +31,7 @@ export class HomeStatisticsComponent implements OnInit {
   chartOptions: any;
   isLoading: boolean = true;
 
-  constructor(private httpClient: HttpClient) {} // Fix: lowercase httpClient
+  constructor(private httpClient: HttpClient) { } // Fix: lowercase httpClient
 
   ngOnInit() {
     this.ngxSpinnerService.show('actionsLoader');
@@ -44,11 +44,6 @@ export class HomeStatisticsComponent implements OnInit {
       next: (res) => {
         // The response seems to be the data directly, not wrapped in a 'data' property
         this.statisticsData = res;
-        console.log(this.statisticsData.pendingorders,
-          this.statisticsData.confirmedorders,
-          this.statisticsData.cancelledorders
-        )
-        // this.setDefaultData();
 
         // Initialize charts AFTER data is received
         this.initializeCharts();
@@ -175,7 +170,7 @@ export class HomeStatisticsComponent implements OnInit {
       return 0;
     }
     return this.statisticsData.pendingorders +
-           this.statisticsData.confirmedorders +
-           this.statisticsData.cancelledorders;
+      this.statisticsData.confirmedorders +
+      this.statisticsData.cancelledorders;
   }
 }

@@ -15,7 +15,7 @@
         <img [src]="image.thumb"  class="preview-image">
         <div class="image-info">
           <!-- <span class="image-name" [title]="image.image">{{ image.image }}</span> -->
-          <span class="image-size">{{ image.is_main ? 'Main Image' : 'Secondary' }}</span>
+          <span class="image-size">{{ customLabel || (image.is_main ? 'Main Image' : 'Secondary') }}</span>
         </div>
         <button *ngIf="!singleImageMode" type="button" class="remove-btn" (click)="removeImage(i)" title="Remove image" [disabled]="isDeleting[image.id]">
           <i class="pi pi-times"></i>

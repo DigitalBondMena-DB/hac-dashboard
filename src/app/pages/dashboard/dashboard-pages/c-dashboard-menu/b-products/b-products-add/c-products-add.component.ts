@@ -93,6 +93,7 @@ export class CProductsAddComponent implements OnInit {
   noSubcategoriesOption: DropdownOption[] = [{ id: null, en_name: "No Subcategories" }];
   isSubcategoryDisabled = true;
   mainImagePreview: string | null = null;
+  bannerImagePreview: string | null = null;
   additionalImagePreviews: { file: File; preview: string }[] = [];
   submittedData: any = null;
   private baseUrl = WEB_SITE_BASE_URL;
@@ -108,6 +109,7 @@ export class CProductsAddComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.isSpecial = params['special'] === 'true' || params['special'] === '1';
       this.updatePriceValidators();
+      this.updateBannerValidators();
       this.fetchCategories();
     });
     this.subcategories = this.noSubcategoriesOption;
@@ -125,6 +127,15 @@ export class CProductsAddComponent implements OnInit {
       this.productForm.get("price")?.clearValidators();
     }
     this.productForm.get("price")?.updateValueAndValidity();
+  }
+
+  private updateBannerValidators(): void {
+    if (this.isSpecial) {
+      this.productForm.get("banner_image")?.setValidators([Validators.required]);
+    } else {
+      this.productForm.get("banner_image")?.clearValidators();
+    }
+    this.productForm.get("banner_image")?.updateValueAndValidity();
   }
 
   createForm(): FormGroup {
@@ -146,6 +157,7 @@ export class CProductsAddComponent implements OnInit {
       featured: [false],
       commercial_status: [0],
       main_image: [null, [Validators.required]],
+      banner_image: [null, this.isSpecial ? [Validators.required] : []],
       additional_images: [[]],
       en_ingredient: [""],
       ar_ingredient: [""],
@@ -187,6 +199,27 @@ export class CProductsAddComponent implements OnInit {
     this.mainImagePreview = null;
     this.productForm.patchValue({
       main_image: null
+    });
+  }
+
+  onBannerImageSelect(event: any): void {
+    const file = event.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.bannerImagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      this.productForm.patchValue({
+        banner_image: file
+      });
+    }
+  }
+
+  clearBannerImage(): void {
+    this.bannerImagePreview = null;
+    this.productForm.patchValue({
+      banner_image: null
     });
   }
 
@@ -470,6 +503,10 @@ export class CProductsAddComponent implements OnInit {
       formData.append("main_image", formValue.main_image);
     }
 
+    if (this.isSpecial && formValue.banner_image) {
+      formData.append("banner_image", formValue.banner_image);
+    }
+
     const additionalImages = formValue.additional_images || [];
     additionalImages.forEach((file: File, index: number) => {
       formData.append(`images[${index}]`, file);
@@ -484,6 +521,8 @@ export class CProductsAddComponent implements OnInit {
       if (value instanceof File) {
         if (key === "main_image") {
           obj.main_image = value.name;
+        } else if (key === "banner_image") {
+          obj.banner_image = value.name;
         } else if (key.startsWith("images[")) {
           if (!obj.additional_images) obj.additional_images = [];
           obj.additional_images.push(value.name);

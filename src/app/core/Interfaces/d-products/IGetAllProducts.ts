@@ -22,6 +22,7 @@ export interface ProductData {
   price_after_sale: string | null;
   stock_status: boolean;
   main_image: string;
+  banner_image?: string;
   additional_images: string | null;
   en_specifications: string | null;
   ar_specifications: string | null;
