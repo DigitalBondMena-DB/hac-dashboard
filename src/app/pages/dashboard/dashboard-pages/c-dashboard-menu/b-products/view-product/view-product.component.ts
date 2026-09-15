@@ -47,7 +47,7 @@ export class ViewProductComponent implements OnInit {
     const slug = lang === 'en' ? this.ProductData?.en_slug : this.ProductData?.ar_slug;
     if (!slug) return '';
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
-    return `${baseUrl}/#/${lang}/product-details/${slug}`;
+    return `${baseUrl}/${lang}/product-details/${slug}`;
   }
 
   get galleryImages(): any[] {
