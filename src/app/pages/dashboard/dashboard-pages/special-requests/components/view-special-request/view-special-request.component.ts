@@ -85,7 +85,7 @@ export class ViewSpecialRequestComponent implements OnInit {
       : (this.request?.product?.ar_slug || this.request?.product?.en_slug);
     if (!slug) return '';
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
-    return `${baseUrl}/#/${lang}/product-details/${slug}`;
+    return `${baseUrl}/${lang}/product-details/${slug}`;
   }
 
   ngOnInit(): void {

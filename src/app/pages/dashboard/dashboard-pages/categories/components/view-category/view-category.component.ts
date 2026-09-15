@@ -99,6 +99,6 @@ export class ViewCategoryComponent implements OnInit {
   getCategoryUrl(lang: 'en' | 'ar'): string {
     if (!this.categoryId) return '';
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
-    return `${baseUrl}/#/${lang}/shopping?categoryId=${this.categoryId}`;
+    return `${baseUrl}/${lang}/shopping?categoryId=${this.categoryId}`;
   }
 }

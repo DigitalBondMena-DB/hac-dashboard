@@ -89,7 +89,7 @@ export class AllSpecialRequestsComponent implements OnInit {
       : (product?.ar_slug || product?.en_slug);
     if (!slug) return '';
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
-    return `${baseUrl}/#/${lang}/product-details/${slug}`;
+    return `${baseUrl}/${lang}/product-details/${slug}`;
   }
 
   copyProductUrl(product: any, lang: 'en' | 'ar', event?: Event): void {

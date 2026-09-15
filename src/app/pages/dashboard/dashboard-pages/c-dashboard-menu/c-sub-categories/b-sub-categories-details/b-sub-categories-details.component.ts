@@ -47,7 +47,7 @@ export class BSubCategoriesDetailsComponent {
     if (!subId) return '';
 
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
-    return `${baseUrl}/#/${lang}/shopping?subcategoryId=${subId}`;
+    return `${baseUrl}/${lang}/shopping?subcategoryId=${subId}`;
   }
 }
 
