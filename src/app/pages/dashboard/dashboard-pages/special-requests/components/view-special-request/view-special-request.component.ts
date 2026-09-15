@@ -1,5 +1,6 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -28,46 +29,66 @@ import { ProductWebsiteLinksComponent } from '../../../../../../shared/component
     ProductWebsiteLinksComponent,
   ],
   providers: [MessageService],
+
   templateUrl: './view-special-request.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewSpecialRequestComponent implements OnInit {
-  request: ISpecialRequest | undefined;
-  isLoading = true;
-  isUpdatingStatus = false;
+  request = signal<ISpecialRequest | undefined>(undefined);
+  isLoading = signal(true);
+  isUpdatingStatus = signal(false);
 
   private activatedRoute = inject(ActivatedRoute);
   private specialRequestsService = inject(SpecialRequestsService);
   private messageService = inject(MessageService);
+  private sanitizer = inject(DomSanitizer);
+
+  getSafeDriveUrl(): SafeResourceUrl | null {
+    const req = this.request();
+    if (req?.drive_file_url) {
+      let previewUrl = req.drive_file_url;
+      if (previewUrl.includes('/view')) {
+        previewUrl = previewUrl.replace('/view', '/preview');
+      }
+      return this.sanitizer.bypassSecurityTrustResourceUrl(previewUrl);
+    }
+    return null;
+  }
 
   isDone(req?: ISpecialRequest): boolean {
-    const target = req || this.request;
+    const target = req || this.request();
     return Boolean(target?.is_read);
   }
 
   toggleStatus(): void {
-    if (!this.request || this.isUpdatingStatus) return;
+    const currentReq = this.request();
+    if (!currentReq || this.isUpdatingStatus()) return;
 
-    this.isUpdatingStatus = true;
-    this.specialRequestsService.updateSpecialRequestReadStatus(this.request.id).subscribe({
+    this.isUpdatingStatus.set(true);
+    this.specialRequestsService.updateSpecialRequestReadStatus(currentReq.id).subscribe({
       next: (res) => {
-        this.isUpdatingStatus = false;
-        if (this.request) {
+        this.isUpdatingStatus.set(false);
+        this.request.update(req => {
+          if (!req) return req;
+          const newReq = { ...req };
           if (res && res.special_request) {
-            this.request.is_read = res.special_request.is_read;
+            newReq.is_read = res.special_request.is_read;
           } else {
-            this.request.is_read = this.isDone(this.request) ? 0 : 1;
+            newReq.is_read = this.isDone(req) ? 0 : 1;
           }
-          const statusText = this.isDone(this.request) ? 'Done' : 'Requested';
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Status Updated',
-            detail: `Request status is now ${statusText}`,
-            life: 2500,
-          });
-        }
+          return newReq;
+        });
+
+        const statusText = this.isDone(this.request()) ? 'Done' : 'Requested';
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Status Updated',
+          detail: `Request status is now ${statusText}`,
+          life: 2500,
+        });
       },
       error: (err) => {
-        this.isUpdatingStatus = false;
+        this.isUpdatingStatus.set(false);
         console.error('Failed to update status', err);
         this.messageService.add({
           severity: 'error',
@@ -80,9 +101,10 @@ export class ViewSpecialRequestComponent implements OnInit {
   }
 
   getProductUrl(lang: 'en' | 'ar'): string {
+    const req = this.request();
     const slug = lang === 'en'
-      ? (this.request?.product?.en_slug || this.request?.product?.ar_slug)
-      : (this.request?.product?.ar_slug || this.request?.product?.en_slug);
+      ? (req?.product?.en_slug || req?.product?.ar_slug)
+      : (req?.product?.ar_slug || req?.product?.en_slug);
     if (!slug) return '';
     const baseUrl = MAIN_SITE_URL.replace(/\/+$/, '');
     return `${baseUrl}/${lang}/product-details/${slug}`;
@@ -96,17 +118,18 @@ export class ViewSpecialRequestComponent implements OnInit {
     const idParam = this.activatedRoute.snapshot.paramMap.get('id');
     if (idParam) {
       const id = parseInt(idParam, 10);
+      this.isLoading.set(true);
       this.specialRequestsService.getSpecialRequestById(id).subscribe({
         next: (request: ISpecialRequest | undefined) => {
-          this.request = request;
-          this.isLoading = false;
+          this.request.set(request);
+          this.isLoading.set(false);
           if (!request) {
             this.showError('Special Request not found.');
           }
         },
         error: (err: any) => {
           console.error('Failed to load request', err);
-          this.isLoading = false;
+          this.isLoading.set(false);
           this.showError('Failed to load special request details.');
         },
       });

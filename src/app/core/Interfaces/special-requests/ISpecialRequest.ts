@@ -18,5 +18,7 @@ export interface ISpecialRequest {
   created_at: string;
   updated_at: string;
   product: any;
+  drive_file_id?: string | null;
+  drive_file_url?: string | null;
 }
 
