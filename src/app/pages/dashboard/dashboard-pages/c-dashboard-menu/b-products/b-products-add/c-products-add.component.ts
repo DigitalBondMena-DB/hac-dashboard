@@ -142,10 +142,10 @@ export class CProductsAddComponent implements OnInit {
     return this.fb.group({
       en_name: ["", [Validators.required]],
       ar_name: ["", [Validators.required]],
-      en_description: ["", [Validators.required]],
+      en_description: ["", this.isSpecial ? [] : [Validators.required]],
       en_small_description: ["", [Validators.required]],
       ar_small_description: ["", [Validators.required]],
-      ar_description: ["", [Validators.required]],
+      ar_description: ["", this.isSpecial ? [] : [Validators.required]],
       category_id: [null, [Validators.required]],
       subcategory_id: [null],
       pricing_type: ["standard", [Validators.required]],

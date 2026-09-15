@@ -60,52 +60,57 @@
           {{ ProductData.active_status ? 'Active' : 'Inactive' }}
         </span>
       </div>
+      @if (!isSpecial) {
       <div class="info-item status-item">
         <span class="info-label">Promo Code Status</span>
         <span class="status-badge" [class.active]="ProductData.promo_code_status">
           {{ ProductData.promo_code_status ? 'Active' : 'Inactive' }}
         </span>
       </div>
+      }
+      @if (!isSpecial) {
       <div class="info-item status-item">
         <span class="info-label">Commercial Status</span>
         <span class="status-badge" [class.active]="ProductData.commercial_status">
           {{ ProductData.commercial_status ? 'Business' : 'User' }}
         </span>
       </div>
+      }
 
-      <!-- Stock (with color) -->
+      @if (!isSpecial) {
       <div class="info-item stock-item">
         <span class="info-label">Stock</span>
         <span class="stock-badge" [class.in-stock]="ProductData.stock_status">
           {{ ProductData.stock_status ? 'In Stock' : 'Out of Stock' }}
         </span>
       </div>
+      }
 
 
     </div>
 
     <!-- Content Sections -->
-    @if(ProductData.en_description) {
+    @if(ProductData.en_description && !isSpecial) {
     <div class="content-section">
       <h2 class="section-title">Description</h2>
       <p class="section-content" [innerHTML]="ProductData.en_description |safeHtml "></p>
     </div>
     }
 
-    @if(ProductData.ar_description) {
+    @if(ProductData.ar_description && !isSpecial) {
     <div class="content-section">
       <h2 class="section-title">الوصف</h2>
       <p class="section-content" [innerHTML]="ProductData.ar_description |safeHtml "></p>
     </div>
     }
-    @if(ProductData.en_more_information) {
+    @if(ProductData.en_more_information && !isSpecial) {
     <div class="content-section">
       <h2 class="section-title">More Information</h2>
       <p class="section-content" [innerHTML]="ProductData.en_more_information |safeHtml"></p>
     </div>
     }
 
-    @if(ProductData.ar_more_information) {
+    @if(ProductData.ar_more_information && !isSpecial) {
     <div class="content-section">
       <h2 class="section-title">معلومات إضافية</h2>
       <p class="section-content" [innerHTML]="ProductData.ar_more_information |safeHtml"></p>

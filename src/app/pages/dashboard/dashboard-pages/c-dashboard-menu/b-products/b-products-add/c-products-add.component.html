@@ -184,7 +184,7 @@
           </div>
         </div>
 
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">English Description *</label>
           <ngx-jodit
             [options]="{ language: 'en', direction: 'ltr', height: 300 }"
@@ -200,7 +200,7 @@
           </div>
         </div>
 
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">Arabic Description *</label>
           <ngx-jodit
             dir="rtl"
@@ -229,7 +229,7 @@
         </div> -->
 
         <!-- Ingredients Fields -->
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">English Ingredients</label>
           <ngx-jodit
             dir="ltr"
@@ -239,7 +239,7 @@
           <div class="error-container"></div>
         </div>
 
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">Arabic Ingredients</label>
           <ngx-jodit
             dir="rtl"
@@ -250,7 +250,7 @@
         </div>
 
         <!-- How to Use Fields -->
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">English How to Use</label>
           <ngx-jodit
             dir="ltr"
@@ -260,7 +260,7 @@
           <div class="error-container"></div>
         </div>
 
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">Arabic How to Use</label>
           <ngx-jodit
             dir="rtl"
@@ -271,7 +271,7 @@
         </div>
 
         <!-- More Information Fields -->
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">English Benefits</label>
           <ngx-jodit
             dir="ltr"
@@ -281,7 +281,7 @@
           <div class="error-container"></div>
         </div>
 
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">Arabic Benefits</label>
           <ngx-jodit
             dir="rtl"
@@ -292,7 +292,7 @@
         </div>
 
         <!-- Script Blocks: raw script tags allowed as plain strings -->
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">English Script</label>
           <textarea
             pInputTextarea
@@ -304,7 +304,7 @@
           <div class="helper-text">Enter a raw script block (include &lt;script&gt; tags). Backend is expected to handle/sanitize.</div>
         </div>
 
-        <div class="form-field">
+        <div class="form-field" *ngIf="!isSpecial">
           <label class="field-label">Arabic Script</label>
           <textarea
             pInputTextarea
@@ -677,15 +677,15 @@
             <p-inputSwitch formControlName="active_status"></p-inputSwitch>
             <label class="toggle-label">{{ productForm.get("active_status")?.value ? "Product Active" : "Product Not Active" }}</label>
           </div>
-          <div class="status-toggle">
+          <div class="status-toggle" *ngIf="!isSpecial">
             <p-inputSwitch formControlName="stock_status"></p-inputSwitch>
             <label class="toggle-label">{{ productForm.get("stock_status")?.value ? "In Stock" : "Out of Stock" }}</label>
           </div>
-          <div class="status-toggle">
+          <div class="status-toggle" *ngIf="!isSpecial">
             <p-inputSwitch formControlName="commercial_status"></p-inputSwitch>
             <label class="toggle-label">{{ productForm.get("commercial_status")?.value ? "Business" : "Commercial User" }}</label>
           </div>
-          <div class="status-toggle">
+          <div class="status-toggle" *ngIf="!isSpecial">
             <p-inputSwitch
               id="uses_count"
               formControlName="promo_code_status"
