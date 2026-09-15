@@ -73,10 +73,7 @@
           <span>{{ request()?.product.price | currency }}</span>
         </div>
         }
-        <div class="flex justify-between border-b pb-2">
-          <span class="text-gray-600 font-semibold">Quantity Requested:</span>
-          <span>{{ request()?.quantity }}</span>
-        </div>
+
         <div class="flex justify-between items-center pb-2">
           <span class="text-gray-600 font-semibold">Status:</span>
           <button pButton type="button" [label]="isDone() ? 'Done' : 'Requested'"
@@ -128,13 +125,7 @@
             <span class="text-gray-600 font-semibold">Category ID:</span>
             <span>{{ request()?.product.category_id }}</span>
           </div>
-          <div class="flex justify-between border-b pb-2">
-            <span class="text-gray-600 font-semibold">Stock Status:</span>
-            <span [class.text-green-600]="request()?.product.stock_status"
-              [class.text-red-600]="!request()?.product.stock_status">
-              {{ request()?.product.stock_status ? 'In Stock' : 'Out of Stock' }}
-            </span>
-          </div>
+
           <div class="flex justify-between border-b pb-2">
             <span class="text-gray-600 font-semibold">Size:</span>
             <span>{{ request()?.product.size || 'N/A' }}</span>
