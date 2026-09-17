@@ -22,7 +22,7 @@
 
     <!-- Main Image -->
     <div class="main-image-container">
-      <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + ProductData.main_image" [alt]="ProductData.en_name"
+      <img [src]="'https://mesoshop.digitalbondmena.com/' + ProductData.main_image" [alt]="ProductData.en_name"
         class="main-image" [class.loaded]="imageLoaded" (load)="imageLoaded = true">
       @if(!imageLoaded) {
       <div class="image-placeholder"></div>
@@ -124,7 +124,7 @@
       <div class="gallery-grid">
         @for (image of galleryImages; track image.id) {
         <div class="gallery-item">
-          <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + image.image" alt="Additional image"
+          <img [src]="'https://mesoshop.digitalbondmena.com/' + image.image" alt="Additional image"
             class="gallery-image" [class.loaded]="additionalImagesLoaded[+image.id]"
             (load)="additionalImagesLoaded[+image.id] = true">
           @if(!additionalImagesLoaded[+image.id]) {

@@ -32,7 +32,7 @@ export class ViewCategoryComponent implements OnInit {
   private messageService = inject(MessageService);
   private ngxSpinnerService = inject(NgxSpinnerService);
 
-  CATEGORIES_BASE_URL: string = 'https://dev.mesoshop.digitalbondmena.com/';
+  CATEGORIES_BASE_URL: string = 'https://mesoshop.digitalbondmena.com/';
   categoryId: string = '';
   category: Category | null = null;
   isLoading: boolean = true;

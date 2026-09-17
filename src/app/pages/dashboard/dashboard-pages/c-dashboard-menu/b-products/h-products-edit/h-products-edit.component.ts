@@ -172,7 +172,7 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
   noSubcategoriesOption: DropdownOption[] = [{ id: null, en_name: 'No Subcategories' }];
   isSubcategoryDisabled = true;
   productId: string | null = null;
-  private baseUrl = 'https://dev.mesoshop.digitalbondmena.com/api/';
+  private baseUrl = 'https://mesoshop.digitalbondmena.com/api/';
   submittedData: any = null;
   product: Product | null = null;
   isDataLoaded = false;
@@ -315,8 +315,8 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       id: 'main',
       product_id: product.id,
       image: this.state.mainImage,
-      thumb: `https://dev.mesoshop.digitalbondmena.com/${this.state.mainImage}`,
-      medium: `https://dev.mesoshop.digitalbondmena.com/${this.state.mainImage}`,
+      thumb: `https://mesoshop.digitalbondmena.com/${this.state.mainImage}`,
+      medium: `https://mesoshop.digitalbondmena.com/${this.state.mainImage}`,
       order_view: 1,
       is_main: true,
       active_status: true,
@@ -328,8 +328,8 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       id: 'banner',
       product_id: product.id,
       image: this.state.bannerImage,
-      thumb: this.state.bannerImage.startsWith('http') ? this.state.bannerImage : `https://dev.mesoshop.digitalbondmena.com/${this.state.bannerImage}`,
-      medium: this.state.bannerImage.startsWith('http') ? this.state.bannerImage : `https://dev.mesoshop.digitalbondmena.com/${this.state.bannerImage}`,
+      thumb: this.state.bannerImage.startsWith('http') ? this.state.bannerImage : `https://mesoshop.digitalbondmena.com/${this.state.bannerImage}`,
+      medium: this.state.bannerImage.startsWith('http') ? this.state.bannerImage : `https://mesoshop.digitalbondmena.com/${this.state.bannerImage}`,
       order_view: 1,
       is_main: false,
       active_status: true,
@@ -341,8 +341,8 @@ export class CProductsEditComponent implements AfterViewInit, OnInit {
       id: img.id.toString(),
       product_id: product.id,
       image: img.image,
-      thumb: `https://dev.mesoshop.digitalbondmena.com/${img.image}`,
-      medium: `https://dev.mesoshop.digitalbondmena.com/${img.image}`,
+      thumb: `https://mesoshop.digitalbondmena.com/${img.image}`,
+      medium: `https://mesoshop.digitalbondmena.com/${img.image}`,
       order_view: index + 2,
       is_main: false,
       active_status: true,

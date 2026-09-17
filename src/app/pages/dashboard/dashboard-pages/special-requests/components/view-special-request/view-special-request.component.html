@@ -107,7 +107,7 @@
   @if (request()?.product) {
   <p-card header="Product Details">
     <div class="flex flex-col md:flex-row gap-6 items-start">
-      <img [src]="'https://dev.mesoshop.digitalbondmena.com/' + request()?.product.main_image"
+      <img [src]="'https://mesoshop.digitalbondmena.com/' + request()?.product.main_image"
         [alt]="request()?.product.en_name" class="w-48 h-48 object-cover rounded shadow" />
       <div class="flex-1 w-full">
         <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
